@@ -31,21 +31,50 @@
  (DefinedSchemaNode "number-of-balls-in-basket")
  (LambdaLink
   (VariableList
-   (VariableNode "$BASKET")
-   (VariableNode "$BALL"))
+   (Variable "$BASKET")
+   (Variable "$BALL"))
   (BindLink
    (VariableNode "$NUM")
    (EvaluationLink (PredicateNode "contains")
-    (ListLink (VariableNode "$BASKET") (VariableNode "$BALL") (Variable "$NUM"))
+    (ListLink (Variable "$BASKET") (Variable "$BALL") (Variable "$NUM"))
    )
    (Variable "$NUM")
   )
  )
 )
 
+(DefineLink
+ (DefinedSchemaNode "total-number-of-balls-in-basket")
+ (LambdaLink
+  (Variable "$BASKET")
+  (PlusLink
+   (PutLink
+    (DefinedSchemaNode "number-of-balls-in-basket-to-set")
+    (Variable "$BASKET")
+   )
+  )
+ )
+)
 
+(DefineLink
+ (DefinedSchemaNode "number-of-balls-in-basket-to-set")
+ (LambdaLink
+  (Variable "$BASKET")
+  (BindLink
+   (VariableList
+    (Variable "$BALL")
+    (Variable "$NUM"))
+   (EvaluationLink (PredicateNode "contains")
+    (ListLink (Variable "$BASKET") (Variable "$BALL") (Variable "$NUM")))
+   (Variable "$NUM")
+  )
+ )
+)
+
+; Output
 (display "number of green balls in busket 1")
 (newline)
+
 (display
  (cog-execute!
   (PutLink
@@ -60,6 +89,7 @@
 
 (display "number of green balls in busket 2")
 (newline)
+
 (display
  (cog-execute!
   (PutLink
@@ -68,6 +98,18 @@
     (ConceptNode "basket2")
     (ConceptNode "green-ball")
    )
+  )
+ )
+)
+
+(display "total number of balls in busket 2")
+(newline)
+
+(display
+ (cog-execute!
+  (PutLink
+   (DefinedSchemaNode "total-number-of-balls-in-basket")
+   (ConceptNode "basket2")
   )
  )
 )
