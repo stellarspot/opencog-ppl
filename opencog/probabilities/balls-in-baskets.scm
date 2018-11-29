@@ -71,6 +71,30 @@
  )
 )
 
+
+(DefineLink
+ (DefinedSchemaNode "probability-of-balls-in-basket")
+ (LambdaLink
+  (VariableList
+   (Variable "$BASKET")
+   (Variable "$BALL"))
+  (DivideLink
+   (PutLink
+    (DefinedSchemaNode "number-of-balls-in-basket")
+    (ListLink
+     (Variable "$BASKET")
+     (Variable "$BALL")
+    )
+   )
+   (PutLink
+    (DefinedSchemaNode "total-number-of-balls-in-basket")
+    (Variable "$BASKET")
+   )
+  )
+ )
+)
+
+
 ; Output
 (display "number of green balls in busket 1")
 (newline)
@@ -110,6 +134,21 @@
   (PutLink
    (DefinedSchemaNode "total-number-of-balls-in-basket")
    (ConceptNode "basket2")
+  )
+ )
+)
+
+(display "probability of green balls in busket 2")
+(newline)
+
+(display
+ (cog-execute!
+  (PutLink
+   (DefinedSchemaNode "probability-of-balls-in-basket")
+   (ListLink
+    (ConceptNode "basket2")
+    (ConceptNode "green-ball")
+   )
   )
  )
 )
