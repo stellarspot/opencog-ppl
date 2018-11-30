@@ -79,18 +79,22 @@
    (VariableList
     (Variable "$EVENT")
     (Variable "$P")
-   )
-   (EvaluationLink
-    (PredicateNode "conditional-probability")
-    (ListLink
-     (Variable "$E")
-     (Variable "$EVENT")
-     (Variable "$P")))
+    (Variable "$PROBABILITY"))
+   (AndLink
+    (EvaluationLink
+     (PredicateNode "conditional-probability")
+     (ListLink
+      (Variable "$E")
+      (Variable "$EVENT")
+      (Variable "$P")))
+    (EvaluationLink
+     (PredicateNode "probability")
+     (ListLink
+      (Variable "$EVENT")
+      (Variable "$PROBABILITY"))))
    (TimesLink
     (Variable "$P")
-    (PutLink
-     (DefinedSchemaNode "event-probability")
-     (Variable "$EVENT"))
+    (Variable "$PROBABILITY")
    )
   )
  )
