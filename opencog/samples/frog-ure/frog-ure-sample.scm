@@ -9,9 +9,7 @@
 ;; Knowledge base ;;
 ;;;;;;;;;;;;;;;;;;;;
 
-(use-modules (opencog) (opencog query) (opencog exec) (opencog rule-engine))
-
-(ImplicationScope (stv 1.0 1.0)
+(ImplicationScope (stv 1 1)
  (TypedVariable
   (Variable "$X")
   (Type "ConceptNode"))
@@ -26,7 +24,7 @@
   (Variable "$X")
   (Concept "frog")))
 
-(ImplicationScope (stv 1.0 1.0)
+(ImplicationScope (stv 1 1)
  (TypedVariable
   (Variable "$X")
   (Type "ConceptNode"))
@@ -41,7 +39,7 @@
   (Variable "$X")
   (Concept "Canary")))
 
-(ImplicationScope (stv 1.0 1.0)
+(ImplicationScope (stv 1 1)
  (TypedVariable
   (Variable "$X")
   (Type "ConceptNode"))
@@ -52,7 +50,7 @@
   (Variable "$X")
   (Concept "green")))
 
-(ImplicationScope (stv 1.0 1.0)
+(ImplicationScope (stv 1 1)
  (TypedVariable
   (Variable "$X")
   (Type "ConceptNode"))
@@ -63,23 +61,23 @@
   (Variable "$X")
   (Concept "yellow")))
 
-(Evaluation (stv 1.0 1.0)
+(Evaluation (stv 1 1)
  (Predicate "croaks")
  (Concept "Fritz"))
 
-(Evaluation (stv 1.0 1.0)
+(Evaluation (stv 1 1)
  (Predicate "chirps")
  (Concept "Tweety"))
 
-(Inheritance (stv 1.0 1.0)
+(Inheritance (stv 1 1)
  (Concept "Tweety")
  (Concept "yellow"))
 
-(Evaluation (stv 1.0 1.0)
+(Evaluation (stv 1 1)
  (Predicate "eats_flies")
  (Concept "Tweety"))
 
-(Evaluation (stv 1.0 1.0)
+(Evaluation (stv 1 1)
  (Predicate "eats_flies")
  (Concept "Fritz"))
 
@@ -89,8 +87,8 @@
 ;;;;;;;;;;;;;;;;;
 
 ;; Load the rules (use load for relative path w.r.t. to that file)
-(load "./meta-rules/conditional-instantiation-meta-rule.scm")
-(load "./meta-rules/fuzzy-conjunction-introduction-rule.scm")
+(load "../meta-rules/conditional-instantiation-meta-rule.scm")
+(load "../meta-rules/fuzzy-conjunction-introduction-rule.scm")
 
 ;; Define the rule base ci-rbs by inheriting from the predefined top
 ;; rule base call "URE"
