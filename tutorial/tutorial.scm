@@ -40,11 +40,13 @@
 (EvaluationLink
  (Predicate "probability-conditional")
  (ListLink
-  (Predicate "probability-or" ; condition expression
+  ; condition expression
+  (Predicate "probability-or"
    (ListLink
     (Concept "A")
     (Concept "B")))
-  (Predicate "probability-and" ; main expression
+  ; main expression
+  (Predicate "probability-and"
    (ListLink
     (Concept "A")
     (Concept "B")))))
