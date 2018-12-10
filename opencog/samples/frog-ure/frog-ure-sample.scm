@@ -125,3 +125,15 @@
 
 (display
  (map cog-execute! (cog-outgoing-set (cog-execute! conditional-full-instantiation-meta-rule))))
+
+
+;;;;;;;;;;;;;;;;;;;;;;
+;; Backward Chainer ;;
+;;;;;;;;;;;;;;;;;;;;;;
+
+
+(display
+ (cog-bc
+  ci-rbs
+  (InheritanceLink (VariableNode "$what") (ConceptNode "green"))
+  #:vardecl (TypedVariable (VariableNode "$what") (TypeNode "ConceptNode"))))
