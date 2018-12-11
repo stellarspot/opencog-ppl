@@ -13,7 +13,8 @@ R - there was a rain
 
 P(HG, WG, S, R) = P(HG|S,R) P(WG|R)  P(S) * P(R)
 
-P(HG=T|WG=T) = P(HG=T, WG=T) / P(WG=T) = Sum[S,R] P(HG=T, WG=T, S, R) / Sum[HG, S,R] P(HG, WG=T, S, R)
+P(HG=wet|WG=wet) = P(HG=wet, WG=wet) / P(WG=wet) 
+  = Sum[S,R] P(HG=wet, WG=wet, S, R) / Sum[HG, S,R] P(HG, WG=wet, S, R)
 
 ## Factorization
 
@@ -29,32 +30,31 @@ The algorithm will be used for trees:
 
 ![Bayesian Network Factor Tree](images/belief_propagation/holmes_grass_factor_tree.png)
 
-## Messages:
+## Messages sending on Factor tree
 
-Message from node i to factor f:  
+Message from variable i to factor f:  
 M(i->f) = Mul[g, g!=f] M (g->i)
+
+Initial message from variable i to factor f:  
+M(i->f) = [1, 1, ... , 1]
 
 ![Bayesian Network Factor Tree](images/belief_propagation/factor_tree_message_var_f.png)
 
-
-Message from factor f to node i:  
+Message from factor f to variable i:  
 M(f->i) = Sum[j, j !=i] f(X) Mul(j, j!=i) M [j->f]
+
+Initial message from factor f to variable i:  
+M(i->f) = [f(V1), f(V2), ... , f(Vn)]
 
 ![Bayesian Network Factor Tree](images/belief_propagation/factor_tree_message_f_var.png)
 
-Initial Values for leaves:
-
-From node i to factor f:
-M(i->f) = [1, 1]
-
-From from factor f to node i:
-M(i->f) = [f(False), f(True)]
 
 ## Algorithm Steps
 
-1. Define Probability values
-1. Define marginal distribution to calculate
-1. Restrict probabilities to known events
+Task solution steps:
+1. Define probability values
+1. Define evidences
+1. Define marginal distributions to calculate
 1. Create a factor tree
 1. Run Belief Propagation algorithm
 
@@ -62,8 +62,7 @@ M(i->f) = [f(False), f(True)]
 
 Rain: true, false  
 Sprinkler: switch-on, switch-off  
-Grass: is-wet, is-not-wet
-
+Grass: wet, dry
 
 P(R)
 
@@ -80,7 +79,7 @@ P(S)
 
 P(WG|R)
 
-|R\WG |is-wet|is-not-wet|
+|    R|   wet|       dry|
 |-----|------|----------|
 |true |1     |         0|
 |false|0.2   |       0.8|
@@ -88,22 +87,64 @@ P(WG|R)
 
 P(HG|S, R)
 
-|         S|    R|is-wet|is-not-wet|
+|         S|    R|   wet|       dry|
 |----------|-----|------|----------|
 |switch-on |true |1     |         0|
 |switch-on |false|0.9   |       0.1|
 |switch-off|true |1     |         0|
 |switch-off|false|0     |         1|
 
+### Posterior probabilities
 
 Sample:  
-P(HG=T|WG=T) = P(HG=T, WG=T) / P(WG=T) = Sum[S,R] P(HG=T, WG=T, S, R) / Sum[HG, S,R] P(HG, WG=T, S, R)
+P(HG=wet|WG=wet) = P(HG=wet, WG=wet) / P(WG=wet) 
+  = Sum[S,R] P(HG=wet, WG=wet, S, R) / Sum[HG, S,R] P(HG, WG=wet, S, R)
+
+### Marginal probabilities
 
 Two marginal probabilities should be calculated:
-* Sum[S,R] P(HG=T, WG=T, S, R)  
-  Both WG and HG values must be restricted 
-* Sum[HG, S,R] P(HG, WG=T, S, R)  
-  WG value must be restricted
-  
+* Sum[S,R] P(HG=wet, WG=wet, S, R)  
+  Both WG=wet and HG=wet are evidences
+* Sum[HG, S,R] P(HG, WG=wet, S, R)  
+  WG is evidence
 
+### OpenCog representation
+
+```scheme
+; Gras is wet or dry
+(InheritanceLink (Concept "wet") (Concept "Grass"))
+(InheritanceLink (Concept "dry") (Concept "Grass"))
+
+(EvaluationLink
+ (PredicateNode "type")
+ (AssociativeLink (Concept "HolmesGrass") (Concept "Grass")))
+
+; Probabilities
+(EvaluationLink
+ (PredicateNode "probability")
+ (AssociativeLink (Concept "Rain") (Concept "true" (stv 0.2 1))))
+
+(EvaluationLink
+ (PredicateNode "probability")
+ (ImplicationLink
+  (AssociativeLink (Concept "Rain") (Concept "true" ))
+  (AssociativeLink (Concept "WatsonGrass") (Concept "wet" (stv 1.0 1)))))
+
+(EvaluationLink
+ (PredicateNode "probability")
+ (ImplicationLink
+  (AndLink
+   (AssociativeLink (Concept "Sprinkler") (Concept "switch-on" ))
+   (AssociativeLink (Concept "Rain") (Concept "true" )))
+  (AssociativeLink (Concept "WatsonGrass") (Concept "wet" (stv 1.0 1)))))
+
+; Evidences
+(EvaluationLink
+ (PredicateNode "evidence")
+ (AssociativeLink (Concept "WatsonGrass") (Concept "wet" (stv 1.0 1))))
+
+(EvaluationLink
+ (PredicateNode "evidence")
+ (AssociativeLink (Concept "HolmesGrass") (Concept "wet" (stv 1.0 1))))
+```
 

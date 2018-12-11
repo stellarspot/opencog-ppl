@@ -10,8 +10,8 @@
 (InheritanceLink (Concept "switch-on") (Concept "Switch"))
 (InheritanceLink (Concept "swithc-off") (Concept "Switch"))
 
-(InheritanceLink (Concept "is-wet") (Concept "Wet"))
-(InheritanceLink (Concept "is-not-wet") (Concept "Wet"))
+(InheritanceLink (Concept "wet") (Concept "Grass"))
+(InheritanceLink (Concept "dry") (Concept "Grass"))
 
 (EvaluationLink
  (PredicateNode "type")
@@ -23,11 +23,11 @@
 
 (EvaluationLink
  (PredicateNode "type")
- (AssociativeLink (Concept "WatsonGrass") (Concept "Wet")))
+ (AssociativeLink (Concept "WatsonGrass") (Concept "Grass")))
 
 (EvaluationLink
  (PredicateNode "type")
- (AssociativeLink (Concept "HolmesGrass") (Concept "Wet")))
+ (AssociativeLink (Concept "HolmesGrass") (Concept "Grass")))
 
 ; Sherlock Holmes and wet grass
 
@@ -49,7 +49,7 @@
 ; Sprinkler
 ; P(S)
 ; switch-on  0.1
-; swithc-off 0.9
+; switch-off 0.9
 
 (EvaluationLink
  (PredicateNode "probability")
@@ -59,23 +59,118 @@
  (PredicateNode "probability")
  (AssociativeLink (Concept "Sprinkler") (Concept "switch-off" (stv 0.9 1))))
 
+; Watson grass
+; P(WG|R)
+; R      wet  dry
+; true   1.0  0.0
+; false  0.2  0.8
+
+(EvaluationLink
+ (PredicateNode "probability")
+ (ImplicationLink
+  (AssociativeLink (Concept "Rain") (Concept "true" ))
+  (AssociativeLink (Concept "WatsonGrass") (Concept "wet" (stv 1.0 1)))))
+
+(EvaluationLink
+ (PredicateNode "probability")
+ (ImplicationLink
+  (AssociativeLink (Concept "Rain") (Concept "true" ))
+  (AssociativeLink (Concept "WatsonGrass") (Concept "dry" (stv 0.0 1)))))
+
+(EvaluationLink
+ (PredicateNode "probability")
+ (ImplicationLink
+  (AssociativeLink (Concept "Rain") (Concept "false" ))
+  (AssociativeLink (Concept "WatsonGrass") (Concept "wet" (stv 0.2 1)))))
+
+(EvaluationLink
+ (PredicateNode "probability")
+ (ImplicationLink
+  (AssociativeLink (Concept "Rain") (Concept "false" ))
+  (AssociativeLink (Concept "WatsonGrass") (Concept "dry" (stv 0.8 1)))))
+
+; Holmes grass
+; P(HG|R)
+; S          R      wet  dry
+; switch-on  true   1.0  0.0
+; switch-on  false  0.9  0.1
+; switch-off true   1      0
+; switch-off false  0      1
+
+(EvaluationLink
+ (PredicateNode "probability")
+ (ImplicationLink
+  (AndLink
+   (AssociativeLink (Concept "Sprinkler") (Concept "switch-on" ))
+   (AssociativeLink (Concept "Rain") (Concept "true" )))
+  (AssociativeLink (Concept "WatsonGrass") (Concept "wet" (stv 1.0 1)))))
+
+(EvaluationLink
+ (PredicateNode "probability")
+ (ImplicationLink
+  (AndLink
+   (AssociativeLink (Concept "Sprinkler") (Concept "switch-on" ))
+   (AssociativeLink (Concept "Rain") (Concept "true" )))
+  (AssociativeLink (Concept "WatsonGrass") (Concept "dry" (stv 0.0 1)))))
+
+(EvaluationLink
+ (PredicateNode "probability")
+ (ImplicationLink
+  (AndLink
+   (AssociativeLink (Concept "Sprinkler") (Concept "switch-on" ))
+   (AssociativeLink (Concept "Rain") (Concept "false" )))
+  (AssociativeLink (Concept "WatsonGrass") (Concept "wet" (stv 0.9 1)))))
+
+(EvaluationLink
+ (PredicateNode "probability")
+ (ImplicationLink
+  (AndLink
+   (AssociativeLink (Concept "Sprinkler") (Concept "switch-on" ))
+   (AssociativeLink (Concept "Rain") (Concept "false" )))
+  (AssociativeLink (Concept "WatsonGrass") (Concept "dry" (stv 0.1 1)))))
+
+(EvaluationLink
+ (PredicateNode "probability")
+ (ImplicationLink
+  (AndLink
+   (AssociativeLink (Concept "Sprinkler") (Concept "switch-off" ))
+   (AssociativeLink (Concept "Rain") (Concept "true" )))
+  (AssociativeLink (Concept "WatsonGrass") (Concept "wet" (stv 1.0 1)))))
+
+(EvaluationLink
+ (PredicateNode "probability")
+ (ImplicationLink
+  (AndLink
+   (AssociativeLink (Concept "Sprinkler") (Concept "switch-off" ))
+   (AssociativeLink (Concept "Rain") (Concept "true" )))
+  (AssociativeLink (Concept "WatsonGrass") (Concept "dry" (stv 0.0 1)))))
+
+(EvaluationLink
+ (PredicateNode "probability")
+ (ImplicationLink
+  (AndLink
+   (AssociativeLink (Concept "Sprinkler") (Concept "switch-off" ))
+   (AssociativeLink (Concept "Rain") (Concept "false" )))
+  (AssociativeLink (Concept "WatsonGrass") (Concept "wet" (stv 0.0 1)))))
+
+(EvaluationLink
+ (PredicateNode "probability")
+ (ImplicationLink
+  (AndLink
+   (AssociativeLink (Concept "Sprinkler") (Concept "switch-off" ))
+   (AssociativeLink (Concept "Rain") (Concept "false" )))
+  (AssociativeLink (Concept "WatsonGrass") (Concept "dry" (stv 1.0 1)))))
 
 ; P(HG=T|WG=T)
 
-
-; Watson grass is wet
+; Evidence: Watson grass is wet
 ; P(WG = T)
-; true 1
-
 (EvaluationLink
- (PredicateNode "probability")
- (AssociativeLink (Concept "WatsonGrass") (Concept "true" (stv 1.0 1))))
+ (PredicateNode "evidence")
+ (AssociativeLink (Concept "WatsonGrass") (Concept "wet" (stv 1.0 1))))
 
-
-; Holmes grass is wet
+; Evidence Holmes grass is wet
 ; P(HG = T)
-; true 1
-
 (EvaluationLink
- (PredicateNode "probability")
- (AssociativeLink (Concept "HolmesGrass") (Concept "true" (stv 1.0 1))))
+ (PredicateNode "evidence")
+ (AssociativeLink (Concept "HolmesGrass") (Concept "wet" (stv 1.0 1))))
