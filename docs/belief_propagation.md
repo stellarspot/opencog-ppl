@@ -13,8 +13,16 @@ R - there was a rain
 
 P(HG, WG, S, R) = P(HG|S,R) P(WG|R)  P(S) * P(R)
 
-P(HG=wet|WG=wet) = P(HG=wet, WG=wet) / P(WG=wet) 
-  = Sum[S,R] P(HG=wet, WG=wet, S, R) / Sum[HG, S,R] P(HG, WG=wet, S, R)
+Was there a rain if Holmes's grass is wet?
+
+P(R=true|HG=wet) = P(R=true, HG=wet) / P(HG=wet)
+  = Sum[S, WG] P(HG=wet, WG, S, R=true) / Sum[WG, S, R] P(HG=wet, WG, S, R)
+
+
+Was there a rain if Holmes's and Watson's grass is wet?
+
+P(R=true|HG=wet, WG=wet) = P(R=true, HG=wet, WG=wet) / P(HG=wet, WG=wet)
+  = Sum[S] P(HG=wet, WG=wet, S, R=true) / Sum[S, R] P(HG=wet, WG=wet, S, R)
 
 ## Factorization
 
@@ -35,7 +43,7 @@ The algorithm will be used for trees:
 Message from variable i to factor f:  
 M(i->f) = Mul[g, g!=f] M (g->i)
 
-Initial message from variable i to factor f:  
+Initial message from variable i to factor f for leaf variables:  
 M(i->f) = [1, 1, ... , 1]
 
 ![Bayesian Network Factor Tree](images/belief_propagation/factor_tree_message_var_f.png)
@@ -43,7 +51,7 @@ M(i->f) = [1, 1, ... , 1]
 Message from factor f to variable i:  
 M(f->i) = Sum[j, j !=i] f(X) Mul(j, j!=i) M [j->f]
 
-Initial message from factor f to variable i:  
+Initial message from factor f to variable i for leaf factors:  
 M(i->f) = [f(V1), f(V2), ... , f(Vn)]
 
 ![Bayesian Network Factor Tree](images/belief_propagation/factor_tree_message_f_var.png)
@@ -94,20 +102,6 @@ P(HG|S, R)
 |switch-off|true |1     |         0|
 |switch-off|false|0     |         1|
 
-### Posterior probabilities
-
-Sample:  
-P(HG=wet|WG=wet) = P(HG=wet, WG=wet) / P(WG=wet) 
-  = Sum[S,R] P(HG=wet, WG=wet, S, R) / Sum[HG, S,R] P(HG, WG=wet, S, R)
-
-### Marginal probabilities
-
-Two marginal probabilities should be calculated:
-* Sum[S,R] P(HG=wet, WG=wet, S, R)  
-  Both WG=wet and HG=wet are evidences
-* Sum[HG, S,R] P(HG, WG=wet, S, R)  
-  WG is evidence
-
 ### OpenCog representation
 
 ```scheme
@@ -148,3 +142,18 @@ Two marginal probabilities should be calculated:
  (AssociativeLink (Concept "HolmesGrass") (Concept "wet" (stv 1.0 1))))
 ```
 
+
+### Posterior probabilities
+
+Sample:
+
+P(R=true|HG=wet, WG=wet) = P(R=true, HG=wet, WG=wet) / P(HG=wet, WG=wet) 
+  = Sum[S] P(HG=wet, WG=wet, S, R=true) / Sum[S, R] P(HG=wet, WG=wet, S, R)
+
+### Marginal probabilities
+
+Two marginal probabilities should be calculated:
+* Sum[S] P(HG=wet, WG=wet, S, R=true)  
+  HG=wet, WG=wet, and R=true are evidences
+* Sum[S, R] P(HG=wet, WG=wet, S, R)  
+  HG=wet and WG=wet are evidences
