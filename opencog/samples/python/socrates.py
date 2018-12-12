@@ -1,3 +1,6 @@
+# Sample from:
+# https://github.com/noskill/opencog-intro
+
 import os.path
 from opencog.scheme_wrapper import scheme_eval, scheme_eval_h
 from opencog.atomspace import TruthValue
@@ -42,7 +45,6 @@ print(chainer.get_results())
 
 InheritanceLink(ConceptNode("Socrates"), ConceptNode("man")).tv = TruthValue(0.7, 0.97)
 
-# InheritanceLink(ConceptNode("Socrates"), ConceptNode("mortal")).tv = TruthValue(1.0, 0)
 pattern.tv = TruthValue(1.0, 0.0)
 chainer = BackwardChainer(atomspace, rule_base, pattern)
 
