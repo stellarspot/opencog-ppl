@@ -157,3 +157,113 @@ Two marginal probabilities should be calculated:
   HG=wet, WG=wet, and R=true are evidences
 * Sum[S, R] P(HG=wet, WG=wet, S, R)  
   HG=wet and WG=wet are evidences
+
+### Creating Factor Graph
+
+Factor graph needs to be created from probability predicates:
+
+From:
+```scheme
+; Probabilities
+(EvaluationLink
+ (PredicateNode "probability")
+ (AssociativeLink (Concept "Rain") (Concept "true" (stv 0.2 1))))
+
+(EvaluationLink
+ (PredicateNode "probability")
+ (ImplicationLink
+  (AssociativeLink (Concept "Rain") (Concept "true" ))
+  (AssociativeLink (Concept "WatsonGrass") (Concept "wet" (stv 1.0 1)))))
+
+```
+
+To:
+```scheme
+(EvaluationLink
+ (PredicateNode "graph-edge")
+ (AssociativeLink (Concept "P4") (Concept "Rain" )))
+
+(EvaluationLink
+ (PredicateNode "graph-edge")
+ (AssociativeLink (Concept "P2") (Concept "Rain" )))
+
+(EvaluationLink
+ (PredicateNode "graph-edge")
+ (AssociativeLink (Concept "P2") (Concept "WatsonGrass" )))
+```
+
+Where graph edge is of the form:
+```text
+EvaluationLink
+  PredicateNode "graph-edge"
+  AssociativeLink Factor Variable
+```
+
+* For each factor there should be generated unique index/postfix.
+* Factors for the same "probability" predicate must have the same index/postfix
+
+### Run Belief Propagation algorithm
+
+Lets take a look at the simplified factor graph there are only Rain and Watson Grass is present:
+
+![Watson Grass and Rain](images/belief_propagation/watson_grass_and_rain_factor_tree.png)
+
+Message from variable i to factor f:
+```text
+If there is no messages from variable i to f:
+  Get set of edges from factor g to i where g!=f
+    If the set is empty, send initial message M[1, ..., 1]
+    If set is not empty, send componentwise multiplication of the messages
+```
+Message from factor f to variable i:
+```text
+If there is no messages from variable i to f:
+  Get set of edges from variable j to factor f where j!=i
+    If the set is empty, send initial message M[f(Xi=v1), ..., f(Xi)=vn]
+    If set is not empty, calculate message by multiplying tensor f from values
+      to incoming messages exept sending variable: M[f(Xi, Xk) * M[k->f]] where k!=i
+```
+
+Generate messages using URE/PLN
+
+Initial message from variable Watson Grass to factor P2
+```scheme
+(EvaluationLink
+ (PredicateNode "graph-message")
+ (AndLink
+  (Concept "WatsonGraph")
+  (Concept "P2")
+  (AndLink (Number "1") (Number "1"))))
+```
+
+Initial message from factor P4 to variable Rain
+```scheme
+(EvaluationLink
+ (PredicateNode "graph-message")
+ (AndLink
+  (Concept "P4")
+  (Concept "Rain")
+  (AndLink (Number "P4(Rain=false)") (Number "P4(Rain=true)"))))
+```
+
+Message from variable Rain to factor P2
+```scheme
+(EvaluationLink
+ (PredicateNode "graph-message")
+ (AndLink
+  (Concept "Rain")
+  (Concept "P2")
+  (AndLink (Number "1") (Number "1"))))
+```
+
+Message from factor P2 to variable Rain
+```scheme
+(EvaluationLink
+ (PredicateNode "graph-message")
+ (AndLink
+  (Concept "P2")
+  (Concept "Rain")
+  (AndLink
+   (Number "P2(Rain=false, WatsonGrass=dry) * 1 + P2(Rain=false, WatsonGrass=wet) * 1")
+   (Number "P2(Rain=true, WatsonGrass=dry) * 1 + P2(Rain=true, WatsonGrass=wet) * 1"))))
+```
