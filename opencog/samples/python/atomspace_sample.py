@@ -1,3 +1,6 @@
+# Sample from:
+# https://wiki.opencog.org/w/Manipulating_Atoms_in_Python
+
 from opencog.atomspace import AtomSpace, types
 
 a = AtomSpace()
