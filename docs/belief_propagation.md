@@ -204,27 +204,44 @@ EvaluationLink
 
 ### Run Belief Propagation algorithm
 
-Lets take a look at the simplified factor graph there are only Rain and Watson Grass is present:
+Each variable Xi has a domain (V1, ..., Vn)
 
-![Watson Grass and Rain](images/belief_propagation/watson_grass_and_rain_factor_tree.png)
+Note, if there is an evidence for some variable its domain is reduced only to one value.
 
 Message from variable i to factor f:
 ```text
 If there is no messages from variable i to f:
-  Get set of edges from factor g to i where g!=f
-    If the set is empty, send initial message M[1, ..., 1]
-    If set is not empty, send componentwise multiplication of the messages
+  Get a set of edges from factor g to i where g!=f
+    If the set is empty, send initial message M(i->f) = [1, ..., 1]
+      where the vector size is the size of the variable i domain
+    If the set size is number of incoming factors minus 1
+        (all connected factors except f have messages to i)
+      send componentwise multiplication of the messages
+    Else do nothing (not all messages are arrived)
 ```
+
 Message from factor f to variable i:
 ```text
 If there is no messages from variable i to f:
   Get set of edges from variable j to factor f where j!=i
-    If the set is empty, send initial message M[f(Xi=v1), ..., f(Xi)=vn]
-    If set is not empty, calculate message by multiplying tensor f from values
-      to incoming messages exept sending variable: M[f(Xi, Xk) * M[k->f]] where k!=i
+    If the set is empty, send initial message M(f->i)=[f(Xi=v1), ..., f(Xi)=vn]
+      where the message size is the size of the variable i domain
+    If the set size is number of incoming variables minus 1
+        (all connected variables except i have messages to f)
+      calculate tensor from F from f
+        F = (f(X1=v11, X2=v21), ..., f(X1=v1n, X2=v2n))
+      multiply the tensor F to all incoming messages except variable i:
+      M(f->i)=Sum[k] F * M[k->f] where k!=i
+    Else do nothing (not all messages are arrived)
 ```
 
-Generate messages using URE/PLN
+* Generate messages using URE/PLN
+* Work until all factors and variables have incoming messages.
+
+### Messages sample
+
+Lets take a look at the simplified factor graph there are only Rain and Watson Grass is present:
+![Watson Grass and Rain](images/belief_propagation/watson_grass_and_rain_factor_tree.png)
 
 Initial message from variable Watson Grass to factor P2
 ```scheme
