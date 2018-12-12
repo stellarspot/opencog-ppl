@@ -160,9 +160,12 @@ Two marginal probabilities should be calculated:
 
 ### Creating Factor Graph
 
-Factor graph needs to be created from probability predicates:
+Factor graph needs to be created from probability predicates.
+For each probability predicate there should be generated edge (Factor to Variable)
+and factor argument list used to calculate factor for the given variables.
 
-From:
+
+Probability predicates:
 ```scheme
 ; Probabilities
 (EvaluationLink
@@ -177,7 +180,7 @@ From:
 
 ```
 
-To:
+Generated edges:
 ```scheme
 (EvaluationLink
  (PredicateNode "graph-edge")
@@ -192,11 +195,37 @@ To:
  (AssociativeLink (Concept "P2") (Concept "WatsonGrass" )))
 ```
 
+Generated factor arguments list:
+```scheme
+(EvaluationLink
+ (PredicateNode "factor-arguments-list")
+ (AndLink
+  (Concept "P4")
+  (Concept "Rain")))
+
+(EvaluationLink
+ (PredicateNode "factor-arguments-list")
+ (AndLink
+  (Concept "P2")
+  (Concept "Rain")
+  (Concept "WatsonGrass")))
+```
+
 Where graph edge is of the form:
 ```text
 EvaluationLink
   PredicateNode "graph-edge"
   AssociativeLink Factor Variable
+```
+
+And factor argument list is of the form:
+```text
+EvaluationLink
+  PredicateNode "factor-arguments-list"
+  AndLink
+    Factor
+    Variable1
+    VariableN
 ```
 
 * For each factor there should be generated unique index/postfix.
