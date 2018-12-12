@@ -7,23 +7,21 @@
 
 (Define (DefinedPredicate "counter")
  (True
- (Put
-  (State (Concept "counter-state") (Variable "$x"))
-  (Plus (Number 1)
-   (Get (State (Concept "counter-state") (Variable "$y")))))
- )
-)
+  (Put
+   (State (Concept "counter-state") (Variable "$counter"))
+   (Plus (Number 1)
+    (Get (State (Concept "counter-state") (Variable "$counter-next")))))))
 
 ; Run Counter
 (cog-evaluate! (DefinedPredicate "counter"))
 
 ; Print Counter
-(display (cog-execute! (Get (State (Concept "counter-state") (Variable "$x")))))
+(display (cog-execute! (Get (State (Concept "counter-state") (Variable "$counter")))))
 (newline)
 
 ; Run Counter
 (cog-evaluate! (DefinedPredicate "counter"))
 
 ; Print Counter
-(display (cog-execute! (Get (State (Concept "counter-state") (Variable "$x")))))
+(display (cog-execute! (Get (State (Concept "counter-state") (Variable "$counter")))))
 (newline)
