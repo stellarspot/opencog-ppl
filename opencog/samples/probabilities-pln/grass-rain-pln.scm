@@ -29,6 +29,3 @@
  (cog-bc
   (ConceptNode "PLN")
   (Associative (Concept "Grass") (Concept "wet"))))
-
-(display (cog-tv (Associative (Concept "Grass") (Concept "wet"))))
-(newline)

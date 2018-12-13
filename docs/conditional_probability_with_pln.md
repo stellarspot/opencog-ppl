@@ -19,8 +19,8 @@ Grass:
 
 To find if grass is wet it needs to calculate a marginal distribution:
 
-P(Grass=wet)=P(Grass=wet, Rain=true) + P(Grass=wet, Rain=false)
-  = P(Grass=wet | Rain=true) P(Rain=true) + P(Grass=wet | Rain=false) P(Rain=false)
+P(Grass=wet) =  P(Grass=wet, Rain=true) + P(Grass=wet, Rain=false) =  
+  P(Grass=wet | Rain=true) P(Rain=true) + P(Grass=wet | Rain=false) P(Rain=false)
 
 P(Grass=wet) = 0.8 * 0.2 + 0.1 * 0.8 = 0.24
 
@@ -65,13 +65,13 @@ It is under question should the joint probability be used instead of conditional
 The result is:
 ```scheme
 (SetLink
-   (AssociativeLink (stv 0.32 1)
+   (AssociativeLink (stv 0.12 1)
       (ConceptNode "Grass")
       (ConceptNode "wet")
    )
 )
 ```
-Which infers the probability 0.12 that the grass is wet which is twice lower than for manual calculation.
+Which infers the probability 0.12 that the grass is wet that is twice lower than for manual calculation.
 
 ## Rain, Sprinkler and Grass
 
