@@ -109,37 +109,35 @@ P(HG|S, R)
 (InheritanceLink (Concept "wet") (Concept "Grass"))
 (InheritanceLink (Concept "dry") (Concept "Grass"))
 
-(EvaluationLink
- (PredicateNode "type")
- (AssociativeLink (Concept "HolmesGrass") (Concept "Grass")))
+(InheritanceLink (Concept "HolmesGrass") (Concept "Grass"))
 
 ; Probabilities
-(EvaluationLink
+(EvaluationLink (stv 0.2 1)
  (PredicateNode "probability")
- (AssociativeLink (Concept "Rain") (Concept "true" (stv 0.2 1))))
+ (AssociativeLink (Concept "Rain") (Concept "true")))
 
-(EvaluationLink
+(EvaluationLink (stv 1.0 1)
  (PredicateNode "probability")
  (ImplicationLink
   (AssociativeLink (Concept "Rain") (Concept "true" ))
-  (AssociativeLink (Concept "WatsonGrass") (Concept "wet" (stv 1.0 1)))))
+  (AssociativeLink (Concept "WatsonGrass") (Concept "wet"))))
 
-(EvaluationLink
+(EvaluationLink (stv 1.0 1)
  (PredicateNode "probability")
  (ImplicationLink
   (AndLink
    (AssociativeLink (Concept "Sprinkler") (Concept "switch-on" ))
    (AssociativeLink (Concept "Rain") (Concept "true" )))
-  (AssociativeLink (Concept "WatsonGrass") (Concept "wet" (stv 1.0 1)))))
+  (AssociativeLink (Concept "WatsonGrass") (Concept "wet"))))
 
 ; Evidences
-(EvaluationLink
+(EvaluationLink (stv 1.0 1)
  (PredicateNode "evidence")
- (AssociativeLink (Concept "WatsonGrass") (Concept "wet" (stv 1.0 1))))
+ (AssociativeLink (Concept "WatsonGrass") (Concept "wet")))
 
-(EvaluationLink
+(EvaluationLink (stv 1.0 1)
  (PredicateNode "evidence")
- (AssociativeLink (Concept "HolmesGrass") (Concept "wet" (stv 1.0 1))))
+ (AssociativeLink (Concept "HolmesGrass") (Concept "wet")))
 ```
 
 
@@ -168,15 +166,15 @@ and factor argument list used to calculate factor for the given variables.
 Probability predicates:
 ```scheme
 ; Probabilities
-(EvaluationLink
+(EvaluationLink (stv 0.2 1)
  (PredicateNode "probability")
- (AssociativeLink (Concept "Rain") (Concept "true" (stv 0.2 1))))
+ (AssociativeLink (Concept "Rain") (Concept "true")))
 
-(EvaluationLink
+(EvaluationLink (stv 1.0 1)
  (PredicateNode "probability")
  (ImplicationLink
   (AssociativeLink (Concept "Rain") (Concept "true" ))
-  (AssociativeLink (Concept "WatsonGrass") (Concept "wet" (stv 1.0 1)))))
+  (AssociativeLink (Concept "WatsonGrass") (Concept "wet"))))
 
 ```
 
@@ -205,7 +203,7 @@ Generated factor arguments list:
 
 (EvaluationLink
  (PredicateNode "factor-arguments-list")
- (AndLink
+ (ListLink
   (Concept "P2")
   (Concept "Rain")
   (Concept "WatsonGrass")))
@@ -222,7 +220,7 @@ And factor argument list is of the form:
 ```text
 EvaluationLink
   PredicateNode "factor-arguments-list"
-  AndLink
+  ListLink
     Factor
     Variable1
     VariableN
