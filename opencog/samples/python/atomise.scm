@@ -15,9 +15,14 @@ def set_atomspace(a):
       initialize_opencog(a)
       return TruthValue(1, 1)
 
-def and_link(x1, x2):
-      print(\"return AndLink for: \\n\", x1, x2)
-      return AndLink(x1, x2)
+def probability_end(x1, x2):
+      prob_end = float(x1.name) * float(x2.name)
+      return NumberNode(str(prob_end))
+
+def probability_or(x1, x2):
+      p1 = float(x1.name)
+      p2 = float(x2.name)
+      return NumberNode(str(p1 + p2 - p1 * p2))
 
 ")
 
@@ -26,9 +31,19 @@ def and_link(x1, x2):
 (display
  (cog-execute!
   (ExecutionOutputLink
-   (GroundedSchemaNode "py: and_link")
+   (GroundedSchemaNode "py: probability_end")
    (ListLink
-    (ConceptNode "One")
-    (ConceptNode "Two")))))
+    (Number "0.5")
+    (Number "0.5")))))
+
+(newline)
+
+(display
+ (cog-execute!
+  (ExecutionOutputLink
+   (GroundedSchemaNode "py: probability_or")
+   (ListLink
+    (Number "0.5")
+    (Number "0.5")))))
 
 (newline)
