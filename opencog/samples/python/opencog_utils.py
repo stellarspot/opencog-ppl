@@ -2,10 +2,9 @@ from opencog.atomspace import AtomSpace, types
 
 from opencog.utilities import initialize_opencog
 from opencog.type_constructors import *
-from opencog.bindlink import satisfying_set
 
-a = AtomSpace()
-initialize_opencog(a)
+atomspace = AtomSpace()
+initialize_opencog(atomspace)
 
 num1 = NumberNode("0.5")
 num2 = NumberNode("0.5")
