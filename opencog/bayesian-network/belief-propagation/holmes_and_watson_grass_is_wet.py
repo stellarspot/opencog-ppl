@@ -9,11 +9,38 @@ initialize_opencog(atomspace)
 
 # Bayesian network graph
 
-def probability_link(type, value, probability):
-    return EvaluationLink(
+# P(A=a|B=b,C=c) -> probability_link([B, b],[C, c], [A, a], probability)
+def probability_link(name_value_tuples, probability):
+    tv = TruthValue(probability, 1)
+    size = len(name_value_tuples)
+    if size == 1:
+        name_value_tuple = name_value_tuples[0]
+        link = EvaluationLink(
+            PredicateNode("probability"),
+            AssociativeLink(ConceptNode(name_value_tuple[0]), ConceptNode(name_value_tuple[1]))
+        )
+        link.tv = tv
+        return link
+    if size == 2:
+        var1 = name_value_tuples[0]
+        var2 = name_value_tuples[1]
+        link = EvaluationLink(
+            PredicateNode("probability"),
+            ImplicationLink(
+                AssociativeLink(ConceptNode(var1[0]), ConceptNode(var1[1])),
+                AssociativeLink(ConceptNode(var2[0]), ConceptNode(var2[1]))))
+        link.tv = tv
+        return link
+
+    link = EvaluationLink(
         PredicateNode("probability"),
-        AssociativeLink(ConceptNode(type), ConceptNode(value))
+        ImplicationLink(
+            AssociativeLink(ConceptNode(name), ConceptNode(value)),
+            AssociativeLink(ConceptNode(name), ConceptNode(value))
+        )
     )
+    link.tv = tv
+    return link
 
 
 def factor_graph_edge(factor_name, variables):
@@ -24,9 +51,12 @@ def factor_graph_edge(factor_name, variables):
     )
 
 
-probability_link("rain", "true", "0.2")
-probability_link("rain", "false", "0.8")
-probability_link("sprinkler", "on", "0.1")
+probability_link([("Rain", "true")], 0.2)
+probability_link([("Rain", "false")], 0.8)
+probability_link([("Sprinkler", "on")], 0.1)
+probability_link([("Sprinkler", "off")], 0.9)
+
+probability_link([("Rain", "true"), ("WatsonGrass", "wet")], 0.9)
 
 EvaluationLink(
     PredicateNode("not-real-probability"),
@@ -39,14 +69,15 @@ def is_predicate(evalutation_link, predicate_name):
 
 
 # probability_link: predicate 'probability'
-def get_probability_variables(probability_link):
-    associative_link_type = 90
-    out_set = probability_link.out
+def get_probability_variables(atom):
     variables = []
-    for atom in out_set:
-        # get variable from AssociativeLink
-        if atom.type == associative_link_type:
-            variables.append(atom.out[0])
+    if atom.type == types.EvaluationLink:
+        variables.extend(get_probability_variables(atom.out[1]))
+    elif atom.type == types.AssociativeLink:
+        variables.append(atom.out[0])
+    elif atom.type == types.ImplicationLink:
+        variables.extend(get_probability_variables(atom.out[0]))
+        variables.extend(get_probability_variables(atom.out[1]))
     return variables
 
 
