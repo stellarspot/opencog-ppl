@@ -1,4 +1,5 @@
 (use-modules (opencog) (opencog query) (opencog exec))
+(use-modules (opencog python))
 
 ; Bayesian Network
 ; Belief Propagation
@@ -166,88 +167,75 @@
 
 ; Generate Factor Graph
 
+; Define Python Methods
+(python-eval "
+from opencog.atomspace import AtomSpace, types, TruthValue
 
-; Sample
-
-(EvaluationLink
- (PredicateNode "graph-edge")
- (AndLink (Concept "P4") (Concept "Rain" )))
-
-(EvaluationLink
- (PredicateNode "graph-edge")
- (AndLink (Concept "P2") (Concept "Rain" )))
-
-(EvaluationLink
- (PredicateNode "graph-edge")
- (AndLink (Concept "P2") (Concept "WatsonGrass" )))
-
-(EvaluationLink
- (PredicateNode "factor-arguments-list")
- (ListLink
-  (Concept "P4")
-  (Concept "Rain")))
-
-(EvaluationLink
- (PredicateNode "factor-arguments-list")
- (ListLink
-  (Concept "P2")
-  (Concept "Rain")
-  (Concept "WatsonGrass")))
+from opencog.utilities import initialize_opencog
+from opencog.type_constructors import *
 
 
-; Initial message from Variable to Factor
+atomspace = ''
+def set_atomspace(a):
+  global atomspace
+  atomspace = a
+  initialize_opencog(a)
+  return TruthValue(1, 1)
 
-;; Initial message from WatsonGrass to P2
+def generate_factor_graph():
+  print('generate factor graph')
+  return ConceptNode('TBD')
+
+def probability_end(x1, x2):
+  prob_end = float(x1.name) * float(x2.name)
+  return NumberNode(str(prob_end))
+
+def probability_or(x1, x2):
+   p1 = float(x1.name)
+   p2 = float(x2.name)
+   return NumberNode(str(p1 + p2 - p1 * p2))
+
+counter = 0
+
+def get_counter():
+   global counter
+   counter = counter + 1
+   return NumberNode(str(counter))
+
+")
+
+; initialize Atomspace in Python
+(python-call-with-as "set_atomspace" (cog-atomspace))
+
+(display
+ (cog-execute!
+  (ExecutionOutputLink
+   (GroundedSchemaNode "py: generate_factor_graph")
+   (ListLink))))
+
+;; Sample
+;
 ;(EvaluationLink
-; (PredicateNode "graph-message")
-; (AndLink
-;  (Concept "WatsonGraph")
-;  (Concept "P2")
-;  (AndLink (Number "1") (Number "1"))))
-
+; (PredicateNode "graph-edge")
+; (AndLink (Concept "P4") (Concept "Rain" )))
+;
 ;(EvaluationLink
-; (PredicateNode "graph-message")
-; (AndLink
+; (PredicateNode "graph-edge")
+; (AndLink (Concept "P2") (Concept "Rain" )))
+;
+;(EvaluationLink
+; (PredicateNode "graph-edge")
+; (AndLink (Concept "P2") (Concept "WatsonGrass" )))
+;
+;(EvaluationLink
+; (PredicateNode "factor-arguments-list")
+; (ListLink
+;  (Concept "P4")
+;  (Concept "Rain")))
+;
+;(EvaluationLink
+; (PredicateNode "factor-arguments-list")
+; (ListLink
 ;  (Concept "P2")
 ;  (Concept "Rain")
-;  (AndLink
-;   (Number "P2(Rain=false, WatsonGrass=dry) * 1 + P2(Rain=false, WatsonGrass=wet) * 1")
-;   (Number "P2(Rain=true, WatsonGrass=dry) * 1 + P2(Rain=true, WatsonGrass=wet) * 1"))))
-
-
-;(ImplicationScope
-; (VariableList
-;  (TypedVariable
-;   (Variable "$F")
-;   (Type "ConceptNode")
-;  )
-;  (TypedVariable
-;   (Variable "$X")
-;   (Type "ConceptNode")
-;  )
-; )
-;
-; (EvaluationLink
-;  (PredicateNode "probability")
-;  (AssociativeLink (Variable "$F") (Variable "$X")))
-;
-; (EvaluationLink
-;  (PredicateNode "graph-edge")
-;  (AssociativeLink (Variable "$F") (Variable "$X")))
-;)
-;
-;(State (Anchor "sum-A") (Number 0))
-;
-;(Define (DefinedPredicate "counter")
-; (True
-; (Put
-;  (State (Anchor "sum-A") (Variable "$x"))
-;  (Plus (Number 1)
-;   (Get (State (Anchor "sum-A") (Variable "$y")))))
-; )
-;)
-;
-;(display (cog-evaluate! (DefinedPredicate "counter")))
-;(newline)
-;(display (cog-evaluate! (DefinedPredicate "counter")))
-;(newline)
+;  (Concept "WatsonGrass")))
