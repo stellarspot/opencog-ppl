@@ -32,12 +32,18 @@ def probability_link(name_value_tuples, probability):
         link.tv = tv
         return link
 
+    implicants = []
+    for implicant_tuple in name_value_tuples[:-1]:
+        implicants.append(AssociativeLink(ConceptNode(implicant_tuple[0]), ConceptNode(implicant_tuple[1])))
+
+    implicant = atomspace.add_link(types.AndLink, implicants)
+
+    implicand_tuple = name_value_tuples[-1]
+    implicand = AssociativeLink(ConceptNode(implicand_tuple[0]), ConceptNode(implicand_tuple[1]))
+
     link = EvaluationLink(
         PredicateNode("probability"),
-        ImplicationLink(
-            AssociativeLink(ConceptNode(name), ConceptNode(value)),
-            AssociativeLink(ConceptNode(name), ConceptNode(value))
-        )
+        ImplicationLink(implicant, implicand)
     )
     link.tv = tv
     return link
@@ -56,7 +62,13 @@ probability_link([("Rain", "false")], 0.8)
 probability_link([("Sprinkler", "on")], 0.1)
 probability_link([("Sprinkler", "off")], 0.9)
 
-probability_link([("Rain", "true"), ("WatsonGrass", "wet")], 0.9)
+probability_link([("Rain", "true"), ("WatsonGrass", "wet")], 1)
+probability_link([("Rain", "true"), ("WatsonGrass", "dry")], 0)
+probability_link([("Rain", "false"), ("WatsonGrass", "wet")], 0.2)
+probability_link([("Rain", "false"), ("WatsonGrass", "dry")], 0.8)
+
+probability_link([("Rain", "true"), ("Sprinkler", "on"), ("WatsonGrass", "wet")], 1)
+probability_link([("Rain", "true"), ("Sprinkler", "on"), ("WatsonGrass", "dry")], 0)
 
 EvaluationLink(
     PredicateNode("not-real-probability"),
@@ -78,6 +90,9 @@ def get_probability_variables(atom):
     elif atom.type == types.ImplicationLink:
         variables.extend(get_probability_variables(atom.out[0]))
         variables.extend(get_probability_variables(atom.out[1]))
+    elif atom.type == types.AndLink:
+        for a in atom.out:
+            variables.extend(get_probability_variables(a))
     return variables
 
 
