@@ -6,6 +6,7 @@ from opencog.type_constructors import *
 atomspace = AtomSpace()
 initialize_opencog(atomspace)
 
+
 # Bayesian network graph
 
 # P(A=a|B=b,C=c) -> probability_link([B, b],[C, c], [A, a], probability)
@@ -65,22 +66,22 @@ def factor_graph_edge(factor_name, variables):
 
 probability_link([("Rain", "true")], 0.2)
 probability_link([("Rain", "false")], 0.8)
-probability_link([("Sprinkler", "on")], 0.1)
-probability_link([("Sprinkler", "off")], 0.9)
+# probability_link([("Sprinkler", "on")], 0.1)
+# probability_link([("Sprinkler", "off")], 0.9)
 
 probability_link([("Rain", "true"), ("WatsonGrass", "wet")], 1)
 probability_link([("Rain", "true"), ("WatsonGrass", "dry")], 0)
 probability_link([("Rain", "false"), ("WatsonGrass", "wet")], 0.2)
 probability_link([("Rain", "false"), ("WatsonGrass", "dry")], 0.8)
 
-probability_link([("Rain", "true"), ("Sprinkler", "on"), ("HolmesGrass", "wet")], 1)
-probability_link([("Rain", "true"), ("Sprinkler", "on"), ("HolmesGrass", "dry")], 0)
-probability_link([("Rain", "true"), ("Sprinkler", "off"), ("HolmesGrass", "wet")], 0.9)
-probability_link([("Rain", "true"), ("Sprinkler", "off"), ("HolmesGrass", "dry")], 0.1)
-probability_link([("Rain", "false"), ("Sprinkler", "on"), ("HolmesGrass", "wet")], 1)
-probability_link([("Rain", "false"), ("Sprinkler", "on"), ("HolmesGrass", "dry")], 0)
-probability_link([("Rain", "false"), ("Sprinkler", "off"), ("HolmesGrass", "wet")], 0)
-probability_link([("Rain", "false"), ("Sprinkler", "off"), ("HolmesGrass", "dry")], 1)
+# probability_link([("Rain", "true"), ("Sprinkler", "on"), ("HolmesGrass", "wet")], 1)
+# probability_link([("Rain", "true"), ("Sprinkler", "on"), ("HolmesGrass", "dry")], 0)
+# probability_link([("Rain", "true"), ("Sprinkler", "off"), ("HolmesGrass", "wet")], 0.9)
+# probability_link([("Rain", "true"), ("Sprinkler", "off"), ("HolmesGrass", "dry")], 0.1)
+# probability_link([("Rain", "false"), ("Sprinkler", "on"), ("HolmesGrass", "wet")], 1)
+# probability_link([("Rain", "false"), ("Sprinkler", "on"), ("HolmesGrass", "dry")], 0)
+# probability_link([("Rain", "false"), ("Sprinkler", "off"), ("HolmesGrass", "wet")], 0)
+# probability_link([("Rain", "false"), ("Sprinkler", "off"), ("HolmesGrass", "dry")], 1)
 
 EvaluationLink(
     PredicateNode("not-real-probability"),
@@ -129,10 +130,55 @@ def generate_factor_graph():
     return atomspace.add_link(types.SetLink, factor_edges)
 
 
-def run_belief_propagation_algorithm(factor_graph_edges):
+def get_edge_factor_variable(edge):
+    list_link = edge.out[1]
+    return (list_link.out[0], list_link.out[1])
+
+
+def get_neighbour_factors(factor_graph_edges, variable, exclude_factor):
+    edges = []
+    for edge in factor_graph_edges:
+        edge_factor_variable = get_edge_factor_variable(edge)
+        edge_factor = edge_factor_variable[0]
+        edge_variable = edge_factor_variable[1]
+
+        if edge_variable.name == variable.name and edge_factor.name != exclude_factor.name:
+            # print("  edge: ", edge_factor.name, "->", edge_variable.name)
+            edges.append(edge)
+
+    return edges
+
+
+def send_message_from_variable_to_factor(factor_graph_edges, variable, factor):
+    print("send message: ", variable.name, "->", factor.name)
+
+    factor_edges = get_neighbour_factors(factor_graph_edges, variable, factor)
+
+    print(" income edges: ", factor_edges)
+
+    # This is a leaf. Send initial message.
+    if not factor_edges:
+        print("This is a leaf")
+        pass
+
     pass
 
 
-factor_graph = generate_factor_graph()
+def send_message_from_factor_to_variable(factor_graph_edges, factor, variable):
+    pass
 
-print("factor graph: ", factor_graph)
+
+def run_belief_propagation_algorithm(factor_graph_edges):
+    print("run_belief_propagation_algorithm")
+    # print("factor graph: ", factor_graph_edges)
+
+    for edge in factor_graph_edges.out:
+        list_link = edge.out[1]
+        factor = list_link.out[0]
+        variable = list_link.out[1]
+        send_message_from_variable_to_factor(factor_graph_edges.out, variable, factor)
+        send_message_from_factor_to_variable(factor_graph_edges.out, factor, variable)
+
+
+factor_graph_edges = generate_factor_graph()
+run_belief_propagation_algorithm(factor_graph_edges)
