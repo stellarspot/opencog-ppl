@@ -3,6 +3,8 @@ from opencog.atomspace import AtomSpace, types
 from opencog.utilities import initialize_opencog
 from opencog.type_constructors import *
 
+from opencog.bindlink import bindlink
+
 atomspace = AtomSpace()
 initialize_opencog(atomspace)
 
@@ -63,6 +65,15 @@ def factor_graph_edge(factor_name, variables):
 
     return factor_edges
 
+
+InheritanceLink(ConceptNode("TrueFalseValue"), ConceptNode("true"))
+InheritanceLink(ConceptNode("TrueFalseValue"), ConceptNode("false"))
+
+InheritanceLink(ConceptNode("Grass"), ConceptNode("wet"))
+InheritanceLink(ConceptNode("Grass"), ConceptNode("dry"))
+
+InheritanceLink(ConceptNode("Rain"), ConceptNode("TrueFalseValue"))
+InheritanceLink(ConceptNode("WatsonGrass"), ConceptNode("Grass"))
 
 probability_link([("Rain", "true")], 0.2)
 probability_link([("Rain", "false")], 0.8)
@@ -130,10 +141,29 @@ def generate_factor_graph():
     return atomspace.add_link(types.SetLink, factor_edges)
 
 
+def get_variable_domain(variable):
+
+    bind_link = BindLink(
+        VariableList(
+            VariableNode("$type"),
+            VariableNode("$value")),
+        AndLink(
+            InheritanceLink(
+                variable,
+                VariableNode("$type")),
+            InheritanceLink(
+                VariableNode("$type"),
+                VariableNode("$value"))
+        ),
+        VariableNode("$value"))
+
+    values_link = bindlink(atomspace, bind_link)
+
+    return values_link.out
+
 def get_edge_factor_variable(edge):
     list_link = edge.out[1]
     return (list_link.out[0], list_link.out[1])
-
 
 def get_neighbour_factors(factor_graph_edges, variable, exclude_factor):
     edges = []
@@ -148,7 +178,6 @@ def get_neighbour_factors(factor_graph_edges, variable, exclude_factor):
 
     return edges
 
-
 def send_message_from_variable_to_factor(factor_graph_edges, variable, factor):
     print("send message: ", variable.name, "->", factor.name)
 
@@ -159,14 +188,14 @@ def send_message_from_variable_to_factor(factor_graph_edges, variable, factor):
     # This is a leaf. Send initial message.
     if not factor_edges:
         print("This is a leaf")
+        values = get_variable_domain(variable)
+        print("values: ", values)
         pass
 
     pass
 
-
 def send_message_from_factor_to_variable(factor_graph_edges, factor, variable):
     pass
-
 
 def run_belief_propagation_algorithm(factor_graph_edges):
     print("run_belief_propagation_algorithm")
@@ -178,7 +207,6 @@ def run_belief_propagation_algorithm(factor_graph_edges):
         variable = list_link.out[1]
         send_message_from_variable_to_factor(factor_graph_edges.out, variable, factor)
         send_message_from_factor_to_variable(factor_graph_edges.out, factor, variable)
-
 
 factor_graph_edges = generate_factor_graph()
 run_belief_propagation_algorithm(factor_graph_edges)

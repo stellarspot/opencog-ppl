@@ -5,11 +5,11 @@
 ; Belief Propagation
 
 ; Domains
-(InheritanceLink (Concept "true") (Concept "TrueFalseValue"))
-(InheritanceLink (Concept "false") (Concept "TrueFalseValue"))
+(InheritanceLink (Concept "TrueFalseValue") (Concept "true"))
+(InheritanceLink (Concept "TrueFalseValue") (Concept "false"))
 
-(InheritanceLink (Concept "switch-on") (Concept "Switch"))
-(InheritanceLink (Concept "swithc-off") (Concept "Switch"))
+(InheritanceLink (Concept "Switch") (Concept "switch-on"))
+(InheritanceLink (Concept "Switch") (Concept "swithc-off"))
 
 (InheritanceLink (Concept "wet") (Concept "Grass"))
 (InheritanceLink (Concept "dry") (Concept "Grass"))
