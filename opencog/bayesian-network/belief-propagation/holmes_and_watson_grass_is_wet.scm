@@ -93,7 +93,7 @@
   (AndLink
    (AssociativeLink (Concept "Sprinkler") (Concept "switch-on" ))
    (AssociativeLink (Concept "Rain") (Concept "true" )))
-  (AssociativeLink (Concept "WatsonGrass") (Concept "wet"))))
+  (AssociativeLink (Concept "HolmesGrass") (Concept "wet"))))
 
 (EvaluationLink (stv 0.0 1)
  (PredicateNode "probability")
@@ -101,7 +101,7 @@
   (AndLink
    (AssociativeLink (Concept "Sprinkler") (Concept "switch-on" ))
    (AssociativeLink (Concept "Rain") (Concept "true" )))
-  (AssociativeLink (Concept "WatsonGrass") (Concept "dry"))))
+  (AssociativeLink (Concept "HolmesGrass") (Concept "dry"))))
 
 (EvaluationLink (stv 0.9 1)
  (PredicateNode "probability")
@@ -109,7 +109,7 @@
   (AndLink
    (AssociativeLink (Concept "Sprinkler") (Concept "switch-on" ))
    (AssociativeLink (Concept "Rain") (Concept "false" )))
-  (AssociativeLink (Concept "WatsonGrass") (Concept "wet"))))
+  (AssociativeLink (Concept "HolmesGrass") (Concept "wet"))))
 
 (EvaluationLink
  (PredicateNode "probability")
@@ -117,7 +117,7 @@
   (AndLink
    (AssociativeLink (Concept "Sprinkler") (Concept "switch-on" ))
    (AssociativeLink (Concept "Rain") (Concept "false" )))
-  (AssociativeLink (Concept "WatsonGrass") (Concept "dry" (stv 0.1 1)))))
+  (AssociativeLink (Concept "HolmesGrass") (Concept "dry" (stv 0.1 1)))))
 
 (EvaluationLink (stv 1.0 1)
  (PredicateNode "probability")
@@ -125,7 +125,7 @@
   (AndLink
    (AssociativeLink (Concept "Sprinkler") (Concept "switch-off" ))
    (AssociativeLink (Concept "Rain") (Concept "true" )))
-  (AssociativeLink (Concept "WatsonGrass") (Concept "wet"))))
+  (AssociativeLink (Concept "HolmesGrass") (Concept "wet"))))
 
 (EvaluationLink (stv 0.0 1)
  (PredicateNode "probability")
@@ -133,7 +133,7 @@
   (AndLink
    (AssociativeLink (Concept "Sprinkler") (Concept "switch-off" ))
    (AssociativeLink (Concept "Rain") (Concept "true" )))
-  (AssociativeLink (Concept "WatsonGrass") (Concept "dry"))))
+  (AssociativeLink (Concept "HolmesGrass") (Concept "dry"))))
 
 (EvaluationLink (stv 0.0 1)
  (PredicateNode "probability")
@@ -141,7 +141,7 @@
   (AndLink
    (AssociativeLink (Concept "Sprinkler") (Concept "switch-off" ))
    (AssociativeLink (Concept "Rain") (Concept "false" )))
-  (AssociativeLink (Concept "WatsonGrass") (Concept "wet"))))
+  (AssociativeLink (Concept "HolmesGrass") (Concept "wet"))))
 
 (EvaluationLink (stv 1.0 1)
  (PredicateNode "probability")
@@ -149,7 +149,7 @@
   (AndLink
    (AssociativeLink (Concept "Sprinkler") (Concept "switch-off"))
    (AssociativeLink (Concept "Rain") (Concept "false" )))
-  (AssociativeLink (Concept "WatsonGrass") (Concept "dry"))))
+  (AssociativeLink (Concept "HolmesGrass") (Concept "dry"))))
 
 ; P(HG=T|WG=T)
 

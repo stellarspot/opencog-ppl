@@ -6,7 +6,6 @@ from opencog.type_constructors import *
 atomspace = AtomSpace()
 initialize_opencog(atomspace)
 
-
 # Bayesian network graph
 
 # P(A=a|B=b,C=c) -> probability_link([B, b],[C, c], [A, a], probability)
@@ -50,11 +49,18 @@ def probability_link(name_value_tuples, probability):
 
 
 def factor_graph_edge(factor_name, variables):
-    list_link = atomspace.add_link(types.ListLink, [ConceptNode(factor_name), variables])
-    return EvaluationLink(
-        PredicateNode("graph-edge"),
-        list_link
-    )
+    factor_node = ConceptNode(factor_name)
+    factor_edges = []
+
+    for variable in variables:
+        list_link = atomspace.add_link(types.ListLink, [factor_node, variable])
+        factor_edge = EvaluationLink(
+            PredicateNode("graph-edge"),
+            list_link
+        )
+        factor_edges.append(factor_edge)
+
+    return factor_edges
 
 
 probability_link([("Rain", "true")], 0.2)
@@ -67,8 +73,14 @@ probability_link([("Rain", "true"), ("WatsonGrass", "dry")], 0)
 probability_link([("Rain", "false"), ("WatsonGrass", "wet")], 0.2)
 probability_link([("Rain", "false"), ("WatsonGrass", "dry")], 0.8)
 
-probability_link([("Rain", "true"), ("Sprinkler", "on"), ("WatsonGrass", "wet")], 1)
-probability_link([("Rain", "true"), ("Sprinkler", "on"), ("WatsonGrass", "dry")], 0)
+probability_link([("Rain", "true"), ("Sprinkler", "on"), ("HolmesGrass", "wet")], 1)
+probability_link([("Rain", "true"), ("Sprinkler", "on"), ("HolmesGrass", "dry")], 0)
+probability_link([("Rain", "true"), ("Sprinkler", "off"), ("HolmesGrass", "wet")], 0.9)
+probability_link([("Rain", "true"), ("Sprinkler", "off"), ("HolmesGrass", "dry")], 0.1)
+probability_link([("Rain", "false"), ("Sprinkler", "on"), ("HolmesGrass", "wet")], 1)
+probability_link([("Rain", "false"), ("Sprinkler", "on"), ("HolmesGrass", "dry")], 0)
+probability_link([("Rain", "false"), ("Sprinkler", "off"), ("HolmesGrass", "wet")], 0)
+probability_link([("Rain", "false"), ("Sprinkler", "off"), ("HolmesGrass", "dry")], 1)
 
 EvaluationLink(
     PredicateNode("not-real-probability"),
@@ -98,19 +110,27 @@ def get_probability_variables(atom):
 
 def generate_factor_graph():
     evaluationLinks = atomspace.get_atoms_by_type(types.EvaluationLink)
-    factors = {}
+    factors = set()
+    factor_edges = []
     for link in evaluationLinks:
         if not is_predicate(link, "probability"):
             continue
         variables = get_probability_variables(link)
-        factor_name = 'factor'
-        for variable in variables:
-            factor_name = factor_name + '-' + variable.name
+        names = list(map(lambda node: node.name, variables))
+        names.sort()
+        factor_name = 'factor-' + '-'.join(names)
         if not factor_name in factors:
-            edge_link = factor_graph_edge(factor_name, variables)
-            print('add factor graph edge', edge_link)
-            factors[factor_name] = edge_link
-    return TruthValue(1, 1)
+            factor_edges.extend(factor_graph_edge(factor_name, variables))
+            factors.add(factor_name)
+
+    # One probability rule has several facor edges: factor->variable
+    factor_edges = list(set(factor_edges))
+
+    return atomspace.add_link(types.SetLink, factor_edges)
+
+
+def run_belief_propagation_algorithm(factor_graph_edges):
+    pass
 
 
 factor_graph = generate_factor_graph()
