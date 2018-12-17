@@ -51,21 +51,6 @@ def probability_link(name_value_tuples, probability):
     return link
 
 
-def factor_graph_edge(factor_name, variables):
-    factor_node = ConceptNode(factor_name)
-    factor_edges = []
-
-    for variable in variables:
-        list_link = atomspace.add_link(types.ListLink, [factor_node, variable])
-        factor_edge = EvaluationLink(
-            PredicateNode("graph-edge"),
-            list_link
-        )
-        factor_edges.append(factor_edge)
-
-    return factor_edges
-
-
 InheritanceLink(ConceptNode("TrueFalseValue"), ConceptNode("true"))
 InheritanceLink(ConceptNode("TrueFalseValue"), ConceptNode("false"))
 
@@ -120,6 +105,21 @@ def get_probability_variables(atom):
     return variables
 
 
+def factor_graph_edge(factor_name, variables):
+    factor_node = ConceptNode(factor_name)
+    factor_edges = []
+
+    for variable in variables:
+        list_link = atomspace.add_link(types.ListLink, [factor_node, variable])
+        factor_edge = EvaluationLink(
+            PredicateNode("graph-edge"),
+            list_link
+        )
+        factor_edges.append(factor_edge)
+
+    return factor_edges
+
+
 def generate_factor_graph():
     evaluationLinks = atomspace.get_atoms_by_type(types.EvaluationLink)
     factors = set()
@@ -142,6 +142,7 @@ def generate_factor_graph():
 
 
 def get_variable_domain(variable):
+    # TBD: check also number of evidences
 
     bind_link = BindLink(
         VariableList(
@@ -161,9 +162,11 @@ def get_variable_domain(variable):
 
     return values_link.out
 
+
 def get_edge_factor_variable(edge):
     list_link = edge.out[1]
     return (list_link.out[0], list_link.out[1])
+
 
 def get_neighbour_factors(factor_graph_edges, variable, exclude_factor):
     edges = []
@@ -178,24 +181,56 @@ def get_neighbour_factors(factor_graph_edges, variable, exclude_factor):
 
     return edges
 
+
+# message value is a comma separated string of values
+# for example
+# initial message: 1, 1
+# where number of values is the domain of the variable or number of the variable evidences
+# ordinary message: P(V=v1), P(V=v2), P(V=v3)
+def generate_message(node_from, node_to, message):
+    return EvaluationLink(
+        PredicateNode("factor-graph-message"),
+        ListLink(node_from, node_to, message))
+
+
+# size of the variable domain
+# or number of variable evidences
+def get_initial_message_value(size):
+    if size == 0:
+        return ""
+
+    message = "1"
+    for i in range(1, size):
+        message = message + ",1"
+
+    return message
+
+
 def send_message_from_variable_to_factor(factor_graph_edges, variable, factor):
     print("send message: ", variable.name, "->", factor.name)
 
     factor_edges = get_neighbour_factors(factor_graph_edges, variable, factor)
 
-    print(" income edges: ", factor_edges)
+    # print(" income edges: ", factor_edges)
 
     # This is a leaf. Send initial message.
     if not factor_edges:
-        print("This is a leaf")
+        print("variable leaf")
         values = get_variable_domain(variable)
-        print("values: ", values)
+        domain_size = len(values)
+        # print("size: ", domain_size)
+        # print("values: ", values)
+        message_value = get_initial_message_value(domain_size)
+        message = generate_message(variable, factor, ConceptNode(message_value))
+        print("generated message: ", message)
         pass
 
     pass
 
+
 def send_message_from_factor_to_variable(factor_graph_edges, factor, variable):
     pass
+
 
 def run_belief_propagation_algorithm(factor_graph_edges):
     print("run_belief_propagation_algorithm")
@@ -207,6 +242,7 @@ def run_belief_propagation_algorithm(factor_graph_edges):
         variable = list_link.out[1]
         send_message_from_variable_to_factor(factor_graph_edges.out, variable, factor)
         send_message_from_factor_to_variable(factor_graph_edges.out, factor, variable)
+
 
 factor_graph_edges = generate_factor_graph()
 run_belief_propagation_algorithm(factor_graph_edges)
