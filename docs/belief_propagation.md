@@ -140,7 +140,6 @@ P(HG|S, R)
  (AssociativeLink (Concept "HolmesGrass") (Concept "wet")))
 ```
 
-
 ### Posterior probabilities
 
 Sample:
@@ -156,12 +155,27 @@ Two marginal probabilities should be calculated:
 * Sum[S, R] P(HG=wet, WG=wet, S, R)  
   HG=wet and WG=wet are evidences
 
-### Creating Factor Graph
+### Belief Propagation algorithm
+
+Each variable Xi has a domain (V1, ..., Vn)
+
+If there is an evidence for some variable its domain is reduced only to one value.
+
+Main steps:
+* Initialization
+  * Generate factor graph from probability predicates
+  * Generate factor arguments list
+  * Generate map for factor values (key is a string of factor variables and its values, value is probability)
+* Generate messages using URE/PLN
+* Work until all factors and variables have incoming messages.
+
+
+#### Factor Graph
+
+Factor graph consists of edges Factor - Variable.
 
 Factor graph needs to be created from probability predicates.
-For each probability predicate there should be generated edge (Factor to Variable)
-and factor argument list used to calculate factor for the given variables.
-
+For each probability predicate there should be generated edge (Factor to Variable).
 
 Probability predicates:
 ```scheme
@@ -182,25 +196,42 @@ Generated edges:
 ```scheme
 (EvaluationLink
  (PredicateNode "graph-edge")
- (AssociativeLink (Concept "P4") (Concept "Rain" )))
+ (ListLink (Concept "P4") (Concept "Rain" )))
 
 (EvaluationLink
  (PredicateNode "graph-edge")
- (AssociativeLink (Concept "P2") (Concept "Rain" )))
+ (ListLink (Concept "P2") (Concept "Rain" )))
 
 (EvaluationLink
  (PredicateNode "graph-edge")
- (AssociativeLink (Concept "P2") (Concept "WatsonGrass" )))
+ (ListLink (Concept "P2") (Concept "WatsonGrass" )))
 ```
 
-Generated factor arguments list:
+Where graph edge is of the form:
+```text
+EvaluationLink
+  PredicateNode "graph-edge"
+  ListLink Factor Variable
+```
+
+* For each factor there should be generated unique index/postfix.
+* Factors for the same "probability" predicate must have the same index/postfix
+
+#### Factor Arguments list
+
+For each factor there should be generated the factor argument list
+used to calculate factor value for the given variables.
+
+Generated factor arguments list (variables should be sorted by name):
 ```scheme
+; F(P4, Rain)
 (EvaluationLink
  (PredicateNode "factor-arguments-list")
  (AndLink
   (Concept "P4")
   (Concept "Rain")))
 
+; F(P2, Rain, WatsonGrass)
 (EvaluationLink
  (PredicateNode "factor-arguments-list")
  (ListLink
@@ -209,14 +240,7 @@ Generated factor arguments list:
   (Concept "WatsonGrass")))
 ```
 
-Where graph edge is of the form:
-```text
-EvaluationLink
-  PredicateNode "graph-edge"
-  AssociativeLink Factor Variable
-```
-
-And factor argument list is of the form:
+Factor argument list is of the form:
 ```text
 EvaluationLink
   PredicateNode "factor-arguments-list"
@@ -226,21 +250,7 @@ EvaluationLink
     VariableN
 ```
 
-* For each factor there should be generated unique index/postfix.
-* Factors for the same "probability" predicate must have the same index/postfix
-
-### Run Belief Propagation algorithm
-
-Each variable Xi has a domain (V1, ..., Vn)
-
-Note, if there is an evidence for some variable its domain is reduced only to one value.
-
-Main steps:
-* Initialization
-  * Generate factor graph (factor-variable edges) from probability predicates
-  * Generate map for factor values (key is a string of factor variables and its values, value is probability)
-* Generate messages using URE/PLN
-* Work until all factors and variables have incoming messages.
+#### Messages sending
 
 Factor values map for factor F(V1, V2, ..., Vn):  
 Map key: "Vi=vik, ..., Vj=vjl" where Vi ... Vj is the sorted by name factor variables
@@ -274,8 +284,7 @@ If there is no messages from variable i to f:
     Else do nothing (not all messages are arrived)
 ```
 
-
-### Messages sample
+#### Messages sending sample
 
 Lets take a look at the simplified factor graph there are only Rain and Watson Grass is present:
 ![Watson Grass and Rain](images/belief_propagation/watson_grass_and_rain_factor_tree.png)
