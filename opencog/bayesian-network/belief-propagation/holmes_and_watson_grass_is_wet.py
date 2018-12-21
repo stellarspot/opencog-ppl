@@ -105,6 +105,11 @@ def get_probability_variables(atom):
     return variables
 
 
+# Graph Edge predicate
+#
+# EvaluationLink
+#   PredicateNode "graph-edge"
+#   ListLink Factor Variable
 def factor_graph_edge(factor_name, variables):
     factor_node = ConceptNode(factor_name)
     factor_edges = []
@@ -120,11 +125,40 @@ def factor_graph_edge(factor_name, variables):
     return factor_edges
 
 
-def generate_factor_graph():
-    evaluationLinks = atomspace.get_atoms_by_type(types.EvaluationLink)
+# Factor Arguments List predicate
+#
+# EvaluationLink
+#   PredicateNode "factor-arguments-list"
+#   ListLink
+#     Factor
+#     Variable1
+#     VariableN
+def factor_arguments_list(factor_name, variables):
+    list = [ConceptNode(factor_name)]
+
+    for variable in variables:
+        list.append(variable)
+
+    list_link = atomspace.add_link(types.ListLink, list)
+    factor_arguments_predicate = EvaluationLink(
+        PredicateNode("factor-arguments-list"),
+        list_link
+    )
+    # print("factor arguments: ", factor_arguments_predicate)
+    return factor_arguments_predicate
+
+
+# dict keys for init_factor_graph:
+KEY_FACTOR_EDGES = "factor_edges"
+KEY_FACTOR_ARGUMENTS = "factor_arguments"
+
+
+def init_factor_graph(dict):
+    evaluation_links = atomspace.get_atoms_by_type(types.EvaluationLink)
     factors = set()
     factor_edges = []
-    for link in evaluationLinks:
+    factor_arguments = []
+    for link in evaluation_links:
         if not is_predicate(link, "probability"):
             continue
         variables = get_probability_variables(link)
@@ -133,12 +167,13 @@ def generate_factor_graph():
         factor_name = 'factor-' + '-'.join(names)
         if not factor_name in factors:
             factor_edges.extend(factor_graph_edge(factor_name, variables))
+            factor_arguments.append(factor_arguments_list(factor_name, variables))
             factors.add(factor_name)
 
-    # One probability rule has several facor edges: factor->variable
+    # One probability rule has several factor edges: factor->variable
     factor_edges = list(set(factor_edges))
-
-    return atomspace.add_link(types.SetLink, factor_edges)
+    dict[KEY_FACTOR_EDGES] = factor_edges
+    dict[KEY_FACTOR_ARGUMENTS] = factor_arguments
 
 
 def get_variable_domain(variable):
@@ -207,7 +242,7 @@ def get_initial_message_value(size):
 
 
 def send_message_from_variable_to_factor(factor_graph_edges, variable, factor):
-    print("send message: ", variable.name, "->", factor.name)
+    print("send message(v->f): ", variable.name, "->", factor.name)
 
     factor_edges = get_neighbour_factors(factor_graph_edges, variable, factor)
 
@@ -223,26 +258,35 @@ def send_message_from_variable_to_factor(factor_graph_edges, variable, factor):
         message_value = get_initial_message_value(domain_size)
         message = generate_message(variable, factor, ConceptNode(message_value))
         print("generated message: ", message)
-        pass
-
-    pass
 
 
 def send_message_from_factor_to_variable(factor_graph_edges, factor, variable):
-    pass
+    print("send message(f->v): ", factor.name, "->", variable.name)
+
+    factor_edges = get_neighbour_factors(factor_graph_edges, variable, factor)
+    # This is a leaf. Send initial message.
+    if not factor_edges:
+        print("factor leaf")
+        values = get_variable_domain(variable)
+        print("values: ", values)
+        # Calculate P(V=v1), P(V=v2)
 
 
-def run_belief_propagation_algorithm(factor_graph_edges):
+def run_belief_propagation_algorithm():
     print("run_belief_propagation_algorithm")
+    dict = {}
+    init_factor_graph(dict)
+    factor_graph_edges = dict[KEY_FACTOR_EDGES]
+    factor_arguments = dict[KEY_FACTOR_ARGUMENTS]
     # print("factor graph: ", factor_graph_edges)
+    print("factor arguments: ", factor_arguments)
 
-    for edge in factor_graph_edges.out:
+    for edge in factor_graph_edges:
         list_link = edge.out[1]
         factor = list_link.out[0]
         variable = list_link.out[1]
-        send_message_from_variable_to_factor(factor_graph_edges.out, variable, factor)
-        send_message_from_factor_to_variable(factor_graph_edges.out, factor, variable)
+        send_message_from_variable_to_factor(factor_graph_edges, variable, factor)
+        send_message_from_factor_to_variable(factor_graph_edges, factor, variable)
 
 
-factor_graph_edges = generate_factor_graph()
-run_belief_propagation_algorithm(factor_graph_edges)
+run_belief_propagation_algorithm()
