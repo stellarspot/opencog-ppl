@@ -109,7 +109,7 @@ def is_predicate(evalutation_link, predicate_name):
 #
 # variables_values_key has format: Var1=value1|Var1=value1|...|VarN=valueN
 #
-# return (sorted list of ConceptNode(variable name), variables_values_key, probability)
+# return (sorted list variable names, variables_values_key, probability)
 def get_probability_variables(atom):
     variable_value_list = []
     evaluation_arg_1 = atom.out[1]
@@ -133,14 +133,17 @@ def get_probability_variables(atom):
     # Sort variable value pairs by variable names
     variable_value_list.sort(key=lambda tuple: tuple[0])
 
-    # list of ConceptNode(variable name)
-    variables = map(lambda tuple: ConceptNode(tuple[0]), variable_value_list)
+    # list variables
+    variables = list(map(lambda tuple: tuple[0], variable_value_list))
 
     # variables values key
     variable_value_key = map(lambda tuple: tuple[0] + "=" + tuple[1], variable_value_list)
     variable_value_key = "|".join(variable_value_key)
 
-    return variables, variable_value_key
+    # probability
+    probability = atom.tv.mean
+
+    return variables, variable_value_key, probability
 
 
 #     AssociativeLink
@@ -196,6 +199,7 @@ def factor_arguments_list(factor_name, variables):
 # dict keys for init_factor_graph:
 KEY_FACTOR_EDGES = "factor_edges"
 KEY_FACTOR_ARGUMENTS = "factor_arguments"
+KEY_FACTOR_VALUES = "factor_values"
 
 
 def init_factor_graph(dict):
@@ -203,23 +207,25 @@ def init_factor_graph(dict):
     factors = set()
     factor_edges = []
     factor_arguments = []
+    factor_values = {}
+
     for link in evaluation_links:
         if not is_predicate(link, "probability"):
             continue
-        variables, variable_value_key = get_probability_variables(link)
-        print("variable_value_key:", variable_value_key)
-        names = list(map(lambda node: node.name, variables))
-        names.sort()
-        factor_name = 'factor-' + '-'.join(names)
+        variables, variable_value_key, probability = get_probability_variables(link)
+        factor_values[variable_value_key] = probability
+        factor_name = 'factor-' + '-'.join(variables)
         if not factor_name in factors:
-            factor_edges.extend(factor_graph_edge(factor_name, variables))
-            factor_arguments.append(factor_arguments_list(factor_name, variables))
+            variable_nodes = list(map(lambda name: ConceptNode(name), variables))
+            factor_edges.extend(factor_graph_edge(factor_name, variable_nodes))
+            factor_arguments.append(factor_arguments_list(factor_name, variable_nodes))
             factors.add(factor_name)
 
     # One probability rule has several factor edges: factor->variable
     factor_edges = list(set(factor_edges))
     dict[KEY_FACTOR_EDGES] = factor_edges
     dict[KEY_FACTOR_ARGUMENTS] = factor_arguments
+    dict[KEY_FACTOR_VALUES] = factor_values
 
 
 def get_variable_domain(variable):
@@ -324,8 +330,10 @@ def run_belief_propagation_algorithm():
     init_factor_graph(dict)
     factor_graph_edges = dict[KEY_FACTOR_EDGES]
     factor_arguments = dict[KEY_FACTOR_ARGUMENTS]
+    factor_values = dict[KEY_FACTOR_VALUES]
     # print("factor graph: ", factor_graph_edges)
     print("factor arguments: ", factor_arguments)
+    print("factor values: ", factor_values)
 
     for edge in factor_graph_edges:
         list_link = edge.out[1]
