@@ -254,6 +254,7 @@ def init_factor_tensors(dict):
     print("init_factor_tensors")
     factor_arguments = dict[KEY_FACTOR_ARGUMENTS]
     # print("factor_arguments: ", factor_arguments)
+    domains_map = dict[KEY_VARIABLE_DOMAIN]
 
     for factor_argument in factor_arguments:
         list_link = factor_argument.out[1]
@@ -267,8 +268,40 @@ def init_factor_tensors(dict):
             variables = [variables_link.name]
         elif variables_link.type == types.ListLink:
             variables = list(map(lambda node: node.name, variables_link.out))
+        else:
+            raise ValueError("Unknown node in factor-arguments-list predicate: " + factor_argument)
 
-        print("variables:", variables)
+        domains = []
+        for variable in variables:
+            domain = domains_map[variable]
+            if not domain:
+                raise ValueError("domain is empty for variable: " + variable)
+            domains.append(domain)
+            print("domain for variable:", variable, "domain:", domain)
+
+        init_factor_tensor(factor_name, variables, domains)
+
+
+def init_factor_tensor(factor_name, variables, domains):
+    size = len(variables)
+    indices = [0] * size
+    bounds = list(map(lambda domain: len(domain), domains))
+    print("bounds:", bounds)
+    print("indices:", indices)
+
+    while (increment_indices(size, indices, bounds)):
+        print("indices:", indices)
+
+
+# Iterate over all variable values from all domains
+def increment_indices(size, indices, bounds):
+    for i in range(0, len(indices)):
+        indices[i] = indices[i] + 1
+        if (indices[i] < bounds[i]):
+            return True
+        else:
+            indices[i] = 0
+    return False
 
 
 def get_variable_domain(variable):
