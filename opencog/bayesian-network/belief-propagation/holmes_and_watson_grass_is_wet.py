@@ -179,27 +179,34 @@ def factor_graph_edge(factor_name, variables):
 #   PredicateNode "factor-arguments-list"
 #   ListLink
 #     Factor
-#     Variable1
-#     VariableN
+#     Variable
+#
+# EvaluationLink
+#   PredicateNode "factor-arguments-list"
+#   ListLink
+#     Factor
+#     ListLink
+#       Variable1
+#       VariableN
 def factor_arguments_list(factor_name, variables):
-    list = [ConceptNode(factor_name)]
+    list = None
 
-    for variable in variables:
-        list.append(variable)
+    if len(variables) == 1:
+        list = variables[0]
+    else:
+        list = atomspace.add_link(types.ListLink, variables)
 
-    list_link = atomspace.add_link(types.ListLink, list)
-    factor_arguments_predicate = EvaluationLink(
+    return EvaluationLink(
         PredicateNode("factor-arguments-list"),
-        list_link
+        ListLink(ConceptNode(factor_name), list)
     )
-    # print("factor arguments: ", factor_arguments_predicate)
-    return factor_arguments_predicate
 
 
 # dict keys for init_factor_graph:
 KEY_FACTOR_EDGES = "factor_edges"
 KEY_FACTOR_ARGUMENTS = "factor_arguments"
 KEY_FACTOR_VALUES = "factor_values"
+KEY_VARIABLE_DOMAIN = "variable_domain"  # map[VariableName. ListOfVariableValues]
 
 
 def init_factor_graph(dict):
@@ -209,10 +216,15 @@ def init_factor_graph(dict):
     factor_arguments = []
     factor_values = {}
 
+    dict[KEY_VARIABLE_DOMAIN] = {}
+
     for link in evaluation_links:
         if not is_predicate(link, "probability"):
             continue
         variables, variable_value_key, probability = get_probability_variables(link)
+        for variable in variables:
+            init_variable_domain(variable, dict)
+
         factor_values[variable_value_key] = probability
         factor_name = 'factor-' + '-'.join(variables)
         if not factor_name in factors:
@@ -226,6 +238,37 @@ def init_factor_graph(dict):
     dict[KEY_FACTOR_EDGES] = factor_edges
     dict[KEY_FACTOR_ARGUMENTS] = factor_arguments
     dict[KEY_FACTOR_VALUES] = factor_values
+    init_factor_tensors(dict)
+
+
+def init_variable_domain(variable, dict):
+    domain_map = dict[KEY_VARIABLE_DOMAIN]
+    if not variable in domain_map:
+        # print("add domain for variable:", variable)
+        domain = get_variable_domain(ConceptNode(variable))
+        # print("variable domain:", domain)
+        domain_map[variable] = domain
+
+
+def init_factor_tensors(dict):
+    print("init_factor_tensors")
+    factor_arguments = dict[KEY_FACTOR_ARGUMENTS]
+    # print("factor_arguments: ", factor_arguments)
+
+    for factor_argument in factor_arguments:
+        list_link = factor_argument.out[1]
+        factor_node = list_link.out[0]
+        variables_link = list_link.out[1]
+        factor_name = factor_node.name
+        print("factor name:", factor_name)
+
+        variables = None
+        if variables_link.type == types.ConceptNode:
+            variables = [variables_link.name]
+        elif variables_link.type == types.ListLink:
+            variables = list(map(lambda node: node.name, variables_link.out))
+
+        print("variables:", variables)
 
 
 def get_variable_domain(variable):
@@ -246,8 +289,10 @@ def get_variable_domain(variable):
         VariableNode("$value"))
 
     values_link = bindlink(atomspace, bind_link)
+    values = list(map(lambda node: node.name, values_link.out))
+    values.sort()
 
-    return values_link.out
+    return values
 
 
 def get_edge_factor_variable(edge):
@@ -332,8 +377,8 @@ def run_belief_propagation_algorithm():
     factor_arguments = dict[KEY_FACTOR_ARGUMENTS]
     factor_values = dict[KEY_FACTOR_VALUES]
     # print("factor graph: ", factor_graph_edges)
-    print("factor arguments: ", factor_arguments)
-    print("factor values: ", factor_values)
+    # print("factor arguments: ", factor_arguments)
+    # print("factor values: ", factor_values)
 
     for edge in factor_graph_edges:
         list_link = edge.out[1]
