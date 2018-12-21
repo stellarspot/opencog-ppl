@@ -235,6 +235,18 @@ Each variable Xi has a domain (V1, ..., Vn)
 
 Note, if there is an evidence for some variable its domain is reduced only to one value.
 
+Main steps:
+* Initialization
+  * Generate factor graph (factor-variable edges) from probability predicates
+  * Generate map for factor values (key is a string of factor variables and its values, value is probability)
+* Generate messages using URE/PLN
+* Work until all factors and variables have incoming messages.
+
+Factor values map for factor F(V1, V2, ..., Vn):  
+Map key: "Vi=vik, ..., Vj=vjl" where Vi ... Vj is the sorted by name factor variables
+and vik ... vjl correspondent variable values  
+Map value: probability from the probability predicate
+
 Message from variable i to factor f:
 ```text
 If there is no messages from variable i to f:
@@ -262,8 +274,6 @@ If there is no messages from variable i to f:
     Else do nothing (not all messages are arrived)
 ```
 
-* Generate messages using URE/PLN
-* Work until all factors and variables have incoming messages.
 
 ### Messages sample
 
