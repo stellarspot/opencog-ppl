@@ -89,20 +89,65 @@ def is_predicate(evalutation_link, predicate_name):
     return evalutation_link.out[0].name == predicate_name
 
 
-# probability_link: predicate 'probability'
+# Probability predicate
+#
+# EvaluationLink (stv 0.2 1)
+#   PredicateNode "probability"
+#   AssociativeLink
+#     Concept "Rain"
+#     Concept "true"
+#
+# EvaluationLink (stv 1.0 1)
+#   PredicateNode "probability"
+#   ImplicationLink
+#     AssociativeLink
+#       Concept "Rain"
+#       Concept "true"
+#     AssociativeLink
+#       Concept "WatsonGrass"
+#       Concept "wet"
+#
+# variables_values_key has format: Var1=value1|Var1=value1|...|VarN=valueN
+#
+# return (sorted list of ConceptNode(variable name), variables_values_key, probability)
 def get_probability_variables(atom):
-    variables = []
-    if atom.type == types.EvaluationLink:
-        variables.extend(get_probability_variables(atom.out[1]))
-    elif atom.type == types.AssociativeLink:
-        variables.append(atom.out[0])
-    elif atom.type == types.ImplicationLink:
-        variables.extend(get_probability_variables(atom.out[0]))
-        variables.extend(get_probability_variables(atom.out[1]))
-    elif atom.type == types.AndLink:
-        for a in atom.out:
-            variables.extend(get_probability_variables(a))
-    return variables
+    variable_value_list = []
+    evaluation_arg_1 = atom.out[1]
+
+    if evaluation_arg_1.type == types.AssociativeLink:
+        variable_value_list.append(get_probability_variable_value(evaluation_arg_1))
+    elif evaluation_arg_1.type == types.ImplicationLink:
+        implication_arg_0 = evaluation_arg_1.out[0]
+        implication_arg_1 = evaluation_arg_1.out[1]
+        if implication_arg_0.type == types.AssociativeLink:
+            variable_value_list.append(get_probability_variable_value(implication_arg_0))
+        elif implication_arg_0.type == types.ListLink:
+            for and_implication in implication_arg_0.out:
+                variable_value_list.append(get_probability_variable_value(and_implication))
+        else:
+            raise ValueError("Unknown atom in probability predicate: " + implication_arg_0.type)
+        variable_value_list.append(get_probability_variable_value(implication_arg_1))
+    else:
+        raise ValueError("Unknown atom in probability predicate: " + evaluation_arg_1.type)
+
+    # Sort variable value pairs by variable names
+    variable_value_list.sort(key=lambda tuple: tuple[0])
+
+    # list of ConceptNode(variable name)
+    variables = map(lambda tuple: ConceptNode(tuple[0]), variable_value_list)
+
+    # variables values key
+    variable_value_key = map(lambda tuple: tuple[0] + "=" + tuple[1], variable_value_list)
+    variable_value_key = "|".join(variable_value_key)
+
+    return variables, variable_value_key
+
+
+#     AssociativeLink
+#       Concept "WatsonGrass"
+#       Concept "wet"
+def get_probability_variable_value(atom):
+    return atom.out[0].name, atom.out[1].name
 
 
 # Graph Edge predicate
@@ -161,7 +206,8 @@ def init_factor_graph(dict):
     for link in evaluation_links:
         if not is_predicate(link, "probability"):
             continue
-        variables = get_probability_variables(link)
+        variables, variable_value_key = get_probability_variables(link)
+        print("variable_value_key:", variable_value_key)
         names = list(map(lambda node: node.name, variables))
         names.sort()
         factor_name = 'factor-' + '-'.join(names)

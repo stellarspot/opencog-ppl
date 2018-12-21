@@ -1,0 +1,1456 @@
+[2018-12-14 16:05:57:101] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-14 16:05:57:101] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-14 16:05:57:101] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-14 16:05:57:101] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-14 16:05:57:101] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-14 16:05:57:101] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-14 16:05:57:101] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-14 16:05:57:101] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-14 16:05:57:101] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-14 16:05:57:101] [INFO] [global_python_initialize] Start
+[2018-12-14 16:05:57:101] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-14 16:05:57:101] [INFO] [global_python_initialize] Finish
+[2018-12-14 16:05:57:101] [INFO] [global_python_initialize] Start
+[2018-12-14 16:05:57:102] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-14 16:06:29:825] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-14 16:06:29:825] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-14 16:06:29:825] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-14 16:06:29:825] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-14 16:06:29:825] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-14 16:06:29:825] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-14 16:06:29:825] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-14 16:06:29:826] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-14 16:06:29:826] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-14 16:06:29:826] [INFO] [global_python_initialize] Start
+[2018-12-14 16:06:29:826] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-14 16:06:29:826] [INFO] [global_python_initialize] Finish
+[2018-12-14 16:06:29:826] [INFO] [global_python_initialize] Start
+[2018-12-14 16:06:29:826] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-14 16:07:12:198] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-14 16:07:12:198] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-14 16:07:12:198] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-14 16:07:12:198] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-14 16:07:12:198] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-14 16:07:12:198] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-14 16:07:12:198] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-14 16:07:12:198] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-14 16:07:12:198] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-14 16:07:12:198] [INFO] [global_python_initialize] Start
+[2018-12-14 16:07:12:198] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-14 16:07:12:198] [INFO] [global_python_initialize] Finish
+[2018-12-14 16:07:12:199] [INFO] [global_python_initialize] Start
+[2018-12-14 16:07:12:199] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-17 09:04:18:223] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-17 09:04:18:223] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-17 09:04:18:223] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-17 09:04:18:223] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-17 09:04:18:223] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-17 09:04:18:223] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-17 09:04:18:223] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-17 09:04:18:223] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-17 09:04:18:223] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-17 09:04:18:223] [INFO] [global_python_initialize] Start
+[2018-12-17 09:04:18:223] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-17 09:04:18:223] [INFO] [global_python_initialize] Finish
+[2018-12-17 09:04:18:223] [INFO] [global_python_initialize] Start
+[2018-12-17 09:04:18:224] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-17 11:47:21:462] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-17 11:47:21:462] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-17 11:47:21:462] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-17 11:47:21:462] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-17 11:47:21:462] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-17 11:47:21:462] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-17 11:47:21:462] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-17 11:47:21:462] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-17 11:47:21:462] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-17 11:47:21:462] [INFO] [global_python_initialize] Start
+[2018-12-17 11:47:21:462] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-17 11:47:21:462] [INFO] [global_python_initialize] Finish
+[2018-12-17 11:47:21:462] [INFO] [global_python_initialize] Start
+[2018-12-17 11:47:21:462] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-17 11:47:37:409] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-17 11:47:37:409] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-17 11:47:37:409] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-17 11:47:37:409] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-17 11:47:37:409] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-17 11:47:37:409] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-17 11:47:37:409] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-17 11:47:37:409] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-17 11:47:37:409] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-17 11:47:37:409] [INFO] [global_python_initialize] Start
+[2018-12-17 11:47:37:409] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-17 11:47:37:409] [INFO] [global_python_initialize] Finish
+[2018-12-17 11:47:37:409] [INFO] [global_python_initialize] Start
+[2018-12-17 11:47:37:409] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-17 11:48:32:336] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-17 11:48:32:336] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-17 11:48:32:336] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-17 11:48:32:336] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-17 11:48:32:336] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-17 11:48:32:336] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-17 11:48:32:336] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-17 11:48:32:336] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-17 11:48:32:336] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-17 11:48:32:336] [INFO] [global_python_initialize] Start
+[2018-12-17 11:48:32:336] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-17 11:48:32:336] [INFO] [global_python_initialize] Finish
+[2018-12-17 11:48:32:336] [INFO] [global_python_initialize] Start
+[2018-12-17 11:48:32:336] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-17 11:48:34:697] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-17 11:48:34:697] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-17 11:48:34:697] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-17 11:48:34:697] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-17 11:48:34:697] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-17 11:48:34:697] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-17 11:48:34:697] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-17 11:48:34:697] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-17 11:48:34:697] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-17 11:48:34:697] [INFO] [global_python_initialize] Start
+[2018-12-17 11:48:34:697] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-17 11:48:34:697] [INFO] [global_python_initialize] Finish
+[2018-12-17 11:48:34:697] [INFO] [global_python_initialize] Start
+[2018-12-17 11:48:34:697] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-17 12:42:39:642] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-17 12:42:39:642] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-17 12:42:39:642] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-17 12:42:39:642] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-17 12:42:39:642] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-17 12:42:39:642] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-17 12:42:39:642] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-17 12:42:39:642] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-17 12:42:39:642] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-17 12:42:39:643] [INFO] [global_python_initialize] Start
+[2018-12-17 12:42:39:643] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-17 12:42:39:643] [INFO] [global_python_initialize] Finish
+[2018-12-17 12:42:39:643] [INFO] [global_python_initialize] Start
+[2018-12-17 12:42:39:643] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-17 12:43:41:718] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-17 12:43:41:718] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-17 12:43:41:718] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-17 12:43:41:718] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-17 12:43:41:718] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-17 12:43:41:718] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-17 12:43:41:718] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-17 12:43:41:718] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-17 12:43:41:718] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-17 12:43:41:718] [INFO] [global_python_initialize] Start
+[2018-12-17 12:43:41:718] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-17 12:43:41:718] [INFO] [global_python_initialize] Finish
+[2018-12-17 12:43:41:718] [INFO] [global_python_initialize] Start
+[2018-12-17 12:43:41:718] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-17 12:49:48:844] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-17 12:49:48:844] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-17 12:49:48:844] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-17 12:49:48:844] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-17 12:49:48:844] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-17 12:49:48:844] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-17 12:49:48:844] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-17 12:49:48:844] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-17 12:49:48:844] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-17 12:49:48:844] [INFO] [global_python_initialize] Start
+[2018-12-17 12:49:48:844] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-17 12:49:48:844] [INFO] [global_python_initialize] Finish
+[2018-12-17 12:49:48:844] [INFO] [global_python_initialize] Start
+[2018-12-17 12:49:48:844] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-17 12:50:21:400] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-17 12:50:21:400] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-17 12:50:21:400] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-17 12:50:21:400] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-17 12:50:21:400] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-17 12:50:21:400] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-17 12:50:21:400] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-17 12:50:21:400] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-17 12:50:21:400] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-17 12:50:21:400] [INFO] [global_python_initialize] Start
+[2018-12-17 12:50:21:400] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-17 12:50:21:400] [INFO] [global_python_initialize] Finish
+[2018-12-17 12:50:21:400] [INFO] [global_python_initialize] Start
+[2018-12-17 12:50:21:400] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-17 12:51:03:377] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-17 12:51:03:378] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-17 12:51:03:378] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-17 12:51:03:378] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-17 12:51:03:378] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-17 12:51:03:378] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-17 12:51:03:378] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-17 12:51:03:378] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-17 12:51:03:378] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-17 12:51:03:378] [INFO] [global_python_initialize] Start
+[2018-12-17 12:51:03:378] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-17 12:51:03:378] [INFO] [global_python_initialize] Finish
+[2018-12-17 12:51:03:378] [INFO] [global_python_initialize] Start
+[2018-12-17 12:51:03:378] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-17 12:58:15:257] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-17 12:58:15:257] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-17 12:58:15:257] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-17 12:58:15:257] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-17 12:58:15:257] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-17 12:58:15:257] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-17 12:58:15:257] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-17 12:58:15:257] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-17 12:58:15:257] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-17 12:58:15:257] [INFO] [global_python_initialize] Start
+[2018-12-17 12:58:15:257] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-17 12:58:15:257] [INFO] [global_python_initialize] Finish
+[2018-12-17 12:58:15:257] [INFO] [global_python_initialize] Start
+[2018-12-17 12:58:15:257] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-17 13:01:12:830] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-17 13:01:12:830] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-17 13:01:12:830] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-17 13:01:12:830] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-17 13:01:12:830] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-17 13:01:12:830] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-17 13:01:12:830] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-17 13:01:12:830] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-17 13:01:12:830] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-17 13:01:12:830] [INFO] [global_python_initialize] Start
+[2018-12-17 13:01:12:830] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-17 13:01:12:830] [INFO] [global_python_initialize] Finish
+[2018-12-17 13:01:12:830] [INFO] [global_python_initialize] Start
+[2018-12-17 13:01:12:830] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-17 13:01:31:364] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-17 13:01:31:364] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-17 13:01:31:364] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-17 13:01:31:364] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-17 13:01:31:364] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-17 13:01:31:364] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-17 13:01:31:364] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-17 13:01:31:364] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-17 13:01:31:364] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-17 13:01:31:364] [INFO] [global_python_initialize] Start
+[2018-12-17 13:01:31:364] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-17 13:01:31:364] [INFO] [global_python_initialize] Finish
+[2018-12-17 13:01:31:364] [INFO] [global_python_initialize] Start
+[2018-12-17 13:01:31:364] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-17 13:03:30:225] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-17 13:03:30:225] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-17 13:03:30:225] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-17 13:03:30:225] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-17 13:03:30:225] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-17 13:03:30:225] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-17 13:03:30:225] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-17 13:03:30:225] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-17 13:03:30:225] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-17 13:03:30:225] [INFO] [global_python_initialize] Start
+[2018-12-17 13:03:30:225] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-17 13:03:30:225] [INFO] [global_python_initialize] Finish
+[2018-12-17 13:03:30:225] [INFO] [global_python_initialize] Start
+[2018-12-17 13:03:30:225] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-17 13:04:33:606] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-17 13:04:33:606] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-17 13:04:33:606] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-17 13:04:33:606] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-17 13:04:33:606] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-17 13:04:33:606] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-17 13:04:33:606] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-17 13:04:33:606] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-17 13:04:33:606] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-17 13:04:33:606] [INFO] [global_python_initialize] Start
+[2018-12-17 13:04:33:606] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-17 13:04:33:606] [INFO] [global_python_initialize] Finish
+[2018-12-17 13:04:33:606] [INFO] [global_python_initialize] Start
+[2018-12-17 13:04:33:606] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-17 13:05:48:771] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-17 13:05:48:771] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-17 13:05:48:771] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-17 13:05:48:771] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-17 13:05:48:771] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-17 13:05:48:771] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-17 13:05:48:771] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-17 13:05:48:771] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-17 13:05:48:771] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-17 13:05:48:771] [INFO] [global_python_initialize] Start
+[2018-12-17 13:05:48:771] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-17 13:05:48:771] [INFO] [global_python_initialize] Finish
+[2018-12-17 13:05:48:771] [INFO] [global_python_initialize] Start
+[2018-12-17 13:05:48:771] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-17 13:07:09:611] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-17 13:07:09:611] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-17 13:07:09:611] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-17 13:07:09:611] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-17 13:07:09:611] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-17 13:07:09:611] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-17 13:07:09:611] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-17 13:07:09:611] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-17 13:07:09:611] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-17 13:07:09:611] [INFO] [global_python_initialize] Start
+[2018-12-17 13:07:09:611] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-17 13:07:09:611] [INFO] [global_python_initialize] Finish
+[2018-12-17 13:07:09:611] [INFO] [global_python_initialize] Start
+[2018-12-17 13:07:09:611] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-17 13:11:00:587] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-17 13:11:00:587] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-17 13:11:00:587] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-17 13:11:00:587] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-17 13:11:00:587] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-17 13:11:00:587] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-17 13:11:00:587] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-17 13:11:00:587] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-17 13:11:00:587] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-17 13:11:00:587] [INFO] [global_python_initialize] Start
+[2018-12-17 13:11:00:587] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-17 13:11:00:587] [INFO] [global_python_initialize] Finish
+[2018-12-17 13:11:00:588] [INFO] [global_python_initialize] Start
+[2018-12-17 13:11:00:588] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-17 13:13:06:856] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-17 13:13:06:856] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-17 13:13:06:856] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-17 13:13:06:856] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-17 13:13:06:856] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-17 13:13:06:856] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-17 13:13:06:856] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-17 13:13:06:856] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-17 13:13:06:856] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-17 13:13:06:856] [INFO] [global_python_initialize] Start
+[2018-12-17 13:13:06:856] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-17 13:13:06:856] [INFO] [global_python_initialize] Finish
+[2018-12-17 13:13:06:856] [INFO] [global_python_initialize] Start
+[2018-12-17 13:13:06:856] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-17 13:14:02:493] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-17 13:14:02:493] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-17 13:14:02:493] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-17 13:14:02:493] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-17 13:14:02:493] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-17 13:14:02:493] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-17 13:14:02:493] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-17 13:14:02:493] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-17 13:14:02:493] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-17 13:14:02:493] [INFO] [global_python_initialize] Start
+[2018-12-17 13:14:02:493] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-17 13:14:02:493] [INFO] [global_python_initialize] Finish
+[2018-12-17 13:14:02:493] [INFO] [global_python_initialize] Start
+[2018-12-17 13:14:02:493] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-17 13:14:40:309] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-17 13:14:40:309] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-17 13:14:40:309] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-17 13:14:40:309] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-17 13:14:40:309] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-17 13:14:40:309] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-17 13:14:40:309] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-17 13:14:40:309] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-17 13:14:40:309] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-17 13:14:40:309] [INFO] [global_python_initialize] Start
+[2018-12-17 13:14:40:309] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-17 13:14:40:309] [INFO] [global_python_initialize] Finish
+[2018-12-17 13:14:40:310] [INFO] [global_python_initialize] Start
+[2018-12-17 13:14:40:310] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 09:50:41:876] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 09:50:41:876] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 09:50:41:876] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 09:50:41:876] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 09:50:41:876] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 09:50:41:876] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 09:50:41:876] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 09:50:41:876] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 09:50:41:876] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 09:50:41:877] [INFO] [global_python_initialize] Start
+[2018-12-21 09:50:41:877] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 09:50:41:877] [INFO] [global_python_initialize] Finish
+[2018-12-21 09:50:41:877] [INFO] [global_python_initialize] Start
+[2018-12-21 09:50:41:877] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 10:49:26:186] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 10:49:26:186] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 10:49:26:186] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 10:49:26:186] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 10:49:26:186] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 10:49:26:186] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 10:49:26:186] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 10:49:26:186] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 10:49:26:186] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 10:49:26:187] [INFO] [global_python_initialize] Start
+[2018-12-21 10:49:26:187] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 10:49:26:187] [INFO] [global_python_initialize] Finish
+[2018-12-21 10:49:26:187] [INFO] [global_python_initialize] Start
+[2018-12-21 10:49:26:187] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 10:50:25:749] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 10:50:25:749] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 10:50:25:749] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 10:50:25:749] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 10:50:25:749] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 10:50:25:749] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 10:50:25:749] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 10:50:25:749] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 10:50:25:749] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 10:50:25:750] [INFO] [global_python_initialize] Start
+[2018-12-21 10:50:25:750] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 10:50:25:750] [INFO] [global_python_initialize] Finish
+[2018-12-21 10:50:25:750] [INFO] [global_python_initialize] Start
+[2018-12-21 10:50:25:750] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 10:51:35:160] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 10:51:35:160] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 10:51:35:160] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 10:51:35:160] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 10:51:35:160] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 10:51:35:160] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 10:51:35:160] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 10:51:35:160] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 10:51:35:160] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 10:51:35:160] [INFO] [global_python_initialize] Start
+[2018-12-21 10:51:35:160] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 10:51:35:160] [INFO] [global_python_initialize] Finish
+[2018-12-21 10:51:35:161] [INFO] [global_python_initialize] Start
+[2018-12-21 10:51:35:161] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 10:56:22:296] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 10:56:22:296] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 10:56:22:296] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 10:56:22:296] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 10:56:22:296] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 10:56:22:296] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 10:56:22:296] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 10:56:22:296] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 10:56:22:296] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 10:56:22:296] [INFO] [global_python_initialize] Start
+[2018-12-21 10:56:22:296] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 10:56:22:296] [INFO] [global_python_initialize] Finish
+[2018-12-21 10:56:22:296] [INFO] [global_python_initialize] Start
+[2018-12-21 10:56:22:296] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 10:56:55:863] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 10:56:55:863] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 10:56:55:863] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 10:56:55:863] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 10:56:55:863] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 10:56:55:863] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 10:56:55:863] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 10:56:55:863] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 10:56:55:863] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 10:56:55:863] [INFO] [global_python_initialize] Start
+[2018-12-21 10:56:55:863] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 10:56:55:863] [INFO] [global_python_initialize] Finish
+[2018-12-21 10:56:55:863] [INFO] [global_python_initialize] Start
+[2018-12-21 10:56:55:863] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 10:57:17:495] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 10:57:17:495] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 10:57:17:495] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 10:57:17:495] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 10:57:17:495] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 10:57:17:495] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 10:57:17:495] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 10:57:17:495] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 10:57:17:495] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 10:57:17:495] [INFO] [global_python_initialize] Start
+[2018-12-21 10:57:17:495] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 10:57:17:496] [INFO] [global_python_initialize] Finish
+[2018-12-21 10:57:17:496] [INFO] [global_python_initialize] Start
+[2018-12-21 10:57:17:496] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 10:57:19:302] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 10:57:19:302] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 10:57:19:302] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 10:57:19:302] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 10:57:19:302] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 10:57:19:302] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 10:57:19:302] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 10:57:19:302] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 10:57:19:302] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 10:57:19:302] [INFO] [global_python_initialize] Start
+[2018-12-21 10:57:19:302] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 10:57:19:302] [INFO] [global_python_initialize] Finish
+[2018-12-21 10:57:19:302] [INFO] [global_python_initialize] Start
+[2018-12-21 10:57:19:302] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 11:01:13:902] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 11:01:13:902] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 11:01:13:902] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 11:01:13:902] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 11:01:13:902] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 11:01:13:902] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 11:01:13:902] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 11:01:13:902] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 11:01:13:902] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 11:01:13:903] [INFO] [global_python_initialize] Start
+[2018-12-21 11:01:13:903] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 11:01:13:903] [INFO] [global_python_initialize] Finish
+[2018-12-21 11:01:13:903] [INFO] [global_python_initialize] Start
+[2018-12-21 11:01:13:903] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 11:01:39:560] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 11:01:39:560] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 11:01:39:560] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 11:01:39:560] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 11:01:39:560] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 11:01:39:560] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 11:01:39:560] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 11:01:39:560] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 11:01:39:560] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 11:01:39:560] [INFO] [global_python_initialize] Start
+[2018-12-21 11:01:39:560] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 11:01:39:560] [INFO] [global_python_initialize] Finish
+[2018-12-21 11:01:39:560] [INFO] [global_python_initialize] Start
+[2018-12-21 11:01:39:560] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 11:01:42:195] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 11:01:42:195] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 11:01:42:195] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 11:01:42:195] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 11:01:42:195] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 11:01:42:195] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 11:01:42:195] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 11:01:42:195] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 11:01:42:195] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 11:01:42:195] [INFO] [global_python_initialize] Start
+[2018-12-21 11:01:42:195] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 11:01:42:195] [INFO] [global_python_initialize] Finish
+[2018-12-21 11:01:42:196] [INFO] [global_python_initialize] Start
+[2018-12-21 11:01:42:196] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 11:01:48:414] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 11:01:48:414] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 11:01:48:414] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 11:01:48:414] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 11:01:48:414] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 11:01:48:414] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 11:01:48:414] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 11:01:48:414] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 11:01:48:414] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 11:01:48:414] [INFO] [global_python_initialize] Start
+[2018-12-21 11:01:48:414] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 11:01:48:414] [INFO] [global_python_initialize] Finish
+[2018-12-21 11:01:48:414] [INFO] [global_python_initialize] Start
+[2018-12-21 11:01:48:414] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 11:02:28:339] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 11:02:28:339] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 11:02:28:339] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 11:02:28:339] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 11:02:28:339] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 11:02:28:339] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 11:02:28:339] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 11:02:28:339] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 11:02:28:339] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 11:02:28:339] [INFO] [global_python_initialize] Start
+[2018-12-21 11:02:28:339] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 11:02:28:339] [INFO] [global_python_initialize] Finish
+[2018-12-21 11:02:28:339] [INFO] [global_python_initialize] Start
+[2018-12-21 11:02:28:339] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 11:02:47:092] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 11:02:47:092] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 11:02:47:092] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 11:02:47:092] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 11:02:47:092] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 11:02:47:092] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 11:02:47:092] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 11:02:47:092] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 11:02:47:092] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 11:02:47:092] [INFO] [global_python_initialize] Start
+[2018-12-21 11:02:47:092] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 11:02:47:092] [INFO] [global_python_initialize] Finish
+[2018-12-21 11:02:47:093] [INFO] [global_python_initialize] Start
+[2018-12-21 11:02:47:093] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 11:02:58:271] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 11:02:58:271] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 11:02:58:271] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 11:02:58:271] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 11:02:58:271] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 11:02:58:271] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 11:02:58:271] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 11:02:58:271] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 11:02:58:271] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 11:02:58:271] [INFO] [global_python_initialize] Start
+[2018-12-21 11:02:58:271] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 11:02:58:272] [INFO] [global_python_initialize] Finish
+[2018-12-21 11:02:58:272] [INFO] [global_python_initialize] Start
+[2018-12-21 11:02:58:272] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 11:04:10:572] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 11:04:10:572] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 11:04:10:572] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 11:04:10:572] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 11:04:10:572] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 11:04:10:572] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 11:04:10:572] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 11:04:10:572] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 11:04:10:572] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 11:04:10:572] [INFO] [global_python_initialize] Start
+[2018-12-21 11:04:10:572] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 11:04:10:572] [INFO] [global_python_initialize] Finish
+[2018-12-21 11:04:10:572] [INFO] [global_python_initialize] Start
+[2018-12-21 11:04:10:572] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 11:12:33:535] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 11:12:33:535] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 11:12:33:535] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 11:12:33:535] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 11:12:33:535] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 11:12:33:535] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 11:12:33:535] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 11:12:33:535] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 11:12:33:535] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 11:12:33:535] [INFO] [global_python_initialize] Start
+[2018-12-21 11:12:33:535] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 11:12:33:536] [INFO] [global_python_initialize] Finish
+[2018-12-21 11:12:33:536] [INFO] [global_python_initialize] Start
+[2018-12-21 11:12:33:536] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 11:13:20:271] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 11:13:20:272] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 11:13:20:272] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 11:13:20:272] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 11:13:20:272] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 11:13:20:272] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 11:13:20:272] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 11:13:20:272] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 11:13:20:272] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 11:13:20:272] [INFO] [global_python_initialize] Start
+[2018-12-21 11:13:20:272] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 11:13:20:272] [INFO] [global_python_initialize] Finish
+[2018-12-21 11:13:20:272] [INFO] [global_python_initialize] Start
+[2018-12-21 11:13:20:272] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 11:14:44:645] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 11:14:44:646] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 11:14:44:646] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 11:14:44:646] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 11:14:44:646] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 11:14:44:646] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 11:14:44:646] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 11:14:44:646] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 11:14:44:646] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 11:14:44:646] [INFO] [global_python_initialize] Start
+[2018-12-21 11:14:44:646] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 11:14:44:646] [INFO] [global_python_initialize] Finish
+[2018-12-21 11:14:44:646] [INFO] [global_python_initialize] Start
+[2018-12-21 11:14:44:646] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 11:14:50:323] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 11:14:50:323] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 11:14:50:323] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 11:14:50:323] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 11:14:50:323] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 11:14:50:323] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 11:14:50:323] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 11:14:50:323] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 11:14:50:323] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 11:14:50:323] [INFO] [global_python_initialize] Start
+[2018-12-21 11:14:50:323] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 11:14:50:323] [INFO] [global_python_initialize] Finish
+[2018-12-21 11:14:50:323] [INFO] [global_python_initialize] Start
+[2018-12-21 11:14:50:323] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 11:14:51:652] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 11:14:51:653] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 11:14:51:653] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 11:14:51:653] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 11:14:51:653] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 11:14:51:653] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 11:14:51:653] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 11:14:51:653] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 11:14:51:653] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 11:14:51:653] [INFO] [global_python_initialize] Start
+[2018-12-21 11:14:51:653] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 11:14:51:653] [INFO] [global_python_initialize] Finish
+[2018-12-21 11:14:51:653] [INFO] [global_python_initialize] Start
+[2018-12-21 11:14:51:653] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 11:15:09:897] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 11:15:09:897] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 11:15:09:897] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 11:15:09:897] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 11:15:09:897] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 11:15:09:897] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 11:15:09:897] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 11:15:09:897] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 11:15:09:897] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 11:15:09:897] [INFO] [global_python_initialize] Start
+[2018-12-21 11:15:09:897] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 11:15:09:897] [INFO] [global_python_initialize] Finish
+[2018-12-21 11:15:09:897] [INFO] [global_python_initialize] Start
+[2018-12-21 11:15:09:897] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 11:16:03:501] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 11:16:03:502] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 11:16:03:502] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 11:16:03:502] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 11:16:03:502] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 11:16:03:502] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 11:16:03:502] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 11:16:03:502] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 11:16:03:502] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 11:16:03:502] [INFO] [global_python_initialize] Start
+[2018-12-21 11:16:03:502] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 11:16:03:502] [INFO] [global_python_initialize] Finish
+[2018-12-21 11:16:03:502] [INFO] [global_python_initialize] Start
+[2018-12-21 11:16:03:502] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 11:54:52:402] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 11:54:52:402] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 11:54:52:402] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 11:54:52:402] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 11:54:52:402] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 11:54:52:402] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 11:54:52:402] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 11:54:52:402] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 11:54:52:402] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 11:54:52:402] [INFO] [global_python_initialize] Start
+[2018-12-21 11:54:52:402] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 11:54:52:402] [INFO] [global_python_initialize] Finish
+[2018-12-21 11:54:52:402] [INFO] [global_python_initialize] Start
+[2018-12-21 11:54:52:402] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 11:55:30:242] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 11:55:30:242] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 11:55:30:242] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 11:55:30:242] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 11:55:30:242] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 11:55:30:242] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 11:55:30:242] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 11:55:30:242] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 11:55:30:242] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 11:55:30:242] [INFO] [global_python_initialize] Start
+[2018-12-21 11:55:30:242] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 11:55:30:242] [INFO] [global_python_initialize] Finish
+[2018-12-21 11:55:30:242] [INFO] [global_python_initialize] Start
+[2018-12-21 11:55:30:242] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 11:56:20:504] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 11:56:20:504] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 11:56:20:504] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 11:56:20:504] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 11:56:20:504] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 11:56:20:504] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 11:56:20:504] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 11:56:20:504] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 11:56:20:504] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 11:56:20:505] [INFO] [global_python_initialize] Start
+[2018-12-21 11:56:20:505] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 11:56:20:505] [INFO] [global_python_initialize] Finish
+[2018-12-21 11:56:20:505] [INFO] [global_python_initialize] Start
+[2018-12-21 11:56:20:505] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 11:56:48:126] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 11:56:48:126] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 11:56:48:126] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 11:56:48:126] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 11:56:48:126] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 11:56:48:126] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 11:56:48:126] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 11:56:48:126] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 11:56:48:126] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 11:56:48:126] [INFO] [global_python_initialize] Start
+[2018-12-21 11:56:48:126] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 11:56:48:126] [INFO] [global_python_initialize] Finish
+[2018-12-21 11:56:48:126] [INFO] [global_python_initialize] Start
+[2018-12-21 11:56:48:127] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 11:57:05:780] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 11:57:05:780] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 11:57:05:780] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 11:57:05:780] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 11:57:05:780] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 11:57:05:780] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 11:57:05:780] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 11:57:05:780] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 11:57:05:780] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 11:57:05:780] [INFO] [global_python_initialize] Start
+[2018-12-21 11:57:05:780] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 11:57:05:780] [INFO] [global_python_initialize] Finish
+[2018-12-21 11:57:05:780] [INFO] [global_python_initialize] Start
+[2018-12-21 11:57:05:780] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 11:57:17:335] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 11:57:17:335] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 11:57:17:335] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 11:57:17:335] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 11:57:17:335] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 11:57:17:335] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 11:57:17:335] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 11:57:17:335] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 11:57:17:335] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 11:57:17:335] [INFO] [global_python_initialize] Start
+[2018-12-21 11:57:17:335] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 11:57:17:335] [INFO] [global_python_initialize] Finish
+[2018-12-21 11:57:17:335] [INFO] [global_python_initialize] Start
+[2018-12-21 11:57:17:335] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 11:57:35:122] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 11:57:35:122] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 11:57:35:122] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 11:57:35:122] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 11:57:35:122] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 11:57:35:122] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 11:57:35:122] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 11:57:35:122] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 11:57:35:122] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 11:57:35:122] [INFO] [global_python_initialize] Start
+[2018-12-21 11:57:35:122] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 11:57:35:122] [INFO] [global_python_initialize] Finish
+[2018-12-21 11:57:35:122] [INFO] [global_python_initialize] Start
+[2018-12-21 11:57:35:122] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 11:59:04:515] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 11:59:04:515] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 11:59:04:515] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 11:59:04:515] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 11:59:04:515] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 11:59:04:515] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 11:59:04:515] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 11:59:04:515] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 11:59:04:515] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 11:59:04:515] [INFO] [global_python_initialize] Start
+[2018-12-21 11:59:04:515] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 11:59:04:516] [INFO] [global_python_initialize] Finish
+[2018-12-21 11:59:04:516] [INFO] [global_python_initialize] Start
+[2018-12-21 11:59:04:516] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 11:59:40:729] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 11:59:40:730] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 11:59:40:730] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 11:59:40:730] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 11:59:40:730] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 11:59:40:730] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 11:59:40:730] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 11:59:40:730] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 11:59:40:730] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 11:59:40:730] [INFO] [global_python_initialize] Start
+[2018-12-21 11:59:40:730] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 11:59:40:730] [INFO] [global_python_initialize] Finish
+[2018-12-21 11:59:40:730] [INFO] [global_python_initialize] Start
+[2018-12-21 11:59:40:730] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 12:00:26:625] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 12:00:26:625] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 12:00:26:625] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 12:00:26:625] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 12:00:26:625] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 12:00:26:625] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 12:00:26:625] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 12:00:26:625] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 12:00:26:625] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 12:00:26:625] [INFO] [global_python_initialize] Start
+[2018-12-21 12:00:26:625] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 12:00:26:625] [INFO] [global_python_initialize] Finish
+[2018-12-21 12:00:26:625] [INFO] [global_python_initialize] Start
+[2018-12-21 12:00:26:625] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 12:01:11:283] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 12:01:11:283] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 12:01:11:283] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 12:01:11:283] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 12:01:11:283] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 12:01:11:283] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 12:01:11:283] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 12:01:11:283] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 12:01:11:283] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 12:01:11:283] [INFO] [global_python_initialize] Start
+[2018-12-21 12:01:11:283] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 12:01:11:283] [INFO] [global_python_initialize] Finish
+[2018-12-21 12:01:11:283] [INFO] [global_python_initialize] Start
+[2018-12-21 12:01:11:283] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 12:01:12:577] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 12:01:12:577] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 12:01:12:577] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 12:01:12:577] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 12:01:12:577] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 12:01:12:577] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 12:01:12:577] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 12:01:12:577] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 12:01:12:577] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 12:01:12:577] [INFO] [global_python_initialize] Start
+[2018-12-21 12:01:12:577] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 12:01:12:577] [INFO] [global_python_initialize] Finish
+[2018-12-21 12:01:12:577] [INFO] [global_python_initialize] Start
+[2018-12-21 12:01:12:577] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 12:02:38:738] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 12:02:38:738] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 12:02:38:738] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 12:02:38:738] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 12:02:38:738] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 12:02:38:738] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 12:02:38:738] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 12:02:38:738] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 12:02:38:738] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 12:02:38:738] [INFO] [global_python_initialize] Start
+[2018-12-21 12:02:38:738] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 12:02:38:738] [INFO] [global_python_initialize] Finish
+[2018-12-21 12:02:38:738] [INFO] [global_python_initialize] Start
+[2018-12-21 12:02:38:738] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 12:03:32:842] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 12:03:32:842] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 12:03:32:842] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 12:03:32:842] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 12:03:32:842] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 12:03:32:842] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 12:03:32:842] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 12:03:32:842] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 12:03:32:842] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 12:03:32:842] [INFO] [global_python_initialize] Start
+[2018-12-21 12:03:32:842] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 12:03:32:842] [INFO] [global_python_initialize] Finish
+[2018-12-21 12:03:32:842] [INFO] [global_python_initialize] Start
+[2018-12-21 12:03:32:842] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 12:04:21:379] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 12:04:21:379] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 12:04:21:379] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 12:04:21:379] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 12:04:21:379] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 12:04:21:379] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 12:04:21:379] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 12:04:21:379] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 12:04:21:379] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 12:04:21:379] [INFO] [global_python_initialize] Start
+[2018-12-21 12:04:21:379] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 12:04:21:379] [INFO] [global_python_initialize] Finish
+[2018-12-21 12:04:21:379] [INFO] [global_python_initialize] Start
+[2018-12-21 12:04:21:379] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 12:04:31:709] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 12:04:31:709] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 12:04:31:709] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 12:04:31:709] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 12:04:31:709] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 12:04:31:709] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 12:04:31:709] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 12:04:31:709] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 12:04:31:709] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 12:04:31:709] [INFO] [global_python_initialize] Start
+[2018-12-21 12:04:31:709] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 12:04:31:710] [INFO] [global_python_initialize] Finish
+[2018-12-21 12:04:31:710] [INFO] [global_python_initialize] Start
+[2018-12-21 12:04:31:710] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 12:05:14:730] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 12:05:14:731] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 12:05:14:731] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 12:05:14:731] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 12:05:14:731] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 12:05:14:731] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 12:05:14:731] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 12:05:14:731] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 12:05:14:731] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 12:05:14:731] [INFO] [global_python_initialize] Start
+[2018-12-21 12:05:14:731] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 12:05:14:731] [INFO] [global_python_initialize] Finish
+[2018-12-21 12:05:14:731] [INFO] [global_python_initialize] Start
+[2018-12-21 12:05:14:731] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 12:19:52:842] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 12:19:52:842] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 12:19:52:842] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 12:19:52:842] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 12:19:52:842] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 12:19:52:842] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 12:19:52:842] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 12:19:52:842] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 12:19:52:842] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 12:19:52:842] [INFO] [global_python_initialize] Start
+[2018-12-21 12:19:52:842] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 12:19:52:842] [INFO] [global_python_initialize] Finish
+[2018-12-21 12:19:52:842] [INFO] [global_python_initialize] Start
+[2018-12-21 12:19:52:842] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 12:19:55:145] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 12:19:55:145] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 12:19:55:145] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 12:19:55:145] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 12:19:55:145] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 12:19:55:145] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 12:19:55:145] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 12:19:55:145] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 12:19:55:145] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 12:19:55:145] [INFO] [global_python_initialize] Start
+[2018-12-21 12:19:55:145] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 12:19:55:145] [INFO] [global_python_initialize] Finish
+[2018-12-21 12:19:55:145] [INFO] [global_python_initialize] Start
+[2018-12-21 12:19:55:145] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 13:04:23:172] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 13:04:23:172] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 13:04:23:172] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 13:04:23:172] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 13:04:23:172] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 13:04:23:172] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 13:04:23:172] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 13:04:23:172] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 13:04:23:172] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 13:04:23:172] [INFO] [global_python_initialize] Start
+[2018-12-21 13:04:23:172] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 13:04:23:172] [INFO] [global_python_initialize] Finish
+[2018-12-21 13:04:23:172] [INFO] [global_python_initialize] Start
+[2018-12-21 13:04:23:172] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 13:06:29:869] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 13:06:29:869] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 13:06:29:869] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 13:06:29:869] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 13:06:29:869] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 13:06:29:869] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 13:06:29:869] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 13:06:29:869] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 13:06:29:869] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 13:06:29:869] [INFO] [global_python_initialize] Start
+[2018-12-21 13:06:29:869] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 13:06:29:869] [INFO] [global_python_initialize] Finish
+[2018-12-21 13:06:29:869] [INFO] [global_python_initialize] Start
+[2018-12-21 13:06:29:869] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 13:15:06:774] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 13:15:06:774] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 13:15:06:774] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 13:15:06:774] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 13:15:06:774] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 13:15:06:774] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 13:15:06:774] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 13:15:06:774] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 13:15:06:774] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 13:15:06:774] [INFO] [global_python_initialize] Start
+[2018-12-21 13:15:06:774] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 13:15:06:774] [INFO] [global_python_initialize] Finish
+[2018-12-21 13:15:06:774] [INFO] [global_python_initialize] Start
+[2018-12-21 13:15:06:774] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 13:15:34:697] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 13:15:34:698] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 13:15:34:698] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 13:15:34:698] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 13:15:34:698] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 13:15:34:698] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 13:15:34:698] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 13:15:34:698] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 13:15:34:698] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 13:15:34:698] [INFO] [global_python_initialize] Start
+[2018-12-21 13:15:34:698] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 13:15:34:698] [INFO] [global_python_initialize] Finish
+[2018-12-21 13:15:34:698] [INFO] [global_python_initialize] Start
+[2018-12-21 13:15:34:698] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 13:15:37:257] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 13:15:37:257] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 13:15:37:257] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 13:15:37:257] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 13:15:37:257] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 13:15:37:257] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 13:15:37:257] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 13:15:37:257] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 13:15:37:257] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 13:15:37:258] [INFO] [global_python_initialize] Start
+[2018-12-21 13:15:37:258] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 13:15:37:258] [INFO] [global_python_initialize] Finish
+[2018-12-21 13:15:37:258] [INFO] [global_python_initialize] Start
+[2018-12-21 13:15:37:258] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 13:18:35:949] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 13:18:35:949] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 13:18:35:949] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 13:18:35:949] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 13:18:35:949] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 13:18:35:949] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 13:18:35:949] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 13:18:35:949] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 13:18:35:949] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 13:18:35:949] [INFO] [global_python_initialize] Start
+[2018-12-21 13:18:35:949] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 13:18:35:949] [INFO] [global_python_initialize] Finish
+[2018-12-21 13:18:35:949] [INFO] [global_python_initialize] Start
+[2018-12-21 13:18:35:949] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 13:20:44:371] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 13:20:44:371] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 13:20:44:371] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 13:20:44:371] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 13:20:44:371] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 13:20:44:371] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 13:20:44:371] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 13:20:44:371] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 13:20:44:371] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 13:20:44:372] [INFO] [global_python_initialize] Start
+[2018-12-21 13:20:44:372] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 13:20:44:372] [INFO] [global_python_initialize] Finish
+[2018-12-21 13:20:44:372] [INFO] [global_python_initialize] Start
+[2018-12-21 13:20:44:372] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 13:23:03:607] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 13:23:03:607] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 13:23:03:607] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 13:23:03:607] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 13:23:03:607] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 13:23:03:607] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 13:23:03:607] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 13:23:03:607] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 13:23:03:607] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 13:23:03:607] [INFO] [global_python_initialize] Start
+[2018-12-21 13:23:03:607] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 13:23:03:607] [INFO] [global_python_initialize] Finish
+[2018-12-21 13:23:03:607] [INFO] [global_python_initialize] Start
+[2018-12-21 13:23:03:607] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 13:25:28:641] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 13:25:28:641] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 13:25:28:641] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 13:25:28:641] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 13:25:28:641] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 13:25:28:641] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 13:25:28:641] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 13:25:28:641] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 13:25:28:641] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 13:25:28:641] [INFO] [global_python_initialize] Start
+[2018-12-21 13:25:28:641] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 13:25:28:641] [INFO] [global_python_initialize] Finish
+[2018-12-21 13:25:28:641] [INFO] [global_python_initialize] Start
+[2018-12-21 13:25:28:641] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 13:26:26:507] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 13:26:26:508] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 13:26:26:508] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 13:26:26:508] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 13:26:26:508] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 13:26:26:508] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 13:26:26:508] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 13:26:26:508] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 13:26:26:508] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 13:26:26:508] [INFO] [global_python_initialize] Start
+[2018-12-21 13:26:26:508] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 13:26:26:508] [INFO] [global_python_initialize] Finish
+[2018-12-21 13:26:26:508] [INFO] [global_python_initialize] Start
+[2018-12-21 13:26:26:508] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 13:26:43:319] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 13:26:43:319] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 13:26:43:319] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 13:26:43:319] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 13:26:43:319] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 13:26:43:319] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 13:26:43:319] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 13:26:43:319] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 13:26:43:319] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 13:26:43:319] [INFO] [global_python_initialize] Start
+[2018-12-21 13:26:43:319] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 13:26:43:319] [INFO] [global_python_initialize] Finish
+[2018-12-21 13:26:43:319] [INFO] [global_python_initialize] Start
+[2018-12-21 13:26:43:319] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 13:28:42:279] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 13:28:42:279] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 13:28:42:279] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 13:28:42:279] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 13:28:42:279] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 13:28:42:279] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 13:28:42:279] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 13:28:42:279] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 13:28:42:279] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 13:28:42:279] [INFO] [global_python_initialize] Start
+[2018-12-21 13:28:42:279] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 13:28:42:279] [INFO] [global_python_initialize] Finish
+[2018-12-21 13:28:42:279] [INFO] [global_python_initialize] Start
+[2018-12-21 13:28:42:279] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 13:29:33:315] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 13:29:33:315] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 13:29:33:315] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 13:29:33:315] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 13:29:33:315] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 13:29:33:315] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 13:29:33:315] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 13:29:33:315] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 13:29:33:315] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 13:29:33:316] [INFO] [global_python_initialize] Start
+[2018-12-21 13:29:33:316] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 13:29:33:316] [INFO] [global_python_initialize] Finish
+[2018-12-21 13:29:33:316] [INFO] [global_python_initialize] Start
+[2018-12-21 13:29:33:316] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 13:31:32:676] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 13:31:32:676] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 13:31:32:676] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 13:31:32:676] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 13:31:32:676] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 13:31:32:676] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 13:31:32:676] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 13:31:32:676] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 13:31:32:676] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 13:31:32:677] [INFO] [global_python_initialize] Start
+[2018-12-21 13:31:32:677] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 13:31:32:677] [INFO] [global_python_initialize] Finish
+[2018-12-21 13:31:32:677] [INFO] [global_python_initialize] Start
+[2018-12-21 13:31:32:677] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 13:36:32:366] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 13:36:32:366] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 13:36:32:366] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 13:36:32:366] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 13:36:32:366] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 13:36:32:366] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 13:36:32:366] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 13:36:32:366] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 13:36:32:366] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 13:36:32:366] [INFO] [global_python_initialize] Start
+[2018-12-21 13:36:32:366] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 13:36:32:366] [INFO] [global_python_initialize] Finish
+[2018-12-21 13:36:32:366] [INFO] [global_python_initialize] Start
+[2018-12-21 13:36:32:366] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 13:40:58:069] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 13:40:58:069] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 13:40:58:069] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 13:40:58:069] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 13:40:58:069] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 13:40:58:069] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 13:40:58:069] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 13:40:58:069] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 13:40:58:069] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 13:40:58:070] [INFO] [global_python_initialize] Start
+[2018-12-21 13:40:58:070] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 13:40:58:070] [INFO] [global_python_initialize] Finish
+[2018-12-21 13:40:58:070] [INFO] [global_python_initialize] Start
+[2018-12-21 13:40:58:070] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 13:41:46:526] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 13:41:46:526] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 13:41:46:526] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 13:41:46:527] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 13:41:46:527] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 13:41:46:527] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 13:41:46:527] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 13:41:46:527] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 13:41:46:527] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 13:41:46:527] [INFO] [global_python_initialize] Start
+[2018-12-21 13:41:46:527] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 13:41:46:527] [INFO] [global_python_initialize] Finish
+[2018-12-21 13:41:46:527] [INFO] [global_python_initialize] Start
+[2018-12-21 13:41:46:527] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 13:41:49:045] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 13:41:49:045] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 13:41:49:045] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 13:41:49:045] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 13:41:49:045] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 13:41:49:045] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 13:41:49:045] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 13:41:49:045] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 13:41:49:045] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 13:41:49:045] [INFO] [global_python_initialize] Start
+[2018-12-21 13:41:49:045] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 13:41:49:045] [INFO] [global_python_initialize] Finish
+[2018-12-21 13:41:49:045] [INFO] [global_python_initialize] Start
+[2018-12-21 13:41:49:045] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 13:42:11:373] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 13:42:11:373] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 13:42:11:373] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 13:42:11:373] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 13:42:11:373] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 13:42:11:373] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 13:42:11:373] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 13:42:11:373] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 13:42:11:373] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 13:42:11:373] [INFO] [global_python_initialize] Start
+[2018-12-21 13:42:11:373] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 13:42:11:373] [INFO] [global_python_initialize] Finish
+[2018-12-21 13:42:11:373] [INFO] [global_python_initialize] Start
+[2018-12-21 13:42:11:373] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 13:42:20:725] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 13:42:20:725] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 13:42:20:725] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 13:42:20:725] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 13:42:20:725] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 13:42:20:725] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 13:42:20:725] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 13:42:20:725] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 13:42:20:725] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 13:42:20:725] [INFO] [global_python_initialize] Start
+[2018-12-21 13:42:20:725] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 13:42:20:725] [INFO] [global_python_initialize] Finish
+[2018-12-21 13:42:20:726] [INFO] [global_python_initialize] Start
+[2018-12-21 13:42:20:726] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 13:47:39:742] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 13:47:39:742] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 13:47:39:742] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 13:47:39:742] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 13:47:39:742] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 13:47:39:742] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 13:47:39:742] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 13:47:39:742] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 13:47:39:742] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 13:47:39:742] [INFO] [global_python_initialize] Start
+[2018-12-21 13:47:39:742] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 13:47:39:742] [INFO] [global_python_initialize] Finish
+[2018-12-21 13:47:39:742] [INFO] [global_python_initialize] Start
+[2018-12-21 13:47:39:742] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 13:48:21:463] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 13:48:21:463] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 13:48:21:463] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 13:48:21:463] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 13:48:21:463] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 13:48:21:463] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 13:48:21:463] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 13:48:21:463] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 13:48:21:463] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 13:48:21:463] [INFO] [global_python_initialize] Start
+[2018-12-21 13:48:21:463] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 13:48:21:463] [INFO] [global_python_initialize] Finish
+[2018-12-21 13:48:21:463] [INFO] [global_python_initialize] Start
+[2018-12-21 13:48:21:463] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 13:51:39:047] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 13:51:39:047] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 13:51:39:047] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 13:51:39:047] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 13:51:39:047] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 13:51:39:047] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 13:51:39:047] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 13:51:39:047] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 13:51:39:047] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 13:51:39:047] [INFO] [global_python_initialize] Start
+[2018-12-21 13:51:39:047] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 13:51:39:047] [INFO] [global_python_initialize] Finish
+[2018-12-21 13:51:39:047] [INFO] [global_python_initialize] Start
+[2018-12-21 13:51:39:047] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 13:52:42:933] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 13:52:42:933] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 13:52:42:933] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 13:52:42:933] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 13:52:42:933] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 13:52:42:933] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 13:52:42:933] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 13:52:42:933] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 13:52:42:933] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 13:52:42:933] [INFO] [global_python_initialize] Start
+[2018-12-21 13:52:42:933] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 13:52:42:933] [INFO] [global_python_initialize] Finish
+[2018-12-21 13:52:42:933] [INFO] [global_python_initialize] Start
+[2018-12-21 13:52:42:933] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 13:53:09:188] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 13:53:09:189] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 13:53:09:189] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 13:53:09:189] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 13:53:09:189] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 13:53:09:189] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 13:53:09:189] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 13:53:09:189] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 13:53:09:189] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 13:53:09:189] [INFO] [global_python_initialize] Start
+[2018-12-21 13:53:09:189] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 13:53:09:189] [INFO] [global_python_initialize] Finish
+[2018-12-21 13:53:09:189] [INFO] [global_python_initialize] Start
+[2018-12-21 13:53:09:189] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 13:53:26:301] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 13:53:26:301] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 13:53:26:301] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 13:53:26:301] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 13:53:26:301] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 13:53:26:301] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 13:53:26:301] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 13:53:26:301] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 13:53:26:301] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 13:53:26:302] [INFO] [global_python_initialize] Start
+[2018-12-21 13:53:26:302] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 13:53:26:302] [INFO] [global_python_initialize] Finish
+[2018-12-21 13:53:26:302] [INFO] [global_python_initialize] Start
+[2018-12-21 13:53:26:302] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 13:53:36:881] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 13:53:36:881] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 13:53:36:881] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 13:53:36:881] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 13:53:36:881] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 13:53:36:881] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 13:53:36:881] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 13:53:36:881] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 13:53:36:881] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 13:53:36:882] [INFO] [global_python_initialize] Start
+[2018-12-21 13:53:36:882] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 13:53:36:882] [INFO] [global_python_initialize] Finish
+[2018-12-21 13:53:36:882] [INFO] [global_python_initialize] Start
+[2018-12-21 13:53:36:882] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 13:54:27:635] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 13:54:27:635] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 13:54:27:635] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 13:54:27:635] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 13:54:27:635] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 13:54:27:635] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 13:54:27:635] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 13:54:27:635] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 13:54:27:635] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 13:54:27:635] [INFO] [global_python_initialize] Start
+[2018-12-21 13:54:27:635] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 13:54:27:635] [INFO] [global_python_initialize] Finish
+[2018-12-21 13:54:27:635] [INFO] [global_python_initialize] Start
+[2018-12-21 13:54:27:635] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 13:55:48:669] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 13:55:48:669] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 13:55:48:669] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 13:55:48:669] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 13:55:48:669] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 13:55:48:669] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 13:55:48:669] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 13:55:48:669] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 13:55:48:669] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 13:55:48:670] [INFO] [global_python_initialize] Start
+[2018-12-21 13:55:48:670] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 13:55:48:670] [INFO] [global_python_initialize] Finish
+[2018-12-21 13:55:48:670] [INFO] [global_python_initialize] Start
+[2018-12-21 13:55:48:670] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 13:55:56:437] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 13:55:56:437] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 13:55:56:437] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 13:55:56:437] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 13:55:56:437] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 13:55:56:437] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 13:55:56:437] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 13:55:56:437] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 13:55:56:437] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 13:55:56:437] [INFO] [global_python_initialize] Start
+[2018-12-21 13:55:56:437] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 13:55:56:437] [INFO] [global_python_initialize] Finish
+[2018-12-21 13:55:56:437] [INFO] [global_python_initialize] Start
+[2018-12-21 13:55:56:437] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 13:56:24:485] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 13:56:24:485] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 13:56:24:485] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 13:56:24:485] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 13:56:24:485] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 13:56:24:485] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 13:56:24:485] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 13:56:24:485] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 13:56:24:485] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 13:56:24:485] [INFO] [global_python_initialize] Start
+[2018-12-21 13:56:24:485] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 13:56:24:485] [INFO] [global_python_initialize] Finish
+[2018-12-21 13:56:24:485] [INFO] [global_python_initialize] Start
+[2018-12-21 13:56:24:485] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 13:56:42:225] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 13:56:42:225] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 13:56:42:225] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 13:56:42:225] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 13:56:42:225] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 13:56:42:225] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 13:56:42:225] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 13:56:42:225] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 13:56:42:225] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 13:56:42:225] [INFO] [global_python_initialize] Start
+[2018-12-21 13:56:42:225] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 13:56:42:225] [INFO] [global_python_initialize] Finish
+[2018-12-21 13:56:42:225] [INFO] [global_python_initialize] Start
+[2018-12-21 13:56:42:225] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 13:57:46:716] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 13:57:46:716] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 13:57:46:716] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 13:57:46:716] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 13:57:46:716] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 13:57:46:716] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 13:57:46:716] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 13:57:46:716] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 13:57:46:716] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 13:57:46:716] [INFO] [global_python_initialize] Start
+[2018-12-21 13:57:46:716] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 13:57:46:716] [INFO] [global_python_initialize] Finish
+[2018-12-21 13:57:46:716] [INFO] [global_python_initialize] Start
+[2018-12-21 13:57:46:716] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 13:59:08:852] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 13:59:08:852] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 13:59:08:852] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 13:59:08:852] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 13:59:08:852] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 13:59:08:852] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 13:59:08:852] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 13:59:08:852] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 13:59:08:852] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 13:59:08:852] [INFO] [global_python_initialize] Start
+[2018-12-21 13:59:08:852] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 13:59:08:852] [INFO] [global_python_initialize] Finish
+[2018-12-21 13:59:08:852] [INFO] [global_python_initialize] Start
+[2018-12-21 13:59:08:852] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 14:00:33:935] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 14:00:33:935] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 14:00:33:935] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 14:00:33:935] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 14:00:33:935] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 14:00:33:935] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 14:00:33:935] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 14:00:33:935] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 14:00:33:935] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 14:00:33:935] [INFO] [global_python_initialize] Start
+[2018-12-21 14:00:33:935] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 14:00:33:935] [INFO] [global_python_initialize] Finish
+[2018-12-21 14:00:33:935] [INFO] [global_python_initialize] Start
+[2018-12-21 14:00:33:935] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 14:00:45:006] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 14:00:45:006] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 14:00:45:006] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 14:00:45:006] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 14:00:45:006] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 14:00:45:006] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 14:00:45:006] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 14:00:45:006] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 14:00:45:006] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 14:00:45:006] [INFO] [global_python_initialize] Start
+[2018-12-21 14:00:45:006] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 14:00:45:006] [INFO] [global_python_initialize] Finish
+[2018-12-21 14:00:45:007] [INFO] [global_python_initialize] Start
+[2018-12-21 14:00:45:007] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 14:00:46:076] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 14:00:46:076] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 14:00:46:076] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 14:00:46:076] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 14:00:46:076] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 14:00:46:076] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 14:00:46:076] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 14:00:46:076] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 14:00:46:076] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 14:00:46:076] [INFO] [global_python_initialize] Start
+[2018-12-21 14:00:46:076] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 14:00:46:076] [INFO] [global_python_initialize] Finish
+[2018-12-21 14:00:46:076] [INFO] [global_python_initialize] Start
+[2018-12-21 14:00:46:076] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2018-12-21 14:00:50:307] [WARN] No configuration file was loaded! Param=STARTING_STI_FUNDS
+[2018-12-21 14:00:50:307] [WARN] No configuration file was loaded! Param=STARTING_LTI_FUNDS
+[2018-12-21 14:00:50:307] [WARN] No configuration file was loaded! Param=STI_FUNDS_BUFFER
+[2018-12-21 14:00:50:307] [WARN] No configuration file was loaded! Param=LTI_FUNDS_BUFFER
+[2018-12-21 14:00:50:307] [WARN] No configuration file was loaded! Param=TARGET_LTI_FUNDS
+[2018-12-21 14:00:50:307] [WARN] No configuration file was loaded! Param=TARGET_STI_FUNDS
+[2018-12-21 14:00:50:307] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_STI_WAGE
+[2018-12-21 14:00:50:307] [WARN] No configuration file was loaded! Param=ECAN_STARTING_ATOM_LTI_WAGE
+[2018-12-21 14:00:50:307] [WARN] No configuration file was loaded! Param=ECAN_MAX_AF_SIZE
+[2018-12-21 14:00:50:307] [INFO] [global_python_initialize] Start
+[2018-12-21 14:00:50:307] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2018-12-21 14:00:50:307] [INFO] [global_python_initialize] Finish
+[2018-12-21 14:00:50:307] [INFO] [global_python_initialize] Start
+[2018-12-21 14:00:50:307] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
