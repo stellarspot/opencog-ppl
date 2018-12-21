@@ -250,12 +250,26 @@ EvaluationLink
     VariableN
 ```
 
-#### Messages sending
+#### Factor Values map
 
 Factor values map for factor F(V1, V2, ..., Vn):  
-Map key: "Vi=vik, ..., Vj=vjl" where Vi ... Vj is the sorted by name factor variables
-and vik ... vjl correspondent variable values  
+Map key: "Vi=vik|...|Vj=vjl" where Vi ... Vj is the sorted by name factor variables
+and vik ... vjl correspondent variable values.
 Map value: probability from the probability predicate
+
+Probability predicate:
+```scheme
+(EvaluationLink (stv 0.8 1)
+ (PredicateNode "probability")
+ (ImplicationLink
+  (AssociativeLink (Concept "Rain") (Concept "true" ))
+  (AssociativeLink (Concept "WatsonGrass") (Concept "wet"))))
+```
+
+Map item:
+"Rain=true|WatsonGrass=wet" : 0.8
+
+#### Messages sending
 
 Message from variable i to factor f:
 ```text
