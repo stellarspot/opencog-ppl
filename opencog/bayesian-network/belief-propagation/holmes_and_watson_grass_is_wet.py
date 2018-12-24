@@ -5,6 +5,8 @@ from opencog.type_constructors import *
 
 from opencog.bindlink import bindlink
 
+import numpy as np
+
 atomspace = AtomSpace()
 initialize_opencog(atomspace)
 
@@ -294,7 +296,8 @@ def init_factor_tensor(factor_name, variables, domain_map, dict):
         factor_value = get_factor_value(factor_name, variables, domain_map, indices, factor_values)
         tensor_values.append(factor_value)
 
-    # TBD: Reshape tensor values
+    tensor_values = np.array(tensor_values).reshape(bounds)
+    # print("tensor_values:", tensor_values)
     dict[KEY_FACTOR_TENSOR][factor_name] = tensor_values
 
 
@@ -351,14 +354,27 @@ def get_edge_factor_variable(edge):
 
 
 def get_neighbour_factors(factor_graph_edges, variable, exclude_factor):
+    filter = lambda factor_name, variable_name: \
+        variable_name == variable.name and factor_name != exclude_factor.name
+    edges = get_factor_graph_neighbours(factor_graph_edges, filter)
+    return edges
+
+
+def get_neighbour_variables(factor_graph_edges, factor, exclude_variable):
+    filter = lambda factor_name, variable_name: \
+        variable_name != exclude_variable.name and factor_name == factor.name
+    edges = get_factor_graph_neighbours(factor_graph_edges, filter)
+    return edges
+
+
+def get_factor_graph_neighbours(factor_graph_edges, filter):
     edges = []
     for edge in factor_graph_edges:
         edge_factor_variable = get_edge_factor_variable(edge)
         edge_factor = edge_factor_variable[0]
         edge_variable = edge_factor_variable[1]
 
-        if edge_variable.name == variable.name and edge_factor.name != exclude_factor.name:
-            # print("  edge: ", edge_factor.name, "->", edge_variable.name)
+        if filter(edge_factor.name, edge_variable.name):
             edges.append(edge)
 
     return edges
@@ -407,15 +423,18 @@ def send_message_from_variable_to_factor(factor_graph_edges, variable, factor):
         print("generated message: ", message)
 
 
-def send_message_from_factor_to_variable(factor_graph_edges, factor, variable):
+def send_message_from_factor_to_variable(factor_graph_edges, factor, variable, dict):
     print("send message(f->v): ", factor.name, "->", variable.name)
 
-    factor_edges = get_neighbour_factors(factor_graph_edges, variable, factor)
+    factor_tensor = dict[KEY_FACTOR_TENSOR][factor.name]
+    # dict[KEY_FACTOR_VALUES]
+    factor_edges = get_neighbour_variables(factor_graph_edges, factor, variable)
     # This is a leaf. Send initial message.
     if not factor_edges:
         print("factor leaf")
-        values = get_variable_domain(variable)
-        print("values: ", values)
+        print("tensor:", factor_tensor)
+        # values = get_variable_domain(variable)
+        # print("values: ", values)
         # Calculate P(V=v1), P(V=v2)
 
 
@@ -435,7 +454,7 @@ def run_belief_propagation_algorithm():
         factor = list_link.out[0]
         variable = list_link.out[1]
         send_message_from_variable_to_factor(factor_graph_edges, variable, factor)
-        send_message_from_factor_to_variable(factor_graph_edges, factor, variable)
+        send_message_from_factor_to_variable(factor_graph_edges, factor, variable, dict)
 
 
 run_belief_propagation_algorithm()
