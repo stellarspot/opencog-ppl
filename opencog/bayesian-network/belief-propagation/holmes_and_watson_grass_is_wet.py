@@ -391,17 +391,10 @@ def generate_message(node_from, node_to, message):
         ListLink(node_from, node_to, message))
 
 
-# size of the variable domain
-# or number of variable evidences
-def get_initial_message_value(size):
-    if size == 0:
-        return ""
-
-    message = "1"
-    for i in range(1, size):
-        message = message + ",1"
-
-    return message
+# return comma separated string of array values
+def get_factor_graph_message(probabilities_array):
+    array = map(lambda value: str(value), probabilities_array)
+    return ",".join(array)
 
 
 def send_message_from_variable_to_factor(factor_graph_edges, variable, factor):
@@ -409,16 +402,12 @@ def send_message_from_variable_to_factor(factor_graph_edges, variable, factor):
 
     factor_edges = get_neighbour_factors(factor_graph_edges, variable, factor)
 
-    # print(" income edges: ", factor_edges)
-
     # This is a leaf. Send initial message.
     if not factor_edges:
         print("variable leaf")
         values = get_variable_domain(variable)
         domain_size = len(values)
-        # print("size: ", domain_size)
-        # print("values: ", values)
-        message_value = get_initial_message_value(domain_size)
+        message_value = get_factor_graph_message([1.0] * domain_size)
         message = generate_message(variable, factor, ConceptNode(message_value))
         print("generated message: ", message)
 
@@ -427,15 +416,13 @@ def send_message_from_factor_to_variable(factor_graph_edges, factor, variable, d
     print("send message(f->v): ", factor.name, "->", variable.name)
 
     factor_tensor = dict[KEY_FACTOR_TENSOR][factor.name]
-    # dict[KEY_FACTOR_VALUES]
     factor_edges = get_neighbour_variables(factor_graph_edges, factor, variable)
     # This is a leaf. Send initial message.
     if not factor_edges:
         print("factor leaf")
-        print("tensor:", factor_tensor)
-        # values = get_variable_domain(variable)
-        # print("values: ", values)
-        # Calculate P(V=v1), P(V=v2)
+        message_value = get_factor_graph_message(factor_tensor.tolist())
+        message = generate_message(variable, factor, ConceptNode(message_value))
+        print("generated message:", message)
 
 
 def run_belief_propagation_algorithm():
