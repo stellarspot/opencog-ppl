@@ -146,6 +146,15 @@ def get_probability_variables(atom):
     return variables, variable_value_key, probability
 
 
+# input list of variables and values: [V1, ..VN], [v1,..,vn]
+# return: "V1=v1|...|Vn=vn"
+def get_variables_values_key(variables, values):
+    pairs = zip(variables, values)
+    variables_values = list(map(lambda tuple: tuple[0] + "=" + tuple[1], pairs))
+    key = "|".join(variables_values)
+    return key
+
+
 #     AssociativeLink
 #       Concept "WatsonGrass"
 #       Concept "wet"
@@ -206,7 +215,8 @@ def factor_arguments_list(factor_name, variables):
 KEY_FACTOR_EDGES = "factor_edges"
 KEY_FACTOR_ARGUMENTS = "factor_arguments"
 KEY_FACTOR_VALUES = "factor_values"
-KEY_VARIABLE_DOMAIN = "variable_domain"  # map[VariableName. ListOfVariableValues]
+KEY_VARIABLE_DOMAIN = "variable_domain"  # map[VariableName, ListOfVariableValues]
+KEY_FACTOR_TENSOR = "factor_tensor"  # map[FactorName, FactorTensor]
 
 
 def init_factor_graph(dict):
@@ -238,22 +248,20 @@ def init_factor_graph(dict):
     dict[KEY_FACTOR_EDGES] = factor_edges
     dict[KEY_FACTOR_ARGUMENTS] = factor_arguments
     dict[KEY_FACTOR_VALUES] = factor_values
+    dict[KEY_FACTOR_TENSOR] = {}
     init_factor_tensors(dict)
+    print("factor tensors:", dict[KEY_FACTOR_TENSOR])
 
 
 def init_variable_domain(variable, dict):
     domain_map = dict[KEY_VARIABLE_DOMAIN]
     if not variable in domain_map:
-        # print("add domain for variable:", variable)
         domain = get_variable_domain(ConceptNode(variable))
-        # print("variable domain:", domain)
         domain_map[variable] = domain
 
 
 def init_factor_tensors(dict):
-    print("init_factor_tensors")
     factor_arguments = dict[KEY_FACTOR_ARGUMENTS]
-    # print("factor_arguments: ", factor_arguments)
     domains_map = dict[KEY_VARIABLE_DOMAIN]
 
     for factor_argument in factor_arguments:
@@ -261,7 +269,6 @@ def init_factor_tensors(dict):
         factor_node = list_link.out[0]
         variables_link = list_link.out[1]
         factor_name = factor_node.name
-        print("factor name:", factor_name)
 
         variables = None
         if variables_link.type == types.ConceptNode:
@@ -271,26 +278,36 @@ def init_factor_tensors(dict):
         else:
             raise ValueError("Unknown node in factor-arguments-list predicate: " + factor_argument)
 
-        domains = []
-        for variable in variables:
-            domain = domains_map[variable]
-            if not domain:
-                raise ValueError("domain is empty for variable: " + variable)
-            domains.append(domain)
-            print("domain for variable:", variable, "domain:", domain)
-
-        init_factor_tensor(factor_name, variables, domains)
+        init_factor_tensor(factor_name, variables, domains_map, dict)
 
 
-def init_factor_tensor(factor_name, variables, domains):
+# Put a factor tensor to the dict
+def init_factor_tensor(factor_name, variables, domain_map, dict):
+    factor_values = dict[KEY_FACTOR_VALUES]
     size = len(variables)
     indices = [0] * size
-    bounds = list(map(lambda domain: len(domain), domains))
-    print("bounds:", bounds)
-    print("indices:", indices)
+    indices[0] = -1
+    bounds = list(map(lambda variable: len(domain_map[variable]), variables))
+    tensor_values = []
 
     while (increment_indices(size, indices, bounds)):
-        print("indices:", indices)
+        factor_value = get_factor_value(factor_name, variables, domain_map, indices, factor_values)
+        tensor_values.append(factor_value)
+
+    # TBD: Reshape tensor values
+    dict[KEY_FACTOR_TENSOR][factor_name] = tensor_values
+
+
+def get_factor_value(factor_name, variables, domain_map, indices, factor_values):
+    values = []
+    for i in range(0, len(variables)):
+        variable = variables[i]
+        value_index = indices[i]
+        value = domain_map[variable][value_index]
+        values.append(value)
+    key = get_variables_values_key(variables, values)
+    value = factor_values[key]
+    return value
 
 
 # Iterate over all variable values from all domains
