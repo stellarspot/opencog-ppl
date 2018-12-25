@@ -170,18 +170,19 @@ def get_probability_variable_value(atom):
 # EvaluationLink
 #   PredicateNode "graph-edge"
 #   ListLink Factor Variable
-def factor_graph_edge(factor_name, variables):
+def factor_graph_edge(factor, variable):
+    return EvaluationLink(
+        PredicateNode("graph-edge"),
+        ListLink(factor, variable))
+
+
+# generate edges for the given factor and variables list
+def factor_graph_edges(factor_name, variables):
     factor_node = ConceptNode(factor_name)
     factor_edges = []
 
     for variable in variables:
-        list_link = atomspace.add_link(types.ListLink, [factor_node, variable])
-        factor_edge = EvaluationLink(
-            PredicateNode("graph-edge"),
-            list_link
-        )
-        factor_edges.append(factor_edge)
-
+        factor_edges.append(factor_graph_edge(factor_node, variable))
     return factor_edges
 
 
@@ -242,7 +243,7 @@ def init_factor_graph(dict):
         factor_name = 'factor-' + '-'.join(variables)
         if not factor_name in factors:
             variable_nodes = list(map(lambda name: ConceptNode(name), variables))
-            factor_edges.extend(factor_graph_edge(factor_name, variable_nodes))
+            factor_edges.extend(factor_graph_edges(factor_name, variable_nodes))
             factor_arguments.append(factor_arguments_list(factor_name, variable_nodes))
             factors.add(factor_name)
 
@@ -381,69 +382,75 @@ def get_factor_graph_neighbours(factor_graph_edges, filter):
     return edges
 
 
-# message value is a comma separated string of values
-# for example
-# initial message: 1, 1
-# where number of values is the domain of the variable or number of the variable evidences
-# ordinary message: P(V=v1), P(V=v2), P(V=v3)
-def generate_message(node_from, node_to, message):
-    return EvaluationLink(
-        PredicateNode("factor-graph-message"),
-        ListLink(node_from, node_to, message))
+# keys for messages FloatValue
+KEY_MESSAGE_FACTOR_VARIABLE = "factor-variable"
+KEY_MESSAGE_VARIABLE_FACTOR = "variable-factor"
 
 
-# return comma separated string of array values
-def get_factor_graph_message(probabilities_array):
-    array = map(lambda value: str(value), probabilities_array)
-    return ",".join(array)
+# Edges are always from factor to variable
+def get_edge_message(node_from, node_to, node_key):
+    edge = factor_graph_edge(node_from, node_to)
+    float_value = edge.get_value(node_key)
+
+    if not float_value:
+        return None
+    return float_value.to_list()
 
 
-# check if a message has been already sent
-# it could be a message from a factor to variable
-# or from variable to factor
-def is_message_sent(node_from, node_to):
-    staisfaction_expr = SatisfactionLink(
-        VariableNode("$message"),
-        EvaluationLink(
-            PredicateNode("factor-graph-message"),
-            ListLink(node_from, node_to, VariableNode("$message"))))
+def get_factor_variable_message(factor, variable):
+    return get_edge_message(factor, variable, ConceptNode(KEY_MESSAGE_FACTOR_VARIABLE))
 
-    tv = satisfaction_link(atomspace, staisfaction_expr)
-    return tv.mean == 1.0
+
+def get_variable_factor_message(variable, factor):
+    return get_edge_message(factor, variable, ConceptNode(KEY_MESSAGE_VARIABLE_FACTOR))
+
+
+def set_edge_message(node_from, node_to, node_key, message):
+    # print("  set message: [", node_from.name, "->", node_to.name, "] ", node_key.name, message)
+    edge = factor_graph_edge(node_from, node_to)
+    edge.set_value(node_key, FloatValue(message))
+
+
+def set_factor_variable_message(factor, variable, message):
+    set_edge_message(factor, variable, ConceptNode(KEY_MESSAGE_FACTOR_VARIABLE), message)
+
+
+def set_variable_factor_message(variable, factor, message):
+    set_edge_message(factor, variable, ConceptNode(KEY_MESSAGE_VARIABLE_FACTOR), message)
 
 
 def send_message_from_variable_to_factor(factor_graph_edges, variable, factor):
     print("send message(v->f): ", variable.name, "->", factor.name)
-    if is_message_sent(variable, factor):
-        print("message has been already sent")
+    message = get_variable_factor_message(variable, factor)
+
+    if message:
+        print("  message has been already sent:", message)
         return
 
     factor_edges = get_neighbour_factors(factor_graph_edges, variable, factor)
 
     # This is a leaf. Send initial message.
     if not factor_edges:
-        print("Variable leaf")
+        print("  variable leaf")
         values = get_variable_domain(variable)
         domain_size = len(values)
-        message_value = get_factor_graph_message([1.0] * domain_size)
-        message = generate_message(variable, factor, ConceptNode(message_value))
-        print("generated message: ", message)
+        set_variable_factor_message(variable, factor, [1.0] * domain_size)
 
 
 def send_message_from_factor_to_variable(factor_graph_edges, factor, variable, dict):
     print("send message(f->v): ", factor.name, "->", variable.name)
-    if is_message_sent(factor, variable):
-        print("message has been already sent")
+    message = get_factor_variable_message(factor, variable)
+
+    if message:
+        print("  message has been already sent:", message)
         return
 
     factor_tensor = dict[KEY_FACTOR_TENSOR][factor.name]
     factor_edges = get_neighbour_variables(factor_graph_edges, factor, variable)
     # This is a leaf. Send initial message.
     if not factor_edges:
-        print("Factor leaf")
-        message_value = get_factor_graph_message(factor_tensor.tolist())
-        message = generate_message(factor, variable, ConceptNode(message_value))
-        print("generated message:", message)
+        print("  factor leaf")
+        set_factor_variable_message(factor, variable, factor_tensor.tolist())
 
 
 def run_belief_propagation_algorithm():
