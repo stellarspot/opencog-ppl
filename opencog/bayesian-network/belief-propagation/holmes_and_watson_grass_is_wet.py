@@ -4,6 +4,7 @@ from opencog.utilities import initialize_opencog
 from opencog.type_constructors import *
 
 from opencog.bindlink import bindlink
+from opencog.bindlink import satisfaction_link
 
 import numpy as np
 
@@ -397,14 +398,31 @@ def get_factor_graph_message(probabilities_array):
     return ",".join(array)
 
 
+# check if a message has been already sent
+# it could be a message from a factor to variable
+# or from variable to factor
+def is_message_sent(node_from, node_to):
+    staisfaction_expr = SatisfactionLink(
+        VariableNode("$message"),
+        EvaluationLink(
+            PredicateNode("factor-graph-message"),
+            ListLink(node_from, node_to, VariableNode("$message"))))
+
+    tv = satisfaction_link(atomspace, staisfaction_expr)
+    return tv.mean == 1.0
+
+
 def send_message_from_variable_to_factor(factor_graph_edges, variable, factor):
     print("send message(v->f): ", variable.name, "->", factor.name)
+    if is_message_sent(variable, factor):
+        print("message has been already sent")
+        return
 
     factor_edges = get_neighbour_factors(factor_graph_edges, variable, factor)
 
     # This is a leaf. Send initial message.
     if not factor_edges:
-        print("variable leaf")
+        print("Variable leaf")
         values = get_variable_domain(variable)
         domain_size = len(values)
         message_value = get_factor_graph_message([1.0] * domain_size)
@@ -414,14 +432,17 @@ def send_message_from_variable_to_factor(factor_graph_edges, variable, factor):
 
 def send_message_from_factor_to_variable(factor_graph_edges, factor, variable, dict):
     print("send message(f->v): ", factor.name, "->", variable.name)
+    if is_message_sent(factor, variable):
+        print("message has been already sent")
+        return
 
     factor_tensor = dict[KEY_FACTOR_TENSOR][factor.name]
     factor_edges = get_neighbour_variables(factor_graph_edges, factor, variable)
     # This is a leaf. Send initial message.
     if not factor_edges:
-        print("factor leaf")
+        print("Factor leaf")
         message_value = get_factor_graph_message(factor_tensor.tolist())
-        message = generate_message(variable, factor, ConceptNode(message_value))
+        message = generate_message(factor, variable, ConceptNode(message_value))
         print("generated message:", message)
 
 
@@ -436,12 +457,15 @@ def run_belief_propagation_algorithm():
     # print("factor arguments: ", factor_arguments)
     # print("factor values: ", factor_values)
 
-    for edge in factor_graph_edges:
-        list_link = edge.out[1]
-        factor = list_link.out[0]
-        variable = list_link.out[1]
-        send_message_from_variable_to_factor(factor_graph_edges, variable, factor)
-        send_message_from_factor_to_variable(factor_graph_edges, factor, variable, dict)
+    for step in range(0, 2):
+        print()
+        print("step: ", step)
+        for edge in factor_graph_edges:
+            list_link = edge.out[1]
+            factor = list_link.out[0]
+            variable = list_link.out[1]
+            send_message_from_variable_to_factor(factor_graph_edges, variable, factor)
+            send_message_from_factor_to_variable(factor_graph_edges, factor, variable, dict)
 
 
 run_belief_propagation_algorithm()
