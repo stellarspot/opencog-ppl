@@ -219,6 +219,7 @@ def factor_arguments_list(factor_name, variables):
 KEY_FACTOR_EDGES = "factor_edges"
 KEY_FACTOR_ARGUMENTS = "factor_arguments"
 KEY_FACTOR_VALUES = "factor_values"
+KEY_FACTOR_VARIABLES = "factor_variables"
 KEY_VARIABLE_DOMAIN = "variable_domain"  # map[VariableName, ListOfVariableValues]
 KEY_FACTOR_TENSOR = "factor_tensor"  # map[FactorName, FactorTensor]
 
@@ -252,6 +253,7 @@ def init_factor_graph(dict):
     dict[KEY_FACTOR_EDGES] = factor_edges
     dict[KEY_FACTOR_ARGUMENTS] = factor_arguments
     dict[KEY_FACTOR_VALUES] = factor_values
+    dict[KEY_FACTOR_VARIABLES] = {}
     dict[KEY_FACTOR_TENSOR] = {}
     init_factor_tensors(dict)
     print("factor tensors:", dict[KEY_FACTOR_TENSOR])
@@ -267,6 +269,7 @@ def init_variable_domain(variable, dict):
 def init_factor_tensors(dict):
     factor_arguments = dict[KEY_FACTOR_ARGUMENTS]
     domains_map = dict[KEY_VARIABLE_DOMAIN]
+    factor_variables = dict[KEY_FACTOR_VARIABLES]
 
     for factor_argument in factor_arguments:
         list_link = factor_argument.out[1]
@@ -282,7 +285,9 @@ def init_factor_tensors(dict):
         else:
             raise ValueError("Unknown node in factor-arguments-list predicate: " + factor_argument)
 
+        factor_variables[factor_name] = variables
         init_factor_tensor(factor_name, variables, domains_map, dict)
+        # init_factor_tensor(factor_name, get_factor_argument_names(factor_argument, dict), domains_map, dict)
 
 
 # Put a factor tensor to the dict
@@ -432,6 +437,23 @@ def componentwise_messages_multiplication(messages, size):
     return message.tolist()
 
 
+def tensor_messages_multiplication(tensor, messages):
+    # print("  tensor:", tensor)
+    # print("  messages:", messages)
+
+    t = tensor
+    for i in range(0, len(messages)):
+        msg = messages[i]
+        # print("  i:", i)
+        # print("  msg:", msg)
+        if not msg:
+            continue
+        v = np.array(msg)
+        t = np.tensordot(t, v, axes=(i, 0))
+
+    return t.tolist()
+
+
 def send_message_from_variable_to_factor(factor_graph_edges, variable, factor):
     print("send message(v->f): ", variable.name, "->", factor.name)
     message = get_variable_factor_message(variable, factor)
@@ -474,16 +496,23 @@ def send_message_from_factor_to_variable(factor_graph_edges, factor, variable, d
     if not factor_edges:
         print("  factor leaf")
         set_factor_variable_message(factor, variable, factor_tensor.tolist())
-    # else:
-    #     messages = []
-    #     for edge in factor_edges:
-    #         # print("edge: ", edge)
-    #         msg = get_edge_message(edge, ConceptNode(KEY_MESSAGE_VARIABLE_FACTOR))
-    #         if not msg:
-    #             return
-    #         print("  edge msg:", msg)
-    #         messages.append(msg)
-    #     # result_message =
+    else:
+        factor_name = factor.name
+        variable_name = variable.name
+        factor_variables = dict[KEY_FACTOR_VARIABLES][factor_name]
+        print("  factor variables:", factor_variables)
+        messages = []
+
+        for arg_name in factor_variables:
+            if arg_name == variable_name:
+                messages.append(None)
+                continue
+            msg = get_variable_factor_message(ConceptNode(arg_name), factor)
+            print("  msg:", msg)
+            messages.append(msg)
+        tensor = dict[KEY_FACTOR_TENSOR][factor_name]
+        result_message = tensor_messages_multiplication(tensor, messages)
+        print("  result_message:", result_message)
 
 
 def run_belief_propagation_algorithm():
