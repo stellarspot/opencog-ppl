@@ -382,14 +382,13 @@ def get_factor_graph_neighbours(factor_graph_edges, filter):
     return edges
 
 
-# keys for messages FloatValue
+# keys for FloatValue messages
 KEY_MESSAGE_FACTOR_VARIABLE = "factor-variable"
 KEY_MESSAGE_VARIABLE_FACTOR = "variable-factor"
 
 
 # Edges are always from factor to variable
-def get_edge_message(node_from, node_to, node_key):
-    edge = factor_graph_edge(node_from, node_to)
+def get_edge_message(edge, node_key):
     float_value = edge.get_value(node_key)
 
     if not float_value:
@@ -397,16 +396,20 @@ def get_edge_message(node_from, node_to, node_key):
     return float_value.to_list()
 
 
+def get_variable_factor_edge_message(node_from, node_to, node_key):
+    return get_edge_message(factor_graph_edge(node_from, node_to), node_key)
+
+
 def get_factor_variable_message(factor, variable):
-    return get_edge_message(factor, variable, ConceptNode(KEY_MESSAGE_FACTOR_VARIABLE))
+    return get_variable_factor_edge_message(factor, variable, ConceptNode(KEY_MESSAGE_FACTOR_VARIABLE))
 
 
 def get_variable_factor_message(variable, factor):
-    return get_edge_message(factor, variable, ConceptNode(KEY_MESSAGE_VARIABLE_FACTOR))
+    return get_variable_factor_edge_message(factor, variable, ConceptNode(KEY_MESSAGE_VARIABLE_FACTOR))
 
 
 def set_edge_message(node_from, node_to, node_key, message):
-    # print("  set message: [", node_from.name, "->", node_to.name, "] ", node_key.name, message)
+    print("  set message: [", node_from.name, "->", node_to.name, "] ", node_key.name, message)
     edge = factor_graph_edge(node_from, node_to)
     edge.set_value(node_key, FloatValue(message))
 
@@ -419,6 +422,16 @@ def set_variable_factor_message(variable, factor, message):
     set_edge_message(factor, variable, ConceptNode(KEY_MESSAGE_VARIABLE_FACTOR), message)
 
 
+def componentwise_messages_multiplication(messages, size):
+    # print("  messages:", messages)
+    message = np.array([1.0] * size)
+    arrays = list(map(lambda msg: np.array(msg), messages))
+    for msg in arrays:
+        message = message * msg
+
+    return message.tolist()
+
+
 def send_message_from_variable_to_factor(factor_graph_edges, variable, factor):
     print("send message(v->f): ", variable.name, "->", factor.name)
     message = get_variable_factor_message(variable, factor)
@@ -429,12 +442,22 @@ def send_message_from_variable_to_factor(factor_graph_edges, variable, factor):
 
     factor_edges = get_neighbour_factors(factor_graph_edges, variable, factor)
 
+    values = get_variable_domain(variable)
+    domain_size = len(values)
+
     # This is a leaf. Send initial message.
     if not factor_edges:
         print("  variable leaf")
-        values = get_variable_domain(variable)
-        domain_size = len(values)
         set_variable_factor_message(variable, factor, [1.0] * domain_size)
+    else:
+        messages = []
+        for edge in factor_edges:
+            msg = get_edge_message(edge, ConceptNode(KEY_MESSAGE_FACTOR_VARIABLE))
+            if not msg:
+                return
+            messages.append(msg)
+        result_message = componentwise_messages_multiplication(messages, domain_size)
+        set_variable_factor_message(variable, factor, result_message)
 
 
 def send_message_from_factor_to_variable(factor_graph_edges, factor, variable, dict):
@@ -451,6 +474,16 @@ def send_message_from_factor_to_variable(factor_graph_edges, factor, variable, d
     if not factor_edges:
         print("  factor leaf")
         set_factor_variable_message(factor, variable, factor_tensor.tolist())
+    # else:
+    #     messages = []
+    #     for edge in factor_edges:
+    #         # print("edge: ", edge)
+    #         msg = get_edge_message(edge, ConceptNode(KEY_MESSAGE_VARIABLE_FACTOR))
+    #         if not msg:
+    #             return
+    #         print("  edge msg:", msg)
+    #         messages.append(msg)
+    #     # result_message =
 
 
 def run_belief_propagation_algorithm():
