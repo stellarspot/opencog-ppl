@@ -157,25 +157,16 @@ Two marginal probabilities should be calculated:
 
 ### Belief Propagation algorithm
 
-Each variable Xi has a domain (V1, ..., Vn)
+#### Factor graph data types
 
-If there is an evidence for some variable its domain is reduced only to one value.
+Given the probability predicates the following nodes and links are generated:
 
-Main steps:
-* Initialization
-  * Generate factor graph from probability predicates
-  * Generate factor arguments list
-  * Generate map for factor values (key is a string of factor variables and its values, value is probability)
-* Generate messages using URE/PLN
-* Work until all factors and variables have incoming messages.
+* Variable nodes
+* Factor nodes
+* Factor-Variable edge links
 
+![](images/belief_propagation/watson_grass_and_rain_nodes_and_links_values.png)
 
-#### Factor Graph
-
-Factor graph consists of edges Factor - Variable.
-
-Factor graph needs to be created from probability predicates.
-For each probability predicate there should be generated edge (Factor to Variable).
 
 Probability predicates:
 ```scheme
@@ -192,19 +183,31 @@ Probability predicates:
 
 ```
 
+Generated Variable nodes:
+```scheme
+(Concept "Variable-Rain")
+(Concept "Variable-WatsonGrass")
+```
+
+Generated Factor nodes:
+```scheme
+(Concept "Factor-Rain")
+(Concept "Factor-Rain-WatsonGrass")
+```
+
 Generated edges:
 ```scheme
 (EvaluationLink
  (PredicateNode "graph-edge")
- (ListLink (Concept "P4") (Concept "Rain" )))
+ (ListLink (Concept "Factor-Rain") (Concept "Rain" )))
 
 (EvaluationLink
  (PredicateNode "graph-edge")
- (ListLink (Concept "P2") (Concept "Rain" )))
+ (ListLink (Concept "Factor-Rain-WatsonGrass") (Concept "Rain" )))
 
 (EvaluationLink
  (PredicateNode "graph-edge")
- (ListLink (Concept "P2") (Concept "WatsonGrass" )))
+ (ListLink (Concept "Factor-Rain-WatsonGrass") (Concept "WatsonGrass" )))
 ```
 
 Where graph edge is of the form:
@@ -213,63 +216,93 @@ EvaluationLink
   PredicateNode "graph-edge"
   ListLink Factor Variable
 ```
+Edge is always generated from a factor to variable
 
-* For each factor there should be generated unique index/postfix.
-* Factors for the same "probability" predicate must have the same index/postfix
+Each node or link has the following values.
 
-#### Factor Arguments list
+Variable node values:
+* domain list
 
-For each factor there should be generated the factor argument list
-used to calculate factor value for the given variables.
+Factor node values:
+* arguments list
+* probabilities map
+* factor tensor
 
-Generated factor arguments list (variables should be sorted by name):
-```scheme
-; F(P4, Rain)
-(EvaluationLink
- (PredicateNode "factor-arguments-list")
- (AndLink
-  (Concept "P4")
-  (Concept "Rain")))
+Edge list values:
+* message from factor to variable
+* message from variable to factor
 
-; F(P2, Rain, WatsonGrass)
-(EvaluationLink
- (PredicateNode "factor-arguments-list")
- (ListLink
-  (Concept "P2")
-  (Concept "Rain")
-  (Concept "WatsonGrass")))
-```
 
-Factor argument list is of the form:
-```text
-EvaluationLink
-  PredicateNode "factor-arguments-list"
-  ListLink
-    Factor
-    Variable1
-    VariableN
-```
+##### Values description
 
-#### Factor Values map
+Variable domain list:
+* Each variable V has a domain (v1, ..., vn)
+* If there is an evidence for some variable its domain is reduced only to one value.
 
-Factor values map for factor F(V1, V2, ..., Vn):  
-Map key: "Vi=vik|...|Vj=vjl" where Vi ... Vj is the sorted by name factor variables
-and vik ... vjl correspondent variable values.
-Map value: probability from the probability predicate
+For example:  
+Variable "Rain", domain ["true", "false"]  
+Variable "WatsonGrass", domain ["wet", "dry"]
 
-Probability predicate:
-```scheme
-(EvaluationLink (stv 0.8 1)
- (PredicateNode "probability")
- (ImplicationLink
-  (AssociativeLink (Concept "Rain") (Concept "true" ))
-  (AssociativeLink (Concept "WatsonGrass") (Concept "wet"))))
-```
+Factor arguments list:
+* Each factor contains sorted list of its arguments
 
-Map item:
-"Rain=true|WatsonGrass=wet" : 0.8
+For example:  
+Factor: "Factor-Rain", arguments: ["Rain"]  
+Factor: "Factor-Rain-WatsonGrass", arguments: ["Rain", "WatsonGrass"]
 
-#### Messages sending
+Factor probability map:
+* Each factor has a map from list of arguments to probability
+
+For example:  
+Factor: "Factor-Rain" map: {"Rain=true": 0.2, "Rain=false": 0.8}  
+Factor: "Factor-Rain" map: {"Rain=true|WatsonGrass=wet": 0.9, ... ,"Rain=false|WatsonGrass=dry": 0.7 }
+
+Factor tensor:
+* Each factor has a tensor which consists of the factor applied for all permutations of variables values.
+
+For example:  
+Factor: "Factor-Rain", tensor: [P2(Rain=true), P2(Rain=false)]  
+Factor: "Factor-Rain-WatsonGrass", tensor: [P1(Rain=true,WatsonGrass=wet), ..., P1(Rain=false,WatsonGrass=dry)]
+
+If the factor argument list consists of one variable U the tensor is:
+[F(U=u1), ..., F(U=un)]
+
+If the factor argument list consists of two variable U and V the tensor is:  
+[[F(U=u1, V=v1), ..., F(U=u1, V=vm)]  
+ [F(U=un, V=v1), ..., F(U=un, V=vm)]]
+
+If the factor argument list consists of two variable U, V, and W the tensor is:  
+[F(U=ui, V=vj, W=wk)]
+
+Edge messages:
+* Message from a variable to a factor
+* Message from a a factor to a variable
+
+For example:  
+Message from variable "WatsonGrass" to factor "Factor-Rain-WatsonGrass":  
+  [1.0, 1.0]  
+Message from factor "Factor-Rain" to variable "Rain":  
+  [0.8, 0.2]
+
+#### Main algorithm steps
+
+Belief propagation algorithm:
+
+* Initialization (factor graph creation)
+  * For each probability predicate
+    * Generate Variable nodes
+      * Set variable domain
+    * Generate Factor nodes
+      * Set arguments list
+      * Set probabilities map
+      * Set factor tensor
+    * Generate factor-variable edges
+* Main loop until all edges have sent messages
+  * For each node
+    * For each neighbour node
+      * Message sending
+
+Messages sending.
 
 Message from variable i to factor f:
 ```text
@@ -280,7 +313,7 @@ If there is no messages from variable i to f:
     If the set size is number of incoming factors minus 1
         (all connected factors except f have messages to i)
       send componentwise multiplication of the messages
-    Else do nothing (not all messages are arrived)
+    Else do nothing (not all messages are received)
 ```
 
 Message from factor f to variable i:
@@ -295,8 +328,13 @@ If there is no messages from variable i to f:
         F = (f(X1=v11, X2=v21), ..., f(X1=v1n, X2=v2n))
       multiply the tensor F to all incoming messages except variable i:
       M(f->i)=Sum[k] F * M[k->f] where k!=i
-    Else do nothing (not all messages are arrived)
+    Else do nothing (not all messages are received)
 ```
+
+Factor value calculation:
+* for the given factor name find factor-argument-list
+* for each variable get its domain
+
 
 #### Messages sending sample
 
