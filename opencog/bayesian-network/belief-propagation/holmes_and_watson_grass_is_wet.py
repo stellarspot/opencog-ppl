@@ -454,53 +454,58 @@ def tensor_messages_multiplication(tensor, messages):
     return t.tolist()
 
 
+# Return True if message has been sent
 def send_message_from_variable_to_factor(factor_graph_edges, variable, factor):
     print("send message(v->f): ", variable.name, "->", factor.name)
     message = get_variable_factor_message(variable, factor)
 
     if message:
         print("  message has been already sent:", message)
-        return
+        return True
 
     factor_edges = get_neighbour_factors(factor_graph_edges, variable, factor)
 
     values = get_variable_domain(variable)
     domain_size = len(values)
 
-    # This is a leaf. Send initial message.
     if not factor_edges:
-        print("  variable leaf")
+        # This is a leaf. Send initial message.
+        print("  send initial message: leaf")
         set_variable_factor_message(variable, factor, [1.0] * domain_size)
     else:
         messages = []
         for edge in factor_edges:
             msg = get_edge_message(edge, ConceptNode(KEY_MESSAGE_FACTOR_VARIABLE))
             if not msg:
-                return
+                return False
             messages.append(msg)
         result_message = componentwise_messages_multiplication(messages, domain_size)
         set_variable_factor_message(variable, factor, result_message)
+        return True
+
+    return False
 
 
+# Return True if message has been sent
 def send_message_from_factor_to_variable(factor_graph_edges, factor, variable, dict):
     print("send message(f->v): ", factor.name, "->", variable.name)
     message = get_factor_variable_message(factor, variable)
 
     if message:
         print("  message has been already sent:", message)
-        return
+        return True
 
     factor_tensor = dict[KEY_FACTOR_TENSOR][factor.name]
     factor_edges = get_neighbour_variables(factor_graph_edges, factor, variable)
-    # This is a leaf. Send initial message.
     if not factor_edges:
-        print("  factor leaf")
+        # This is a leaf. Send initial message.
+        print("  send initial message: leaf")
         set_factor_variable_message(factor, variable, factor_tensor.tolist())
     else:
         factor_name = factor.name
         variable_name = variable.name
         factor_variables = dict[KEY_FACTOR_VARIABLES][factor_name]
-        print("  factor variables:", factor_variables)
+        # print("  factor variables:", factor_variables)
         messages = []
 
         for arg_name in factor_variables:
@@ -508,11 +513,17 @@ def send_message_from_factor_to_variable(factor_graph_edges, factor, variable, d
                 messages.append(None)
                 continue
             msg = get_variable_factor_message(ConceptNode(arg_name), factor)
-            print("  msg:", msg)
+            # print("  msg:", msg)
+            if not msg:
+                return False
             messages.append(msg)
         tensor = dict[KEY_FACTOR_TENSOR][factor_name]
         result_message = tensor_messages_multiplication(tensor, messages)
-        print("  result_message:", result_message)
+        # print("  result_message:", result_message)
+        set_factor_variable_message(factor, variable, result_message)
+        return True
+
+    return False
 
 
 def run_belief_propagation_algorithm():
@@ -526,15 +537,25 @@ def run_belief_propagation_algorithm():
     # print("factor arguments: ", factor_arguments)
     # print("factor values: ", factor_values)
 
-    for step in range(0, 2):
+    step = 0
+    while True:
+        step += 1
         print()
         print("step: ", step)
+        all_messages_are_sent = True
         for edge in factor_graph_edges:
             list_link = edge.out[1]
             factor = list_link.out[0]
             variable = list_link.out[1]
-            send_message_from_variable_to_factor(factor_graph_edges, variable, factor)
-            send_message_from_factor_to_variable(factor_graph_edges, factor, variable, dict)
+            # msg[variable->factor]
+            is_message_sent = send_message_from_variable_to_factor(factor_graph_edges, variable, factor)
+            all_messages_are_sent = all_messages_are_sent and is_message_sent
+            # msg[factor->variable]
+            is_message_sent = send_message_from_factor_to_variable(factor_graph_edges, factor, variable, dict)
+            all_messages_are_sent = all_messages_are_sent and is_message_sent
+        if all_messages_are_sent:
+            print("all messages are sent")
+            break
 
 
 run_belief_propagation_algorithm()
