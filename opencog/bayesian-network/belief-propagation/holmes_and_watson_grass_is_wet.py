@@ -231,14 +231,12 @@ def init_factor_graph(dict):
     factor_arguments = []
     factor_values = {}
 
-    dict[KEY_VARIABLE_DOMAIN] = {}
-
     for link in evaluation_links:
         if not is_predicate(link, "probability"):
             continue
         variables, variable_value_key, probability = get_probability_variables(link)
-        for variable in variables:
-            init_variable_domain(variable, dict)
+        for variable_name in variables:
+            init_variable(variable_name)
 
         factor_values[variable_value_key] = probability
         factor_name = 'factor-' + '-'.join(variables)
@@ -259,16 +257,24 @@ def init_factor_graph(dict):
     print("factor tensors:", dict[KEY_FACTOR_TENSOR])
 
 
-def init_variable_domain(variable, dict):
-    domain_map = dict[KEY_VARIABLE_DOMAIN]
-    if not variable in domain_map:
-        domain = get_variable_domain(ConceptNode(variable))
-        domain_map[variable] = domain
+# Init variable domain values
+def init_variable(variable_name):
+    variable = ConceptNode(variable_name)
+    domain = get_variable_domain_value(variable)
+    if not domain:
+        domain = get_variable_domain(variable)
+        variable.set_value(ConceptNode(KEY_VARIABLE_DOMAIN), StringValue(domain))
+
+
+def get_variable_domain_value(variable):
+    string_value = variable.get_value(ConceptNode(KEY_VARIABLE_DOMAIN))
+    if not string_value:
+        return None
+    return string_value.to_list()
 
 
 def init_factor_tensors(dict):
     factor_arguments = dict[KEY_FACTOR_ARGUMENTS]
-    domains_map = dict[KEY_VARIABLE_DOMAIN]
     factor_variables = dict[KEY_FACTOR_VARIABLES]
 
     for factor_argument in factor_arguments:
@@ -286,34 +292,39 @@ def init_factor_tensors(dict):
             raise ValueError("Unknown node in factor-arguments-list predicate: " + factor_argument)
 
         factor_variables[factor_name] = variables
-        init_factor_tensor(factor_name, variables, domains_map, dict)
-        # init_factor_tensor(factor_name, get_factor_argument_names(factor_argument, dict), domains_map, dict)
+        init_factor_tensor(factor_name, variables, dict)
 
 
 # Put a factor tensor to the dict
-def init_factor_tensor(factor_name, variables, domain_map, dict):
+def init_factor_tensor(factor_name, variables, dict):
     factor_values = dict[KEY_FACTOR_VALUES]
     size = len(variables)
     indices = [0] * size
     indices[0] = -1
-    bounds = list(map(lambda variable: len(domain_map[variable]), variables))
+
+    domain_map = {}
+    bounds = []
+    for variable_name in variables:
+        domain = get_variable_domain_value(ConceptNode(variable_name))
+        bounds.append(len(domain))
+        domain_map[variable_name] = domain
+
     tensor_values = []
 
     while (increment_indices(size, indices, bounds)):
-        factor_value = get_factor_value(factor_name, variables, domain_map, indices, factor_values)
+        factor_value = get_factor_value(variables, domain_map, indices, factor_values)
         tensor_values.append(factor_value)
 
     tensor_values = np.array(tensor_values).reshape(bounds)
-    # print("tensor_values:", tensor_values)
     dict[KEY_FACTOR_TENSOR][factor_name] = tensor_values
 
 
-def get_factor_value(factor_name, variables, domain_map, indices, factor_values):
+def get_factor_value(variables, domain_map, indices, factor_values):
     values = []
     for i in range(0, len(variables)):
-        variable = variables[i]
+        variable_name = variables[i]
         value_index = indices[i]
-        value = domain_map[variable][value_index]
+        value = domain_map[variable_name][value_index]
         values.append(value)
     key = get_variables_values_key(variables, values)
     value = factor_values[key]
