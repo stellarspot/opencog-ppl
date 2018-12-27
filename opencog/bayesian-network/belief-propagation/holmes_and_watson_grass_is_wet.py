@@ -4,7 +4,6 @@ from opencog.utilities import initialize_opencog
 from opencog.type_constructors import *
 
 from opencog.bindlink import bindlink
-from opencog.bindlink import satisfaction_link
 
 import numpy as np
 
@@ -221,15 +220,14 @@ KEY_FACTOR_ARGUMENTS = "factor_arguments"
 KEY_FACTOR_VALUES = "factor_values"
 KEY_FACTOR_VARIABLES = "factor_variables"
 KEY_VARIABLE_DOMAIN = "variable_domain"  # map[VariableName, ListOfVariableValues]
-KEY_FACTOR_TENSOR = "factor_tensor"  # map[FactorName, FactorTensor]
+KEY_FACTOR_TENSOR_VALUES = "factor_tensor_values"  # map[FactorName, FactorTensor]
+KEY_FACTOR_TENSOR_BOUNDS = "factor_tensor_bounds"  # map[FactorName, FactorTensor]
 
 
 def init_factor_graph(dict):
     evaluation_links = atomspace.get_atoms_by_type(types.EvaluationLink)
     factors = set()
     factor_edges = []
-    factor_arguments = []
-    factor_values = {}
 
     for link in evaluation_links:
         if not is_predicate(link, "probability"):
@@ -238,23 +236,21 @@ def init_factor_graph(dict):
         for variable_name in variables:
             init_variable(variable_name)
 
-        factor_values[variable_value_key] = probability
-        factor_name = 'factor-' + '-'.join(variables)
+        factor_name = 'Factor-' + '-'.join(variables)
+        factor = ConceptNode(factor_name)
+        set_factor_probability(factor, variable_value_key, probability)
         if not factor_name in factors:
+            init_factor(factor, variables)
             variable_nodes = list(map(lambda name: ConceptNode(name), variables))
             factor_edges.extend(factor_graph_edges(factor_name, variable_nodes))
-            factor_arguments.append(factor_arguments_list(factor_name, variable_nodes))
             factors.add(factor_name)
+
+    for factor_name in factors:
+        init_factor_tensor(ConceptNode(factor_name))
 
     # One probability rule has several factor edges: factor->variable
     factor_edges = list(set(factor_edges))
     dict[KEY_FACTOR_EDGES] = factor_edges
-    dict[KEY_FACTOR_ARGUMENTS] = factor_arguments
-    dict[KEY_FACTOR_VALUES] = factor_values
-    dict[KEY_FACTOR_VARIABLES] = {}
-    dict[KEY_FACTOR_TENSOR] = {}
-    init_factor_tensors(dict)
-    print("factor tensors:", dict[KEY_FACTOR_TENSOR])
 
 
 # Init variable domain values
@@ -273,61 +269,63 @@ def get_variable_domain_value(variable):
     return string_value.to_list()
 
 
-def init_factor_tensors(dict):
-    factor_arguments = dict[KEY_FACTOR_ARGUMENTS]
-    factor_variables = dict[KEY_FACTOR_VARIABLES]
-
-    for factor_argument in factor_arguments:
-        list_link = factor_argument.out[1]
-        factor_node = list_link.out[0]
-        variables_link = list_link.out[1]
-        factor_name = factor_node.name
-
-        variables = None
-        if variables_link.type == types.ConceptNode:
-            variables = [variables_link.name]
-        elif variables_link.type == types.ListLink:
-            variables = list(map(lambda node: node.name, variables_link.out))
-        else:
-            raise ValueError("Unknown node in factor-arguments-list predicate: " + factor_argument)
-
-        factor_variables[factor_name] = variables
-        init_factor_tensor(factor_name, variables, dict)
+def init_factor(factor, variable_names):
+    factor.set_value(ConceptNode(KEY_FACTOR_ARGUMENTS), StringValue(variable_names))
 
 
-# Put a factor tensor to the dict
-def init_factor_tensor(factor_name, variables, dict):
-    factor_values = dict[KEY_FACTOR_VALUES]
-    size = len(variables)
+def set_factor_probability(factor, variable_value_key, probability):
+    factor.set_value(ConceptNode(variable_value_key), FloatValue(probability))
+
+
+def get_factor_probability(factor, variable_value_key):
+    return factor.get_value(ConceptNode(variable_value_key)).to_list()[0]
+
+
+def get_factor_arguments(factor):
+    return factor.get_value(ConceptNode(KEY_FACTOR_ARGUMENTS)).to_list()
+
+
+def init_factor_probability_map(factor):
+    pass
+
+
+def init_factor_tensor(factor):
+    arguments = get_factor_arguments(factor)
+
+    size = len(arguments)
     indices = [0] * size
     indices[0] = -1
 
     domain_map = {}
     bounds = []
-    for variable_name in variables:
+    for variable_name in arguments:
         domain = get_variable_domain_value(ConceptNode(variable_name))
         bounds.append(len(domain))
         domain_map[variable_name] = domain
 
+    # factor = ConceptNode(factor_name)
     tensor_values = []
 
-    while (increment_indices(size, indices, bounds)):
-        factor_value = get_factor_value(variables, domain_map, indices, factor_values)
+    while increment_indices(size, indices, bounds):
+        factor_value = get_factor_probability_with_indices(factor, indices)
         tensor_values.append(factor_value)
 
-    tensor_values = np.array(tensor_values).reshape(bounds)
-    dict[KEY_FACTOR_TENSOR][factor_name] = tensor_values
+    factor.set_value(ConceptNode(KEY_FACTOR_TENSOR_BOUNDS), FloatValue(bounds))
+    factor.set_value(ConceptNode(KEY_FACTOR_TENSOR_VALUES), FloatValue(tensor_values))
 
 
-def get_factor_value(variables, domain_map, indices, factor_values):
+def get_factor_probability_with_indices(factor, indices):
+    arguments = get_factor_arguments(factor)
     values = []
-    for i in range(0, len(variables)):
-        variable_name = variables[i]
+    for i in range(0, len(arguments)):
+        variable_name = arguments[i]
         value_index = indices[i]
-        value = domain_map[variable_name][value_index]
+        domain = get_variable_domain_value(ConceptNode(variable_name))
+        value = domain[value_index]
         values.append(value)
-    key = get_variables_values_key(variables, values)
-    value = factor_values[key]
+
+    key = get_variables_values_key(arguments, values)
+    value = get_factor_probability(factor, key)
     return value
 
 
@@ -448,15 +446,16 @@ def componentwise_messages_multiplication(messages, size):
     return message.tolist()
 
 
-def tensor_messages_multiplication(tensor, messages):
-    # print("  tensor:", tensor)
-    # print("  messages:", messages)
+def tensor_messages_multiplication(factor, messages):
+    bounds = factor.get_value(ConceptNode(KEY_FACTOR_TENSOR_BOUNDS)).to_list()
+    bounds = list(map(lambda v: int(v), bounds))
+    tensor_values = factor.get_value(ConceptNode(KEY_FACTOR_TENSOR_VALUES)).to_list()
+
+    tensor = np.array(tensor_values).reshape(bounds)
 
     t = tensor
     for i in range(0, len(messages)):
         msg = messages[i]
-        # print("  i:", i)
-        # print("  msg:", msg)
         if not msg:
             continue
         v = np.array(msg)
@@ -506,31 +505,27 @@ def send_message_from_factor_to_variable(factor_graph_edges, factor, variable, d
         print("  message has been already sent:", message)
         return True
 
-    factor_tensor = dict[KEY_FACTOR_TENSOR][factor.name]
     factor_edges = get_neighbour_variables(factor_graph_edges, factor, variable)
     if not factor_edges:
         # This is a leaf. Send initial message.
         print("  send initial message: leaf")
-        set_factor_variable_message(factor, variable, factor_tensor.tolist())
+        factor_tensor_values = factor.get_value(ConceptNode(KEY_FACTOR_TENSOR_VALUES))
+        set_factor_variable_message(factor, variable, factor_tensor_values.to_list())
     else:
-        factor_name = factor.name
         variable_name = variable.name
-        factor_variables = dict[KEY_FACTOR_VARIABLES][factor_name]
-        # print("  factor variables:", factor_variables)
+        factor_arguments = get_factor_arguments(factor)
         messages = []
 
-        for arg_name in factor_variables:
+        for arg_name in factor_arguments:
             if arg_name == variable_name:
                 messages.append(None)
                 continue
             msg = get_variable_factor_message(ConceptNode(arg_name), factor)
-            # print("  msg:", msg)
             if not msg:
                 return False
             messages.append(msg)
-        tensor = dict[KEY_FACTOR_TENSOR][factor_name]
-        result_message = tensor_messages_multiplication(tensor, messages)
-        # print("  result_message:", result_message)
+
+        result_message = tensor_messages_multiplication(factor, messages)
         set_factor_variable_message(factor, variable, result_message)
         return True
 
@@ -542,11 +537,6 @@ def run_belief_propagation_algorithm():
     dict = {}
     init_factor_graph(dict)
     factor_graph_edges = dict[KEY_FACTOR_EDGES]
-    factor_arguments = dict[KEY_FACTOR_ARGUMENTS]
-    factor_values = dict[KEY_FACTOR_VALUES]
-    # print("factor graph: ", factor_graph_edges)
-    # print("factor arguments: ", factor_arguments)
-    # print("factor values: ", factor_values)
 
     step = 0
     while True:
