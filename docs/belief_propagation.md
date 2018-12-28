@@ -343,10 +343,78 @@ Factor value calculation:
 * for each variable get its domain
 
 
-#### Messages sending sample
+#### Simple Grass and Rain sample
 
-Lets take a look at the simplified factor graph there are only Rain and Watson Grass is present:
+Lets take a look at the simplified factor graph there are only Rain and WastsonGrass are present:
+
+Rain: true, false  
+WatsonGrass: wet, dry
+
+P(R)
+
+|true |false |
+|-----|------|
+|  0.2|   0.8|
+
+P(WG|R)
+
+|    R|   wet|       dry|
+|-----|------|----------|
+|true |0.9   |      0.1 |
+|false|0.25  |      0.75|
+
+
+P(WG, R) = P(WG|R) P(R)
+
 ![Watson Grass and Rain](images/belief_propagation/watson_grass_and_rain_factor_tree.png)
+
+The task is to calculate a probability of rain given grass is wet:
+
+P(R=true|WG=wet) = P(R=true, WG=wet) / P(WG=wet)
+
+"calculate-probability" predicate is used to define the probability in question.
+```scheme
+(EvaluationLink
+ (PredicateNode "calculate-probability")
+ (ImplicationLink
+  (AssociativeLink (Concept "Grass") (Concept "wet" ))
+  (AssociativeLink (Concept "Rain") (Concept "rain"))))
+```
+
+The task is split on steps:
+* calculate the belief propagation for the numerator
+* calculate the belief propagation for the denominator
+* divide numerator to denominator
+
+Numerator with the corresponding evidences:
+```scheme
+(EvaluationLink
+ (PredicateNode "beief-propagation-probability")
+ (AndLink
+  (AssociativeLink (Concept "Grass") (Concept "wet" ))
+  (AssociativeLink (Concept "Rain") (Concept "rain"))))
+
+(EvaluationLink
+ (PredicateNode "evidence")
+  (AssociativeLink (Concept "Grass") (Concept "wet")))
+
+(EvaluationLink
+ (PredicateNode "evidence")
+  (AssociativeLink (Concept "Rain") (Concept "true")))
+```
+
+Denominator with the corresponding evidences:
+```scheme
+(EvaluationLink
+ (PredicateNode "beief-propagation-probability")
+  (AssociativeLink (Concept "Grass") (Concept "wet" )))
+
+(EvaluationLink
+ (PredicateNode "evidence")
+  (AssociativeLink (Concept "Grass") (Concept "wet")))
+```
+
+##### Messages
 
 Initial message from variable Watson Grass to factor P2
 ```scheme
