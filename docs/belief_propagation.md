@@ -1,8 +1,15 @@
 # Belief Propagation algorithm implementation in OpenCog
 
-Example: Sherlock Holmes and wet grass
+
+## Reference Implementation
+
+[Belief Propagation in Python](../opencog/bayesian-network/belief-propagation/belief_propagation.py)
+
+[Algorithm and tests folder](../opencog/bayesian-network/belief-propagation)
 
 ## Bayesian network
+
+Example: Sherlock Holmes and wet grass
 
 HG - grass is wet on Holmes's lawn  
 WG - grass is wet on Watson's lawn  
