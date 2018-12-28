@@ -16,18 +16,17 @@ probability_link([("Rain", "false")], 0.8)
 
 run_belief_propagation_algorithm()
 
-
 variable = ConceptNode("Rain")
 factor = ConceptNode("Factor-Rain")
-edge = factor_graph_edge(factor, variable)
 
-# Test edge messages
-message = get_value_list(edge, KEY_MESSAGE_VARIABLE_FACTOR)
+# message: variable to factor
+message = get_variable_factor_message(variable, factor)
 assert message == [1.0, 1.0], "Incorrect message from variable to factor"
 
-message = get_value_list(edge, KEY_MESSAGE_FACTOR_VARIABLE)
+# message: factor to variable
+message = get_factor_variable_message(factor, variable)
 assert almost_equal_lists(message, [0.8, 0.2]), "Incorrect message from factor to variable"
 
-# Test factor tensor
+# factor tensor
 tensor = get_value_list(factor, KEY_FACTOR_TENSOR_VALUES)
 assert almost_equal_lists(tensor, [0.8, 0.2]), "Incorrect message from factor to variable"

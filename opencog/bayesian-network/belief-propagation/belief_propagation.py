@@ -385,16 +385,16 @@ def get_edge_message(edge, node_key):
     return float_value.to_list()
 
 
-def get_variable_factor_edge_message(node_from, node_to, node_key):
+def get_factor_variable_edge_message(node_from, node_to, node_key):
     return get_edge_message(factor_graph_edge(node_from, node_to), node_key)
 
 
 def get_factor_variable_message(factor, variable):
-    return get_variable_factor_edge_message(factor, variable, ConceptNode(KEY_MESSAGE_FACTOR_VARIABLE))
+    return get_factor_variable_edge_message(factor, variable, ConceptNode(KEY_MESSAGE_FACTOR_VARIABLE))
 
 
 def get_variable_factor_message(variable, factor):
-    return get_variable_factor_edge_message(factor, variable, ConceptNode(KEY_MESSAGE_VARIABLE_FACTOR))
+    return get_factor_variable_edge_message(factor, variable, ConceptNode(KEY_MESSAGE_VARIABLE_FACTOR))
 
 
 def set_edge_message(node_from, node_to, node_key, message):

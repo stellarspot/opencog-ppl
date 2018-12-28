@@ -4,6 +4,7 @@ from opencog.type_constructors import *
 def get_value_list(atom, key):
     return atom.get_value(ConceptNode(key)).to_list()
 
+
 def almost_equal_lists(list1, list2):
     return almost_equal_lists_with_precision(list1, list2, 0.1)
 
