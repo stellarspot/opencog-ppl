@@ -21,12 +21,14 @@ P(WG|R)
 
 P(WG, R) = P(WG|R) P(R)
 
-P(R=r|WG=wg) = P(R=r, WG=wg) / P(WG=wg) = P(R=r, WG=wg) / (P(WG=wg|R=true) + P(WG=wg|R=false))
+P(R=r|WG=wg) = P(R=r, WG=wg) / P(WG=wg)   
+P(R=r|WG=wg) = P(R=r, WG=wg) / (P(WG=wg,R=true) + P(WG=wg,R=false))  
+P(R=r|WG=wg) = P(WG=wg|R=r) P(R=r) / (P(WG=wg | R=true) P(R=true) + P(WG=wg | R=false) P(R=false))
 
 |WG   | false|  true|
 |-----|------|------|
-|dry  |0.88  |  0.12|
-|wet  |0.22  |  0.78|
+|dry  |0.97  |  0.03|
+|wet  |0.53  |  0.47|
 
 
 ```scheme
