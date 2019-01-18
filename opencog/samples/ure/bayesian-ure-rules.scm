@@ -7,6 +7,62 @@
 ;; Rule base ;;
 ;;;;;;;;;;;;;;;
 
+;;; modus-ponens-rule ;;;
+
+(define modus-ponens-rule
+ (BindLink
+  (VariableList
+   (TypedVariable (Variable "$X") (Type "ConceptNode"))
+   (TypedVariable (Variable "$Y") (Type "ConceptNode"))
+  )
+  (And
+   (NotLink
+    (EqualLink
+     (VariableNode "$X")
+     (VariableNode "$Y")))
+   (Evaluation
+    (GroundedPredicate "scm: has-ure-dv")
+    (VariableNode "$X"))
+   (Evaluation
+    (GroundedPredicate "scm: has-ure-dv")
+    (Implication
+     (VariableNode "$X")
+     (VariableNode "$Y")))
+   (Implication
+    (VariableNode "$X")
+    (VariableNode "$Y")))
+  (ExecutionOutputLink
+   (GroundedSchemaNode "scm: modus-ponens-formula")
+   (ListLink
+    (VariableNode "$Y")
+    (Implication
+     (VariableNode "$X")
+     (VariableNode "$Y"))
+    (VariableNode "$X")
+   )
+  )
+ )
+)
+
+(define modus-ponens-rule-name
+ (DefinedSchema "modus-ponens-rule"))
+
+(Define modus-ponens-rule-name modus-ponens-rule)
+
+(define bayesian-rb (Concept "bayesian-rb"))
+
+; (Implication A B) -> B
+(define (modus-ponens-formula B IAB A)
+ (let*
+  ((key (PredicateNode "CDV"))
+   (dvA (cog-value A key))
+   (dvAB (cog-value IAB key))
+   (dvB (cog-cdv-get-unconditional dvAB dvA))
+  )
+  (cog-set-value! B key dvB)
+ )
+)
+
 ;;; joint-inheritance-introduction-rule ;;;
 
 (define joint-inheritance-introduction-rule
@@ -55,18 +111,8 @@
 (Define joint-inheritance-introduction-rule-name
  joint-inheritance-introduction-rule)
 
-(define bayesian-rb (Concept "bayesian-rb"))
-
-(define (println msg value)
- (display msg)
- (newline)
- (display value)
- (newline)
-)
-
 ; (Implication A B) -> (Product A B)
 (define (joint-introduction-formula PAB IAB A B)
-; (display "joint-introduction-formula") (newline)
  (let*
   (
     (key (PredicateNode "CDV"))
@@ -75,7 +121,6 @@
   (cog-set-value! PAB key (cog-cdv-get-joint dvAB dvA))
  )
 )
-
 
 ;;; joint-to-conditional-second-rule ;;;
 
@@ -117,10 +162,10 @@
  )
 )
 
-(define joint-to-conditional-second-name
+(define joint-to-conditional-second-rule-name
  (DefinedSchema "joint-to-conditional-second-rule"))
 
-(Define joint-to-conditional-second-name joint-to-conditional-second-rule)
+(Define joint-to-conditional-second-rule-name joint-to-conditional-second-rule)
 
 ; (Product A B) -> (Implication B A)
 (define (joint-to-conditional-second-formula IBA PAB A B)
@@ -149,20 +194,28 @@
    ))))
 
 
+(define (println msg value)
+ (display msg)
+ (newline)
+ (display value)
+ (newline)
+)
+
+;;;;;;;;;;
+;; URE  ;;
+;;;;;;;;;;
+
+(define bayesian-rb (Concept "bayesian-rb"))
 
 ;; Add rules to bayesian-rb
 (ure-add-rules bayesian-rb
  (list
   (cons joint-inheritance-introduction-rule-name (stv 1.0 1.0))
-  (cons joint-to-conditional-second-name (stv 1.0 1.0))
-;  (cons bayesian-modus-ponens-rule-name (stv 1.0 1.0))
+  (cons joint-to-conditional-second-rule-name (stv 1.0 1.0))
+  (cons modus-ponens-rule-name (stv 1.0 1.0))
  )
 )
 
-
-;;;;;;;;;;
-;; URE  ;;
-;;;;;;;;;;
 
 ;; Set URE parameters
 (ure-set-maximum-iterations bayesian-rb 20)

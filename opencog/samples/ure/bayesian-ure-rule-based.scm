@@ -41,11 +41,15 @@
 
 (load "bayesian-ure-rules.scm")
 
-;(display
-; (cog-bc
-;  bayesian-rb
-;  (Product (VariableNode "$X") W)
-;  #:vardecl (TypedVariable (VariableNode "$X") (TypeNode "ConceptNode"))))
+(display
+ (cog-bc
+  bayesian-rb
+  W))
+
+(display "Wet Grass:") (newline)
+(display (cog-value W key))
+(newline)
+
 
 (display
  (cog-bc
@@ -54,8 +58,5 @@
   #:vardecl (TypedVariable (VariableNode "$X") (TypeNode "ConceptNode"))))
 
 
-;(display (cog-value (Product R W) key))
-;(display "(Implication R W)") (newline)
-;(display (cog-value (Implication R W) key))
-(display "(Implication W R)") (newline)
+(display "Rain given Wet Grass:") (newline)
 (display (cog-value (Implication W R) key))
