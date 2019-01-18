@@ -32,7 +32,7 @@
 (cog-set-value! WR key dvWR)
 
 
-(load "../distvalues/pln-config.scm")
+(load "pln-config.scm")
 
 ;Run Inference manually
 ;(cog-execute! modus-ponens-inheritance-rule)
