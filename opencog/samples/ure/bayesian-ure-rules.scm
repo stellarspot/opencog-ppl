@@ -7,6 +7,8 @@
 ;; Rule base ;;
 ;;;;;;;;;;;;;;;
 
+;;; joint-inheritance-introduction-rule ;;;
+
 (define joint-inheritance-introduction-rule
  (BindLink
   (VariableList
@@ -55,13 +57,6 @@
 
 (define bayesian-rb (Concept "bayesian-rb"))
 
-;; Add rules to bayesian-rb
-(ure-add-rules bayesian-rb
- (list
-  (cons joint-inheritance-introduction-rule-name (stv 1.0 1.0))
- )
-)
-
 (define (println msg value)
  (display msg)
  (newline)
@@ -69,18 +64,77 @@
  (newline)
 )
 
+; (Implication A B) -> (Product A B)
 (define (joint-introduction-formula PAB IAB A B)
+; (display "joint-introduction-formula") (newline)
  (let*
   (
     (key (PredicateNode "CDV"))
-    (dvA  (cog-value A  key))
+    (dvA (cog-value A key))
     (dvAB (cog-value IAB key)))
   (cog-set-value! PAB key (cog-cdv-get-joint dvAB dvA))
  )
- ; (cog-set-tv! PAB (stv 1 1))
 )
 
 
+;;; joint-to-conditional-second-rule ;;;
+
+(define joint-to-conditional-second-rule
+ (BindLink
+  (VariableList
+   (TypedVariable (Variable "$X") (Type "ConceptNode"))
+   (TypedVariable (Variable "$Y") (Type "ConceptNode"))
+  )
+  (And
+   (NotLink
+    (EqualLink
+     (VariableNode "$X")
+     (VariableNode "$Y")))
+   (Evaluation
+    (GroundedPredicate "scm: has-ure-dv")
+    (VariableNode "$X"))
+   (Evaluation
+    (GroundedPredicate "scm: has-ure-dv")
+    (Product
+     (VariableNode "$X")
+     (VariableNode "$Y")))
+   (Product
+    (VariableNode "$X")
+    (VariableNode "$Y")))
+  (ExecutionOutputLink
+   (GroundedSchemaNode "scm: joint-to-conditional-second-formula")
+   (ListLink
+    (Implication
+     (VariableNode "$Y")
+     (VariableNode "$X"))
+    (Product
+     (VariableNode "$X")
+     (VariableNode "$Y"))
+    (VariableNode "$X")
+    (VariableNode "$Y")
+   )
+  )
+ )
+)
+
+(define joint-to-conditional-second-name
+ (DefinedSchema "joint-to-conditional-second-rule"))
+
+(Define joint-to-conditional-second-name joint-to-conditional-second-rule)
+
+; (Product A B) -> (Implication B A)
+(define (joint-to-conditional-second-formula IBA PAB A B)
+; (display "joint-to-conditional-second-formula") (newline)
+ (let
+  ((key (PredicateNode "CDV"))
+   (dvA  (cog-value A  key))
+   (dvAandB (cog-value PAB key))
+  )
+  (cog-set-value! IBA key (cog-dv-divide dvAandB dvA 0))
+ )
+)
+
+;;; formulas ;;;
 (define (has-ure-dv A)
  "
  Return TrueTV iff A has a dv/cdv attached and it is not empty
@@ -94,6 +148,16 @@
     (bool->tv (not (cog-cdv-is-empty dv)))
    ))))
 
+
+
+;; Add rules to bayesian-rb
+(ure-add-rules bayesian-rb
+ (list
+  (cons joint-inheritance-introduction-rule-name (stv 1.0 1.0))
+  (cons joint-to-conditional-second-name (stv 1.0 1.0))
+;  (cons bayesian-modus-ponens-rule-name (stv 1.0 1.0))
+ )
+)
 
 
 ;;;;;;;;;;

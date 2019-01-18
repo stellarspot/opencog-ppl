@@ -35,13 +35,27 @@
 (define dvWR (cog-new-cdv zo (list dvWR0 dvWR1)))
 (cog-set-value! WR key dvWR)
 
+;(define pWR (Product (stv 1.0 1.0) R W))
+;(cog-set-value! pWR key dvWR)
+
+
 (load "bayesian-ure-rules.scm")
+
+;(display
+; (cog-bc
+;  bayesian-rb
+;  (Product (VariableNode "$X") W)
+;  #:vardecl (TypedVariable (VariableNode "$X") (TypeNode "ConceptNode"))))
 
 (display
  (cog-bc
   bayesian-rb
-  (Product (VariableNode "$X") W)
+  (Implication (VariableNode "$X") R)
   #:vardecl (TypedVariable (VariableNode "$X") (TypeNode "ConceptNode"))))
 
 
-(display (cog-value (Product R W) key))
+;(display (cog-value (Product R W) key))
+;(display "(Implication R W)") (newline)
+;(display (cog-value (Implication R W) key))
+(display "(Implication W R)") (newline)
+(display (cog-value (Implication W R) key))
