@@ -7,9 +7,10 @@
 
 (define R (ConceptNode "Rain"))
 (define W (ConceptNode "WetGrass"))
+(define WR (Implication R W))
 
-; R -> W
-(Implication (stv 1 1) R W)
+;; R -> W
+;(Implication (stv 1 1) R W)
 
 ;Key for the DV Values
 (define key (PredicateNode "CDV"))
@@ -23,6 +24,18 @@
 ;Rain
 ;F - 0.8 , T - 0.2 , Count 100000
 (cog-set-value! R key (cog-new-dv zo '(80000 20000)))
+
+;Wet Grass given Rain
+;Rain = False
+;F - 0.75 , T - 0.25 , Count 100_000
+;Rain = True
+;F - 0.1 , T - 0.9 , Count 10-_000
+;Total Count 100000
+(define dvWR0 (cog-new-dv zo '(75000 25000)))
+(define dvWR1 (cog-new-dv zo '(10000 90000)))
+
+(define dvWR (cog-new-cdv zo (list dvWR0 dvWR1)))
+(cog-set-value! WR key dvWR)
 
 ;;;;;;;;;;;;;;;;;;;;;;
 ;; Backward Chainer ;;

@@ -78,9 +78,6 @@ def get_factor(variables):
 ;; Knowledge Base to Factor Graph  ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define graph-edge-predicate (PredicateNode "graph-edge"))
-(define cdv-key (PredicateNode "CDV"))
-
 
 (define init-factor-graph-implication
  (BindLink
@@ -88,9 +85,18 @@ def get_factor(variables):
    (TypedVariable (Variable "$V1") (Type "ConceptNode"))
    (TypedVariable (Variable "$V2") (Type "ConceptNode"))
   )
-  (Implication
-   (Variable "$V1")
-   (Variable "$V2")
+  (And
+   ;; Preconditions
+   (Evaluation
+    (GroundedPredicate "scm: has-dv")
+    (Implication
+     (Variable "$V1")
+     (Variable "$V2"))
+   )
+   ;; Pattern clauses
+   (Implication
+    (Variable "$V1")
+    (Variable "$V2"))
   )
   (ExecutionOutputLink
    (GroundedSchemaNode "scm: init-factor-graph-implication-formula")
