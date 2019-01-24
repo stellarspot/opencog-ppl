@@ -1,5 +1,15 @@
 (use-modules (opencog) (opencog query) (opencog exec) (opencog rule-engine) (opencog python))
+(use-modules (opencog distvalue))
 
+
+;;;;;;;;;;;;;;;;
+;; Constants  ;;
+;;;;;;;;;;;;;;;;
+
+(define graph-edge-predicate (PredicateNode "graph-edge"))
+(define cdv-key (PredicateNode "CDV"))
+(define variable-predicate (PredicateNode "variable-node"))
+(define factor-predicate (PredicateNode "factor-node"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Python utility methods  ;;
@@ -50,8 +60,19 @@ def get_factor(variables):
 (define (get-edge factor variable)
  (EvaluationLink
   graph-edge-predicate
-  (ListLink factor variable))
-)
+  (ListLink factor variable)))
+
+(define (get-variable-predicate v)
+ (Evaluation
+  variable-predicate
+  v))
+
+(define (get-factor-predicate f)
+ (Evaluation
+  factor-predicate
+  f))
+
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Knowledge Base to Factor Graph  ;;
@@ -95,6 +116,9 @@ def get_factor(variables):
    (var2 (get-variable v2))
   )
   (ListLink
+   (get-factor-predicate factor)
+   (get-variable-predicate var1)
+   (get-variable-predicate var2)
    (get-edge factor var1)
    (get-edge factor var2))
  )
