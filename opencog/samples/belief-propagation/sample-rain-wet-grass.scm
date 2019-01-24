@@ -1,6 +1,8 @@
 (use-modules (opencog) (opencog query) (opencog exec) (opencog rule-engine))
 (use-modules (opencog distvalue))
 
+(load "belief-propagation-ure-rules.scm")
+
 ;;;;;;;;;;;;;;;;;;;;;
 ;;; Knowledge base ;;
 ;;;;;;;;;;;;;;;;;;;;;
@@ -37,11 +39,15 @@
 (define dvWR (cog-new-cdv zo (list dvWR0 dvWR1)))
 (cog-set-value! WR key dvWR)
 
+
+(cog-set-value! R prob-key (StringValue "0.2 0.8"))
+
+(cog-set-value! WR prob-key (StringValue "0.2 0.8 0.2 0.8"))
+(cog-set-value! WR prob-shape-key (StringValue "2 2"))
+
 ;;;;;;;;;;;;;;;;;;;;;;
 ;; Backward Chainer ;;
 ;;;;;;;;;;;;;;;;;;;;;;
-
-(load "belief-propagation-ure-rules.scm")
 
 (display
  (cog-execute! init-factor-graph-implication)

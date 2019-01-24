@@ -10,6 +10,8 @@
 (define cdv-key (PredicateNode "CDV"))
 (define variable-predicate (PredicateNode "variable-node"))
 (define factor-predicate (PredicateNode "factor-node"))
+(define prob-key (ConceptNode "probability"))
+(define prob-shape-key (ConceptNode "probability-shape"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Python utility methods  ;;
@@ -40,6 +42,17 @@ def get_factor(variables):
     names.sort()
     name = '-'.join(names)
     return ConceptNode('Factor-' + name)
+
+def show_dv(atom):
+    p = atom.get_value(ConceptNode('probability'))
+    print('dv values', p)
+    return ConceptNode('Test')
+
+
+def move_value(key, atom_from, atom_to):
+    value = atom_from.get_value(key)
+    atom_to.set_value(key, value)
+    return ConceptNode('Test')
 
 ")
 
@@ -72,6 +85,21 @@ def get_factor(variables):
   factor-predicate
   f))
 
+(define (show-dv v)
+ (cog-execute!
+  (ExecutionOutputLink
+   (GroundedSchemaNode "py: show_dv")
+   (ListLink v))))
+
+(define (move-prob-values a1 a2)
+ (cog-execute!
+  (ExecutionOutputLink
+   (GroundedSchemaNode "py: move_value")
+   (ListLink prob-shape-key a1 a2)))
+ (cog-execute!
+  (ExecutionOutputLink
+   (GroundedSchemaNode "py: move_value")
+   (ListLink prob-key a1 a2))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -110,7 +138,7 @@ def get_factor(variables):
    ))))
 
 
-(define (init-factor-graph-implication-formula i12 v1 v2)
+(define (init-factor-graph-implication-formula I v1 v2)
  (display "init factor graph:\n")
  ; (display i12)
  ;  (display v1)
@@ -121,6 +149,8 @@ def get_factor(variables):
    (var1 (get-variable v1))
    (var2 (get-variable v2))
   )
+  (move-prob-values I factor)
+  (show-dv factor)
   (ListLink
    (get-factor-predicate factor)
    (get-variable-predicate var1)

@@ -23,7 +23,6 @@ print("counter: ", get_counter())
 
 def get_factor(variables):
     names = list(map(lambda node: node.name, variables.out))
-    print(names)
     names.sort()
     name = '-'.join(names)
     return ConceptNode('Factor-' + name)
@@ -37,3 +36,20 @@ def get_variable(variable):
 
 
 print("variable: ", get_variable(ConceptNode("A")))
+
+
+prob_key = PredicateNode("probability")
+
+def move_value(key, atom_from, atom_to):
+    value = atom_from.get_value(key)
+    atom_to.set_value(key, value)
+    return ConceptNode('Test')
+
+prob_key = ConceptNode("probability")
+c1 = ConceptNode("C1")
+c1.set_value(prob_key, StringValue("123"))
+c2 = ConceptNode("C2")
+
+move_value(prob_key, c1, c2)
+
+print("value: ", c2.get_value(prob_key))
