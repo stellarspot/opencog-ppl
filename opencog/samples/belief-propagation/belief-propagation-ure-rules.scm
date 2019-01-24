@@ -21,6 +21,10 @@ def set_atomspace(a):
     return TruthValue(1, 1)
 
 
+def get_variable(variable):
+    return ConceptNode('Variable-' + variable.name)
+
+
 def get_factor(variables):
     names = list(map(lambda node: node.name, variables.out))
     names.sort()
@@ -31,11 +35,31 @@ def get_factor(variables):
 
 (python-call-with-as "set_atomspace" (cog-atomspace))
 
+(define (get-variable v)
+ (cog-execute!
+  (ExecutionOutputLink
+   (GroundedSchemaNode "py: get_variable")
+   (ListLink v))))
+
+(define (get-factor variables)
+ (cog-execute!
+  (ExecutionOutputLink
+   (GroundedSchemaNode "py: get_factor")
+   (ListLink variables))))
+
+(define (get-edge factor variable)
+ (EvaluationLink
+  graph-edge-predicate
+  (ListLink factor variable))
+)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Knowledge Base to Factor Graph  ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define graph-edge-predicate (PredicateNode "graph-edge"))
+(define cdv-key (PredicateNode "CDV"))
+
 
 (define init-factor-graph-implication
  (BindLink
@@ -66,25 +90,13 @@ def get_factor(variables):
  ;  (display v2)
  (let*
   (
-   (factor
-    (cog-execute!
-     (ExecutionOutputLink
-      (GroundedSchemaNode "py: get_factor")
-      (ListLink
-       (ListLink v1 v2))))
-   )
-   (edge1
-    (EvaluationLink
-     graph-edge-predicate
-     (ListLink factor v1))
-   )
-   (edge2
-    (EvaluationLink
-     graph-edge-predicate
-     (ListLink factor v2))
-   )
+   (factor (get-factor (List v1 v2)))
+   (var1 (get-variable v1))
+   (var2 (get-variable v2))
   )
-  (ListLink edge1  edge2)
+  (ListLink
+   (get-edge factor var1)
+   (get-edge factor var2))
  )
 )
 
@@ -141,6 +153,26 @@ def get_factor(variables):
 
 (Define on-top-rule-name
  on-top-rule)
+
+
+;;;;;;;;;;;;;;;
+;; Formulas  ;;
+;;;;;;;;;;;;;;;
+
+;;; formulas ;;;
+(define (has-dv A)
+ "
+ Return TrueTV iff A has a dv/cdv attached and it is not empty
+ "
+ (let
+  ((dv (cog-value A cdv-key)))
+  (if (equal? dv '())
+   (bool->tv #f)
+   (if (cog-dv? dv)
+    (bool->tv (not (cog-dv-is-empty dv)))
+    (bool->tv (not (cog-cdv-is-empty dv)))
+   ))))
+
 
 ;;;;;;;;;;
 ;; URE  ;;

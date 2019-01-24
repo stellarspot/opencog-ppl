@@ -30,3 +30,10 @@ def get_factor(variables):
 
 print("factor: ", get_factor(ListLink(ConceptNode("A"))))
 print("factor: ", get_factor(ListLink(ConceptNode("A"), ConceptNode("B"))))
+
+
+def get_variable(variable):
+    return ConceptNode('Variable-' + variable.name)
+
+
+print("variable: ", get_variable(ConceptNode("A")))
