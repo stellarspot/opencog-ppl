@@ -113,15 +113,25 @@ def can_send_message_variable_factor(v, f):
     #print('allow to send message')
     return TruthValue(1, 1)
 
+
+def get_initial_message(shape):
+    size = shape.to_list()[0]
+    msg = ' '.join(['1'] * int(size))
+    return StringValue(msg)
+
+
 def send_message_variable_factor(msg, v, f):
-    #print('send msg: ', msg)
     print('send msg: ', v.name, f.name)
-    #return TruthValue(1, 1)
     factors = get_factors(v, f).out
 
     if len(factors) == 0:
         print('send [1 1]')
-        show_dv(v)
+        shape = v.get_value(ConceptNode('probability-shape'))
+        #print('shape', shape)
+        #show_dv(v)
+        msg_value = get_initial_message(shape)
+        print('message value:', msg_value)
+        msg.set_value(ConceptNode('probability'), msg_value)
 
     return ConceptNode('Test')
 
