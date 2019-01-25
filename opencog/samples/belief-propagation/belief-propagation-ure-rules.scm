@@ -24,6 +24,7 @@ from opencog.atomspace import AtomSpace, types, TruthValue
 
 from opencog.utilities import initialize_opencog
 from opencog.type_constructors import *
+from opencog.bindlink import bindlink
 
 
 atomspace = ''
@@ -60,6 +61,35 @@ def move_prob_values(atom_from, atom_to):
     move_value(ConceptNode('probability'), atom_from, atom_to)
     move_value(ConceptNode('probability-shape'), atom_from, atom_to)
     return ConceptNode('Test')
+
+
+def get_factors(exclude_factor):
+    bind_link = BindLink(
+        VariableNode('$F'),
+        AndLink(
+            EvaluationLink(
+                PredicateNode('factor-node'),
+                VariableNode('$F')),
+             NotLink(
+                 EqualLink(
+                     exclude_factor,
+                     VariableNode('$F')))
+        ),
+        VariableNode('$F'))
+
+    factors_link = bindlink(atomspace, bind_link)
+    print('factors', factors_link)
+    return factors_link
+
+
+def can_send_message_variable_factor(v, f):
+    print('can_send_message_variable_factor')
+    #print('variable', v)
+    print('factor', f)
+    factors = get_factors(f)
+    print('factors', f)
+    return TruthValue(1, 1)
+
 
 ")
 
@@ -109,6 +139,13 @@ def move_prob_values(atom_from, atom_to):
  (Evaluation
   (GroundedPredicate "scm: has-dv")
   v))
+
+(define (can-send-message-variable-factor v f)
+ (Evaluation
+  (GroundedPredicate "py: can_send_message_variable_factor")
+  (ListLink v f)
+ )
+)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Knowledge Base to Factor Graph  ;;
@@ -281,9 +318,10 @@ def move_prob_values(atom_from, atom_to):
      (Evaluation
       message-predicate
       (Variable "$V")
-      (Variable "$F")
-     )
-    )
+      (Variable "$F")))
+   (can-send-message-variable-factor
+    (Variable "$V")
+    (Variable "$F"))
   )
   (ExecutionOutputLink
    (GroundedSchemaNode "scm: message-variable-to-factor-formula")

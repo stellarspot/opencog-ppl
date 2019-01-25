@@ -2,6 +2,7 @@ from opencog.atomspace import AtomSpace, types, TruthValue
 
 from opencog.utilities import initialize_opencog
 from opencog.type_constructors import *
+from opencog.bindlink import bindlink
 
 # Initialization
 atomspace = AtomSpace()
@@ -53,3 +54,16 @@ c2 = ConceptNode("C2")
 move_value(prob_key, c1, c2)
 
 print("value: ", c2.get_value(prob_key))
+
+except_factor = ConceptNode('F')
+
+bind_link = BindLink(
+    VariableNode('$F'),
+    AndLink(
+        EvaluationLink(
+            PredicateNode('factor-node'),
+            VariableNode('$F'))
+    ),
+    VariableNode('$F'))
+
+values_link = bindlink(atomspace, bind_link)
