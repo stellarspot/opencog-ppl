@@ -44,14 +44,20 @@ def get_factor(variables):
     return ConceptNode('Factor-' + name)
 
 def show_dv(atom):
-    p = atom.get_value(ConceptNode('probability'))
-    print('dv values', p)
+    prob = atom.get_value(ConceptNode('probability'))
+    shape = atom.get_value(ConceptNode('probability-shape'))
+    print('dv values:', prob, 'shape:', shape)
     return ConceptNode('Test')
 
 
 def move_value(key, atom_from, atom_to):
     value = atom_from.get_value(key)
     atom_to.set_value(key, value)
+    return ConceptNode('Test')
+
+def move_prob_values(atom_from, atom_to):
+    move_value(ConceptNode('probability'), atom_from, atom_to)
+    move_value(ConceptNode('probability-shape'), atom_from, atom_to)
     return ConceptNode('Test')
 
 ")
@@ -94,12 +100,8 @@ def move_value(key, atom_from, atom_to):
 (define (move-prob-values a1 a2)
  (cog-execute!
   (ExecutionOutputLink
-   (GroundedSchemaNode "py: move_value")
-   (ListLink prob-shape-key a1 a2)))
- (cog-execute!
-  (ExecutionOutputLink
-   (GroundedSchemaNode "py: move_value")
-   (ListLink prob-key a1 a2))))
+   (GroundedSchemaNode "py: move_prob_values")
+   (ListLink a1 a2))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
