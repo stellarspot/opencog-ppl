@@ -55,8 +55,13 @@
 ;(display (cog-value R key))
 
 (display
+ (cog-execute! init-factor-graph-concept-node)
+)
+
+(display
  (cog-execute! init-factor-graph-implication)
 )
+
 ;(display
 ; (cog-bc
 ;  belief-propagation-rbs

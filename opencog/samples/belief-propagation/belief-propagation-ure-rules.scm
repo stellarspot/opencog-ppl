@@ -104,9 +104,96 @@ def move_prob_values(atom_from, atom_to):
    (ListLink a1 a2))))
 
 
+(define (eval-has-dv v)
+ (Evaluation
+  (GroundedPredicate "scm: has-dv")
+  v))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Knowledge Base to Factor Graph  ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; =====================================================================
+; ConceptNode to Variable rule
+;
+; A
+; |-
+; Evaluation
+;    Predicate "factor-node"
+;    Concept "Factor-A"
+;
+; Evaluation
+;    Predicate "variable-node"
+;    Concept "Variable-A"
+;
+; Evaluation
+;    Predicate "graph-edge"
+;    List
+;        Concept "Factor-A"
+;        Concept "Variable-A"
+;----------------------------------------------------------------------
+
+
+(define init-factor-graph-concept-node
+ (BindLink
+  (TypedVariable (Variable "$V") (Type "ConceptNode"))
+  (eval-has-dv (Variable "$V"))
+  (ExecutionOutputLink
+   (GroundedSchemaNode "scm: init-factor-graph-concept-node-formula")
+   (List
+      (Variable "$V")))
+ ))
+
+
+(define (init-factor-graph-concept-node-formula v)
+ (display "init factor graph conept node formula:\n")
+ (let*
+  (
+    (factor (get-factor (List v)))
+    (var (get-variable v))
+  )
+  (move-prob-values v factor)
+  (show-dv factor)
+
+  (ListLink
+   (get-factor-predicate factor)
+   (get-variable-predicate var)
+   (get-edge factor var)
+  )
+ )
+)
+
+; =====================================================================
+; Implication to Variable rule
+;
+; Implication
+;   A
+;   B
+; |-
+; Evaluation
+;    Predicate "factor-node"
+;    Concept "Factor-A-b"
+;
+; Evaluation
+;    Predicate "variable-node"
+;    Concept "Variable-A"
+;
+; Evaluation
+;    Predicate "variable-node"
+;    Concept "Variable-B"
+;
+; Evaluation
+;    Predicate "graph-edge"
+;    List
+;        Concept "Factor-A-B"
+;        Concept "Variable-A"
+;
+; Evaluation
+;    Predicate "graph-edge"
+;    List
+;        Concept "Factor-A-B"
+;        Concept "Variable-B"
+;----------------------------------------------------------------------
 
 
 (define init-factor-graph-implication
@@ -117,12 +204,10 @@ def move_prob_values(atom_from, atom_to):
   )
   (And
    ;; Preconditions
-   (Evaluation
-    (GroundedPredicate "scm: has-dv")
+   (eval-has-dv
     (Implication
      (Variable "$V1")
-     (Variable "$V2"))
-   )
+     (Variable "$V2")))
    ;; Pattern clauses
    (Implication
     (Variable "$V1")
@@ -136,15 +221,12 @@ def move_prob_values(atom_from, atom_to):
        (Variable "$V2")
       )
       (Variable "$V1")
-      (Variable "$V2")
-   ))))
+      (Variable "$V2"))
+  )))
 
 
 (define (init-factor-graph-implication-formula I v1 v2)
- (display "init factor graph:\n")
- ; (display i12)
- ;  (display v1)
- ;  (display v2)
+ (display "init factor graph implication formuls:\n")
  (let*
   (
    (factor (get-factor (List v1 v2)))
@@ -152,7 +234,7 @@ def move_prob_values(atom_from, atom_to):
    (var2 (get-variable v2))
   )
   (move-prob-values I factor)
-  (show-dv factor)
+;  (show-dv factor)
   (ListLink
    (get-factor-predicate factor)
    (get-variable-predicate var1)
