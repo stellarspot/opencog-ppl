@@ -3,6 +3,8 @@ from opencog.atomspace import AtomSpace, types, TruthValue
 from opencog.utilities import initialize_opencog
 from opencog.type_constructors import *
 from opencog.bindlink import bindlink
+from opencog.bindlink import satisfaction_link
+
 
 # Initialization
 atomspace = AtomSpace()
@@ -67,3 +69,14 @@ bind_link = BindLink(
     VariableNode('$F'))
 
 values_link = bindlink(atomspace, bind_link)
+
+satisfaction_handle = SatisfactionLink(
+    PresentLink(
+        EvaluationLink(
+            PredicateNode('message')
+
+        )
+    )
+)
+
+result = satisfaction_link(atomspace, satisfaction_handle)
