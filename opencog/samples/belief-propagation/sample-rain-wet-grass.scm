@@ -43,6 +43,8 @@
 (cog-set-value! R prob-key (StringValue "0.2 0.8"))
 (cog-set-value! R prob-shape-key (StringValue "2"))
 
+(cog-set-value! W prob-shape-key (StringValue "2"))
+
 (cog-set-value! WR prob-key (StringValue "0.9 0.1 0.25 0.75"))
 (cog-set-value! WR prob-shape-key (StringValue "2 2"))
 

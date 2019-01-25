@@ -54,6 +54,7 @@ def show_dv(atom):
 
 
 def move_value(key, atom_from, atom_to):
+    print('move value key:', key.name, atom_from.name, atom_to.name)
     value = atom_from.get_value(key)
     atom_to.set_value(key, value)
     return ConceptNode('Test')
@@ -116,6 +117,12 @@ def send_message_variable_factor(msg, v, f):
     #print('send msg: ', msg)
     print('send msg: ', v.name, f.name)
     #return TruthValue(1, 1)
+    factors = get_factors(v, f).out
+
+    if len(factors) == 0:
+        print('send [1 1]')
+        show_dv(v)
+
     return ConceptNode('Test')
 
 ")
@@ -155,12 +162,16 @@ def send_message_variable_factor(msg, v, f):
    (GroundedSchemaNode "py: show_dv")
    (ListLink v))))
 
-(define (move-prob-values a1 a2)
+(define (move-value key a1 a2)
  (cog-execute!
   (ExecutionOutputLink
-   (GroundedSchemaNode "py: move_prob_values")
-   (ListLink a1 a2))))
+   (GroundedSchemaNode "py: move_value")
+   (ListLink key a1 a2))))
 
+(define (move-prob-values a1 a2)
+ (move-value prob-key a1 a2)
+ (move-value prob-shape-key a1 a2)
+)
 
 (define (eval-has-dv v)
  (Evaluation
@@ -174,12 +185,6 @@ def send_message_variable_factor(msg, v, f):
  )
 )
 
-;(define (send-message-variable-factor M v f)
-; (Evaluation
-;  (GroundedPredicate "py: send_message_variable_factor")
-;  (ListLink M v f)
-; )
-;)
 (define (send-message-variable-factor M v f)
  (cog-execute!
   (ExecutionOutputLink
@@ -230,6 +235,7 @@ def send_message_variable_factor(msg, v, f):
     (var (get-variable v))
   )
   (move-prob-values v factor)
+  (move-value prob-shape-key v var)
   (show-dv factor)
 
   (ListLink
@@ -311,7 +317,9 @@ def send_message_variable_factor(msg, v, f):
    (var2 (get-variable v2))
   )
   (move-prob-values I factor)
-;  (show-dv factor)
+  ; set shape for variables which does not have dv
+  (move-value prob-shape-key v1 var1)
+  (move-value prob-shape-key v2 var2)
   (ListLink
    (get-factor-predicate factor)
    (get-variable-predicate var1)
