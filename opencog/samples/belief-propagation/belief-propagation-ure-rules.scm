@@ -10,6 +10,7 @@
 (define cdv-key (PredicateNode "CDV"))
 (define variable-predicate (PredicateNode "variable-node"))
 (define factor-predicate (PredicateNode "factor-node"))
+(define message-predicate (PredicateNode "message"))
 (define prob-key (ConceptNode "probability"))
 (define prob-shape-key (ConceptNode "probability-shape"))
 
@@ -244,6 +245,80 @@ def move_prob_values(atom_from, atom_to):
  )
 )
 
+
+; =====================================================================
+; Variable to Factor Message rule
+;
+; Evaluation
+;    Predicate "variable-node"
+;    A
+; Evaluation
+;    Predicate "graph-edge"
+;    List
+;        Concept F
+;        Concept A
+; |-
+;
+; Evaluation
+;    Predicate "graph-message"
+;    List
+;        Concept A
+;        Concept F"
+;----------------------------------------------------------------------
+
+(define message-variable-to-factor
+ (BindLink
+  (VariableList
+   (TypedVariable (Variable "$V") (Type "ConceptNode"))
+   (TypedVariable (Variable "$F") (Type "ConceptNode"))
+  )
+  (And
+   ;; Preconditions
+   ;; Pattern clauses
+   (get-variable-predicate (Variable "$V"))
+   (get-edge (Variable "$F") (Variable "$V"))
+    (Absent
+     (Evaluation
+      message-predicate
+      (Variable "$V")
+      (Variable "$F")
+     )
+    )
+  )
+  (ExecutionOutputLink
+   (GroundedSchemaNode "scm: message-variable-to-factor-formula")
+   (List
+    (Evaluation
+     message-predicate
+     (Variable "$V")
+     (Variable "$F")
+    )
+    (Variable "$V")
+    (Variable "$F"))
+  )))
+
+
+(define (message-variable-to-factor-formula M v f)
+ (display "message variable to formula:\n")
+; (display "input:\n")
+; (display M)
+; (let*
+;  (
+;   (factor (get-factor (List v1 v2)))
+;   (var1 (get-variable v1))
+;   (var2 (get-variable v2))
+;  )
+;  (move-prob-values I factor)
+;  ;  (show-dv factor)
+;  (ListLink
+;   (get-factor-predicate factor)
+;   (get-variable-predicate var1)
+;   (get-variable-predicate var2)
+;   (get-edge factor var1)
+;   (get-edge factor var2))
+; )
+ M
+)
 
 ;;;;;;;;;;;;;;;;;
 ;; Rule  base  ;;

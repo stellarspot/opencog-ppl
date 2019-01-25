@@ -62,6 +62,18 @@
  (cog-execute! init-factor-graph-implication)
 )
 
+(display "=== Generate Messages [1] ===\n")
+
+(display
+ (cog-execute! message-variable-to-factor)
+)
+
+(display "=== Generate Messages [2] ===\n")
+
+(display
+ (cog-execute! message-variable-to-factor)
+)
+
 ;(display
 ; (cog-bc
 ;  belief-propagation-rbs
