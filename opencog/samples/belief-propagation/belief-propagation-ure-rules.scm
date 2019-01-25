@@ -112,6 +112,11 @@ def can_send_message_variable_factor(v, f):
     #print('allow to send message')
     return TruthValue(1, 1)
 
+def send_message_variable_factor(msg, v, f):
+    #print('send msg: ', msg)
+    print('send msg: ', v.name, f.name)
+    #return TruthValue(1, 1)
+    return ConceptNode('Test')
 
 ")
 
@@ -168,6 +173,18 @@ def can_send_message_variable_factor(v, f):
   (ListLink v f)
  )
 )
+
+;(define (send-message-variable-factor M v f)
+; (Evaluation
+;  (GroundedPredicate "py: send_message_variable_factor")
+;  (ListLink M v f)
+; )
+;)
+(define (send-message-variable-factor M v f)
+ (cog-execute!
+  (ExecutionOutputLink
+   (GroundedSchemaNode "py: send_message_variable_factor")
+   (ListLink M v f))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Knowledge Base to Factor Graph  ;;
@@ -333,17 +350,17 @@ def can_send_message_variable_factor(v, f):
   )
   (And
    ;; Preconditions
-   ;; Pattern clauses
-   (get-variable-predicate (Variable "$V"))
-   (get-edge (Variable "$F") (Variable "$V"))
-    (Absent
-     (Evaluation
-      message-predicate
-      (Variable "$V")
-      (Variable "$F")))
+   (Absent
+    (Evaluation
+     message-predicate
+     (Variable "$V")
+     (Variable "$F")))
    (can-send-message-variable-factor
     (Variable "$V")
     (Variable "$F"))
+   ;; Pattern clauses
+   (get-variable-predicate (Variable "$V"))
+   (get-edge (Variable "$F") (Variable "$V"))
   )
   (ExecutionOutputLink
    (GroundedSchemaNode "scm: message-variable-to-factor-formula")
@@ -360,6 +377,7 @@ def can_send_message_variable_factor(v, f):
 
 (define (message-variable-to-factor-formula M v f)
  (display "message variable to formula:\n")
+ (send-message-variable-factor M v f)
 ; (display "input:\n")
 ; (display M)
 ; (let*
