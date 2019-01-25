@@ -54,13 +54,13 @@
 ;(display key)
 ;(display (cog-value R key))
 
-(display
+;(display
  (cog-execute! init-factor-graph-concept-node)
-)
+;)
 
-(display
+;(display
  (cog-execute! init-factor-graph-implication)
-)
+;)
 
 (display "=== Generate Messages [1] ===\n")
 

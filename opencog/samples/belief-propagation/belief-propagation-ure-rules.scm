@@ -64,29 +64,21 @@ def move_prob_values(atom_from, atom_to):
     return ConceptNode('Test')
 
 
-def has_message(n1, n2):
 
-    satisfaction_handle = SatisfactionLink(
-        PresentLink(
-            EvaluationLink(
-                PredicateNode('message')
-
-            )
-        )
-    )
-
-    tv = satisfaction_link(atomspace, satisfaction_handle)
-
-    return tv
-
-
-def get_factors(exclude_factor):
+def get_factors(v, exclude_factor):
     bind_link = BindLink(
         VariableNode('$F'),
         AndLink(
             EvaluationLink(
                 PredicateNode('factor-node'),
                 VariableNode('$F')),
+            EvaluationLink(
+                PredicateNode('graph-edge'),
+                    ListLink(
+                        VariableNode('$F'),
+                        v
+                    )
+                ),
              NotLink(
                  EqualLink(
                      exclude_factor,
@@ -95,23 +87,29 @@ def get_factors(exclude_factor):
         VariableNode('$F'))
 
     factors_link = bindlink(atomspace, bind_link)
-    print('factors', factors_link)
+    #print('factors', factors_link)
     return factors_link
 
 
+def get_message(n1, n2):
+    return None
+
 def can_send_message_variable_factor(v, f):
-    print('can_send_message_variable_factor')
+    #print('')
+    #print('can_send_message_variable_factor', v.name, f.name)
     #print('variable', v)
     #print('factor', f)
-    factors = get_factors(f)
+    factors = get_factors(v, f)
     #print('factors', f)
 
+    #print('factors', len(factors.out))
     for nf in factors.out:
-        #print('next f', nf)
-        tv = has_message(v, nf)
-        #print('tv', tv)
-        if tv.mean != 1:
+        #print('check has messaage:', v.name, nf.name)
+        msg = get_message(v, nf)
+        #print('message', msg)
+        if not msg:
             return TruthValue(0, 0)
+    #print('allow to send message')
     return TruthValue(1, 1)
 
 

@@ -72,11 +72,9 @@ values_link = bindlink(atomspace, bind_link)
 
 satisfaction_handle = SatisfactionLink(
     PresentLink(
-        EvaluationLink(
-            PredicateNode('message')
-
-        )
+        ConceptNode("NotExists")
     )
 )
 
 result = satisfaction_link(atomspace, satisfaction_handle)
+print('satisfy', result)
