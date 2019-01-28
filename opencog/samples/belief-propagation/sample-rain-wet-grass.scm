@@ -66,12 +66,12 @@
 
 (display "=== Generate Messages [1] ===\n")
 
-(display
+;(display
  (cog-execute! message-variable-to-factor)
-)
+;)
 
 ;(display
-; (cog-execute! message-factor-to-variable)
+ (cog-execute! message-factor-to-variable)
 ;)
 
 (display "=== show message ===\n")

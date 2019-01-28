@@ -146,24 +146,42 @@ def can_send_message_factor_variable(f, v):
     return TruthValue(1, 1)
 
 
-def get_initial_message(shape):
+def get_initial_variable_message(shape):
     size = shape.to_list()[0]
     msg = ' '.join(['1'] * int(size))
     return StringValue(msg)
 
+def get_initial_factor_message(f):
+    # Factor tensor needs to be converted to message
+    value = f.get_value(ConceptNode('probability'))
+    msg = value.to_list()
+    return StringValue(msg)
+
 
 def send_message_variable_factor(msg, v, f):
-    print('send msg: ', v.name, f.name)
+    print('send msg (v-f): ', v.name, f.name)
     factors = get_factors(v, f).out
 
     if len(factors) == 0:
-        print('send [1 1]')
+        #print('send initial message')
         shape = v.get_value(ConceptNode('probability-shape'))
-        #print('shape', shape)
-        #show_dv(v)
-        msg_value = get_initial_message(shape)
-        print('message value:', msg_value)
-        msg.set_value(ConceptNode('probability'), msg_value)
+        msg_value = get_initial_variable_message(shape)
+        #print('message value:', msg_value)
+        msg.set_value(ConceptNode('message'), msg_value)
+
+    return ConceptNode('Test')
+
+def send_message_factor_variable(msg, v, f):
+    print('send msg (f-v): ', f.name, v.name)
+    variables = get_variables(f, v).out
+    print('variables:', variables)
+
+    if len(variables) == 0:
+        #print('send initial message')
+        msg_value = get_initial_factor_message(f)
+        #print('message value:', msg_value)
+        msg.set_value(ConceptNode('message'), msg_value)
+
 
     return ConceptNode('Test')
 
@@ -243,10 +261,16 @@ def send_message_variable_factor(msg, v, f):
    (GroundedSchemaNode "py: send_message_variable_factor")
    (ListLink M v f))))
 
-(define (send-message-factor-variable M f v)
+;(define (send-message-factor-variable M f v)
+; (cog-execute!
+;  (ExecutionOutputLink
+;   (GroundedSchemaNode "py: send_message_factor_variable")
+;   (ListLink M f v))))
+
+(define (send-message-factor-variable M v f)
  (cog-execute!
   (ExecutionOutputLink
-   (GroundedSchemaNode "py: can_send_message_factor_variable")
+   (GroundedSchemaNode "py: send_message_factor_variable")
    (ListLink M f v))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -512,7 +536,7 @@ def send_message_variable_factor(msg, v, f):
 
 (define (message-factor-to-variable-formula M f v)
  (display "message factor to variable formula:\n")
-; (send-message-variable-factor M v f)
+ (send-message-factor-variable M f v)
  M
 )
 
