@@ -88,8 +88,31 @@ def get_factors(v, exclude_factor):
         VariableNode('$F'))
 
     factors_link = bindlink(atomspace, bind_link)
-    #print('factors', factors_link)
     return factors_link
+
+def get_variables(f, exclude_variable):
+    bind_link = BindLink(
+        VariableNode('$V'),
+        AndLink(
+            EvaluationLink(
+                PredicateNode('variable-node'),
+                VariableNode('$V')),
+            EvaluationLink(
+                PredicateNode('graph-edge'),
+                    ListLink(
+                        f,
+                        VariableNode('$V')
+                    )
+                ),
+             NotLink(
+                 EqualLink(
+                     exclude_variable,
+                     VariableNode('$V')))
+        ),
+        VariableNode('$V'))
+
+    variables_link = bindlink(atomspace, bind_link)
+    return variables_link
 
 
 def get_message(n1, n2):
@@ -99,19 +122,20 @@ def can_send_message_variable_factor(v, f):
     factors = get_factors(v, f)
 
     for nf in factors.out:
-        msg = get_message(v, nf)
+        msg = get_message(nf, v)
         if not msg:
             return TruthValue(0, 0)
     return TruthValue(1, 1)
 
 
 def can_send_message_factor_variable(f, v):
-    #factors = get_variables(v, f)
+    variables = get_variables(f, v)
+    print('variables', variables)
 
-    #for nf in factors.out:
-    #    msg = get_message(v, nf)
-    #    if not msg:
-    #        return TruthValue(0, 0)
+    for nv in variables.out:
+        msg = get_message(nv, f)
+        if not msg:
+            return TruthValue(0, 0)
     return TruthValue(1, 1)
 
 
