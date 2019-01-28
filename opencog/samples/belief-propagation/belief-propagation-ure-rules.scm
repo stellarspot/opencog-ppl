@@ -96,21 +96,22 @@ def get_message(n1, n2):
     return None
 
 def can_send_message_variable_factor(v, f):
-    #print('')
-    #print('can_send_message_variable_factor', v.name, f.name)
-    #print('variable', v)
-    #print('factor', f)
     factors = get_factors(v, f)
-    #print('factors', f)
 
-    #print('factors', len(factors.out))
     for nf in factors.out:
-        #print('check has messaage:', v.name, nf.name)
         msg = get_message(v, nf)
-        #print('message', msg)
         if not msg:
             return TruthValue(0, 0)
-    #print('allow to send message')
+    return TruthValue(1, 1)
+
+
+def can_send_message_factor_variable(f, v):
+    #factors = get_variables(v, f)
+
+    #for nf in factors.out:
+    #    msg = get_message(v, nf)
+    #    if not msg:
+    #        return TruthValue(0, 0)
     return TruthValue(1, 1)
 
 
@@ -191,15 +192,24 @@ def send_message_variable_factor(msg, v, f):
 (define (can-send-message-variable-factor v f)
  (Evaluation
   (GroundedPredicate "py: can_send_message_variable_factor")
-  (ListLink v f)
- )
-)
+  (ListLink v f)))
+
+(define (can-send-message-factor-variable f v)
+ (Evaluation
+  (GroundedPredicate "py: can_send_message_factor_variable")
+  (ListLink f v)))
 
 (define (send-message-variable-factor M v f)
  (cog-execute!
   (ExecutionOutputLink
    (GroundedSchemaNode "py: send_message_variable_factor")
    (ListLink M v f))))
+
+(define (send-message-factor-variable M f v)
+ (cog-execute!
+  (ExecutionOutputLink
+   (GroundedSchemaNode "py: can_send_message_factor_variable")
+   (ListLink M f v))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Knowledge Base to Factor Graph  ;;
@@ -347,6 +357,9 @@ def send_message_variable_factor(msg, v, f):
 ;    Predicate "variable-node"
 ;    A
 ; Evaluation
+;    Predicate "factor-node"
+;    F
+; Evaluation
 ;    Predicate "graph-edge"
 ;    List
 ;        Concept F
@@ -357,7 +370,7 @@ def send_message_variable_factor(msg, v, f):
 ;    Predicate "graph-message"
 ;    List
 ;        Concept A
-;        Concept F"
+;        Concept F
 ;----------------------------------------------------------------------
 
 (define message-variable-to-factor
@@ -378,6 +391,7 @@ def send_message_variable_factor(msg, v, f):
     (Variable "$F"))
    ;; Pattern clauses
    (get-variable-predicate (Variable "$V"))
+   (get-factor-predicate (Variable "$F"))
    (get-edge (Variable "$F") (Variable "$V"))
   )
   (ExecutionOutputLink
@@ -394,25 +408,71 @@ def send_message_variable_factor(msg, v, f):
 
 
 (define (message-variable-to-factor-formula M v f)
- (display "message variable to formula:\n")
+ (display "message variable to factor:\n")
  (send-message-variable-factor M v f)
-; (display "input:\n")
-; (display M)
-; (let*
-;  (
-;   (factor (get-factor (List v1 v2)))
-;   (var1 (get-variable v1))
-;   (var2 (get-variable v2))
-;  )
-;  (move-prob-values I factor)
-;  ;  (show-dv factor)
-;  (ListLink
-;   (get-factor-predicate factor)
-;   (get-variable-predicate var1)
-;   (get-variable-predicate var2)
-;   (get-edge factor var1)
-;   (get-edge factor var2))
-; )
+ M
+)
+
+; =====================================================================
+; Factor to Variable Message rule
+;
+; Evaluation
+;    Predicate "factor-node"
+;    F
+; Evaluation
+;    Predicate "variable-node"
+;    A
+; Evaluation
+;    Predicate "graph-edge"
+;    List
+;        Concept F
+;        Concept A
+; |-
+;
+; Evaluation
+;    Predicate "graph-message"
+;    List
+;        Concept F
+;        Concept A
+;----------------------------------------------------------------------
+
+(define message-factor-to-variable
+ (BindLink
+  (VariableList
+   (TypedVariable (Variable "$F") (Type "ConceptNode"))
+   (TypedVariable (Variable "$V") (Type "ConceptNode"))
+  )
+  (And
+   ;; Preconditions
+   (Absent
+    (Evaluation
+     message-predicate
+     (Variable "$F")
+     (Variable "$V")))
+   (can-send-message-factor-variable
+    (Variable "$F")
+    (Variable "$V"))
+   ;; Pattern clauses
+   (get-factor-predicate (Variable "$F"))
+   (get-variable-predicate (Variable "$V"))
+   (get-edge (Variable "$F") (Variable "$V"))
+  )
+  (ExecutionOutputLink
+   (GroundedSchemaNode "scm: message-factor-to-variable-formula")
+   (List
+    (Evaluation
+     message-predicate
+     (Variable "$F")
+     (Variable "$V")
+    )
+    (Variable "$F")
+    (Variable "$V"))
+  )))
+
+
+(define (message-factor-to-variable-formula M f v)
+ (display "message factor to variable formula:\n")
+; (send-message-variable-factor M v f)
  M
 )
 

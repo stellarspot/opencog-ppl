@@ -70,6 +70,20 @@
  (cog-execute! message-variable-to-factor)
 )
 
+;(display
+; (cog-execute! message-factor-to-variable)
+;)
+
+(display "=== show message ===\n")
+
+(show-dv
+ (EvaluationLink
+  (PredicateNode "message")
+  (ConceptNode "Variable-WetGrass")
+  (ConceptNode "Factor-Rain-WetGrass")
+ )
+)
+
 (display "=== Generate Messages [2] ===\n")
 
 (display
