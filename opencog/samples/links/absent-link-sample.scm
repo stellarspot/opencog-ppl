@@ -1,25 +1,20 @@
 (use-modules (opencog) (opencog query) (opencog exec))
 
 (define cat (Concept "cat"))
-(define dog (Concept "dog"))
-(define pet (Concept "pet"))
+(define stone (Concept "stone"))
 (define animal (Concept "animal"))
 
 (Inheritance cat animal)
 
-(define (pattern what)
+(define pattern
  (Bind
   (Variable "$X")
   (Absent
    (Inheritance
     (Variable "$X")
-    what)
-  )
+    animal))
   (Variable "$X")))
 
 
 (display
- (cog-execute! (pattern animal)))
-
-(display
- (cog-execute! (pattern pet)))
+ (cog-execute! pattern))
