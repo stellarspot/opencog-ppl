@@ -13,6 +13,7 @@
 (define message-predicate (PredicateNode "message"))
 (define prob-key (ConceptNode "probability"))
 (define prob-shape-key (ConceptNode "probability-shape"))
+(define prob-arguments-key (ConceptNode "probability-arguments"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Python utility methods  ;;
@@ -54,7 +55,6 @@ def show_dv(atom):
 
 
 def move_value(key, atom_from, atom_to):
-    print('move value key:', key.name, atom_from.name, atom_to.name)
     value = atom_from.get_value(key)
     atom_to.set_value(key, value)
     return ConceptNode('Test')
@@ -64,6 +64,13 @@ def move_prob_values(atom_from, atom_to):
     move_value(ConceptNode('probability-shape'), atom_from, atom_to)
     return ConceptNode('Test')
 
+# order of factor arguments
+# variable names saved with 'probability-arguments' key
+def set_factor_arguments(f, arguments_list):
+    arguments = list(map(lambda v: v.name, arguments_list.out))
+    value = StringValue(arguments)
+    f.set_value(ConceptNode('probability-arguments'), value)
+    return ConceptNode('Test')
 
 
 def get_factors(v, exclude_factor):
@@ -213,6 +220,13 @@ def send_message_variable_factor(msg, v, f):
   (GroundedPredicate "scm: has-dv")
   v))
 
+(define (set-factor-arguments f list)
+ (cog-execute!
+  (ExecutionOutputLink
+   (GroundedSchemaNode "py: set_factor_arguments")
+   (ListLink f list))))
+
+
 (define (can-send-message-variable-factor v f)
  (Evaluation
   (GroundedPredicate "py: can_send_message_variable_factor")
@@ -281,6 +295,7 @@ def send_message_variable_factor(msg, v, f):
   (move-prob-values v factor)
   (move-value prob-shape-key v var)
   (show-dv factor)
+  (set-factor-arguments factor (List var))
 
   (ListLink
    (get-factor-predicate factor)
@@ -353,7 +368,7 @@ def send_message_variable_factor(msg, v, f):
 
 
 (define (init-factor-graph-implication-formula I v1 v2)
- (display "init factor graph implication formuls:\n")
+ (display "init factor graph implication formula:\n")
  (let*
   (
    (factor (get-factor (List v1 v2)))
@@ -364,6 +379,7 @@ def send_message_variable_factor(msg, v, f):
   ; set shape for variables which does not have dv
   (move-value prob-shape-key v1 var1)
   (move-value prob-shape-key v2 var2)
+  (set-factor-arguments factor (List var1 var2))
   (ListLink
    (get-factor-predicate factor)
    (get-variable-predicate var1)

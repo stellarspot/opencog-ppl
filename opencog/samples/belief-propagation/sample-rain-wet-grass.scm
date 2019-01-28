@@ -70,9 +70,9 @@
  (cog-execute! message-variable-to-factor)
 )
 
-(display
- (cog-execute! message-factor-to-variable)
-)
+;(display
+; (cog-execute! message-factor-to-variable)
+;)
 
 (display "=== show message ===\n")
 
