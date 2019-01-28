@@ -137,7 +137,6 @@ def can_send_message_variable_factor(v, f):
 
 def can_send_message_factor_variable(f, v):
     variables = get_variables(f, v)
-    print('variables', variables)
 
     for nv in variables.out:
         msg = get_message(nv, f)
@@ -159,28 +158,24 @@ def get_initial_factor_message(f):
 
 
 def send_message_variable_factor(msg, v, f):
-    print('send msg (v-f): ', v.name, f.name)
     factors = get_factors(v, f).out
 
     if len(factors) == 0:
-        #print('send initial message')
         shape = v.get_value(ConceptNode('probability-shape'))
         msg_value = get_initial_variable_message(shape)
-        #print('message value:', msg_value)
         msg.set_value(ConceptNode('message'), msg_value)
+        print('send msg (v-f): ', v.name, f.name, msg_value)
 
     return ConceptNode('Test')
 
 def send_message_factor_variable(msg, v, f):
-    print('send msg (f-v): ', f.name, v.name)
+    #print('send msg (f-v): ', f.name, v.name)
     variables = get_variables(f, v).out
-    print('variables:', variables)
 
     if len(variables) == 0:
-        #print('send initial message')
         msg_value = get_initial_factor_message(f)
-        #print('message value:', msg_value)
         msg.set_value(ConceptNode('message'), msg_value)
+        print('send msg (f-v): ', f.name, v.name, msg_value)
 
 
     return ConceptNode('Test')
@@ -318,7 +313,7 @@ def send_message_factor_variable(msg, v, f):
   )
   (move-prob-values v factor)
   (move-value prob-shape-key v var)
-  (show-dv factor)
+;  (show-dv factor)
   (set-factor-arguments factor (List var))
 
   (ListLink
@@ -472,7 +467,7 @@ def send_message_factor_variable(msg, v, f):
 
 
 (define (message-variable-to-factor-formula M v f)
- (display "message variable to factor:\n")
+; (display "message variable to factor formula:\n")
  (send-message-variable-factor M v f)
  M
 )
@@ -535,7 +530,7 @@ def send_message_factor_variable(msg, v, f):
 
 
 (define (message-factor-to-variable-formula M f v)
- (display "message factor to variable formula:\n")
+; (display "message factor to variable formula:\n")
  (send-message-factor-variable M f v)
  M
 )
