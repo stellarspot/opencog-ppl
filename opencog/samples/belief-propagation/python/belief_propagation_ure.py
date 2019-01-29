@@ -107,7 +107,8 @@ def get_edge_predicate(factor, var):
 
 def set_variable_shape(v, variable):
     shape = v.get_value(SHAPE_KEY)
-    variable.set_value(SHAPE_KEY, shape)
+    if shape:
+        variable.set_value(SHAPE_KEY, shape)
 
 
 def set_factor_tensor(atom, factor):
@@ -117,21 +118,26 @@ def set_factor_tensor(atom, factor):
     factor.set_value(TENSOR_KEY, tensor)
 
 
+def init_factor_graph():
+    # init_factor_graph_concept_node()
+    init_factor_graph_implication_link()
+
+
 # ; =====================================================================
 # ; ConceptNode to Variable rule
 # ;
 # ; A
 # ; |-
 # ; Evaluation
-# ;    Predicate "factor-node"
+# ;    Predicate "factor"
 # ;    Concept "Factor-A"
 # ;
 # ; Evaluation
-# ;    Predicate "variable-node"
+# ;    Predicate "variable"
 # ;    Concept "Variable-A"
 # ;
 # ; Evaluation
-# ;    Predicate "graph-edge"
+# ;    Predicate "edge"
 # ;    List
 # ;        Concept "Factor-A"
 # ;        Concept "Variable-A"
@@ -179,5 +185,96 @@ def init_factor_graph_concept_node_formula(v):
     )
 
 
-def init_factor_graph():
-    init_factor_graph_concept_node()
+# ; =====================================================================
+# ; Implication to Variable rule
+# ;
+# ; Implication
+# ;   A
+# ;   B
+# ; |-
+# ; Evaluation
+# ;    Predicate "factor"
+# ;    Concept "Factor-A-B"
+# ;
+# ; Evaluation
+# ;    Predicate "variable"
+# ;    Concept "Variable-A"
+# ;
+# ; Evaluation
+# ;    Predicate "variable"
+# ;    Concept "Variable-B"
+# ;
+# ; Evaluation
+# ;    Predicate "edge"
+# ;    List
+# ;        Concept "Factor-A-B"
+# ;        Concept "Variable-A"
+# ;
+# ; Evaluation
+# ;    Predicate "edge"
+# ;    List
+# ;        Concept "Factor-A-B"
+# ;        Concept "Variable-B"
+# ;----------------------------------------------------------------------
+
+def init_factor_graph_implication_link():
+    bind_link = BindLink(
+        VariableList(
+            TypedVariableLink(
+                VariableNode('$V1'),
+                TypeNode('ConceptNode')),
+            TypedVariableLink(
+                VariableNode('$V2'),
+                TypeNode('ConceptNode'))),
+
+        AndLink(
+            # Preconditions
+            EvaluationLink(
+                GroundedPredicateNode('py: eval_has_dv'),
+                ListLink(
+                    ImplicationLink(
+                        VariableNode('$V1'),
+                        VariableNode('$V2')))),
+            # Pattern clauses
+            ImplicationLink(
+                VariableNode('$V1'),
+                VariableNode('$V2'))),
+        ExecutionOutputLink(
+            GroundedSchemaNode('py: init_factor_graph_implication_link_formula'),
+            ListLink(
+                VariableNode('$V1'),
+                VariableNode('$V2'))))
+    # bindlink(atomspace, bind_link)
+    res = bindlink(atomspace, bind_link)
+    print(res)
+
+
+def init_factor_graph_implication_link_formula(v1, v2):
+    print('init_factor_graph_implication_link_formula', v1.name, v2.name)
+
+    variable1 = get_variable_node(v1)
+    variable2 = get_variable_node(v2)
+    factor = get_factor_node([v1, v2])
+
+    # generate factor graph predicates
+    variable_predicate_1 = get_variable_predicate(variable1)
+    variable_predicate_2 = get_variable_predicate(variable2)
+    factor_predicate = get_factor_predicate(factor)
+    edge1 = get_edge_predicate(factor, variable1)
+    edge2 = get_edge_predicate(factor, variable2)
+
+    #
+    # set variable shape
+    set_variable_shape(v1, variable1)
+    set_variable_shape(v2, variable2)
+    #
+    # # set factor tensor
+    # set_factor_tensor(v, factor)
+    #
+    return ListLink(
+        variable_predicate_1,
+        variable_predicate_2,
+        factor_predicate,
+        edge1,
+        edge2
+    )
