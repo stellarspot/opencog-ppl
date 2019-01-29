@@ -260,3 +260,29 @@ Rain given Wet:
     {1} Count: 17967.692701770462 Mean: 0.357687675632276214
 
 ```
+
+## Inference
+
+Rules:
+1. modus-ponens-inheritance-rule  
+    (Inheritance A B) -> B
+1. joint-inheritance-introduction-rule  
+    (Inheritance A B) -> (Product flatten(A) B)
+1. joint-reduction-rule  
+    (Product As B Cs) -> (Product As Bs)
+1. joint-to-inheritance-second-rule  
+    (Product A B) -> (Inheritance B A)
+  
+Given:
+1. R
+1. (Inheritance R S)
+1. (Inheritance (Product R S) W)
+
+
+Target: (Inheritance W R)
+
+Inference:
+
+* R, (Inheritance R S) -> (Product R S) 
+
+* (Product R S), (Inheritance (Product R S) W) -> (Product R S W) 
