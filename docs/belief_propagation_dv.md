@@ -83,3 +83,41 @@ The task is split on steps:
 * Factor graph generation
 * Messages sending
 * Calculation of final probability
+
+
+## Factor Graph generation
+
+The first step is generation a factor graph using the initial task representation.
+
+Rules:
+* (Concept A) with DV ->
+  * Variable
+    * Predicate('Variable', 'Variable-A')
+  * Factor
+    * Predicate('Factor', 'Factor-A')
+  * Edge
+    * Predicate('Edge', 'Factor-A', 'Variable-A')
+* (Implication (Concept B) (Concept A)) with DV
+  * Variables
+    * Predicate('Variable', 'Variable-A')
+    * Predicate('Variable', 'Variable-B')
+  * Factor
+    * Predicate('Factor', 'Factor-A-B')
+  * Edge
+    * Predicate('Edge', 'Factor-A-B', 'Variable-A')
+    * Predicate('Edge', 'Factor-A-B', 'Variable-B')
+* (Implication (Product (Concept B)(Concept C)) (Concept A)) with DV
+  * Variables
+    * Predicate('Variable', 'Variable-A')
+    * Predicate('Variable', 'Variable-B')
+    * Predicate('Variable', 'Variable-C')
+  * Factor
+    * Predicate('Factor', 'Factor-A-B-C')
+  * Edge
+    * Predicate('Edge', 'Factor-A-B-C', 'Variable-A')
+    * Predicate('Edge', 'Factor-A-B-C', 'Variable-B')
+    * Predicate('Edge', 'Factor-A-B-C', 'Variable-C')
+
+Additional rules:
+  * Variable  shape: size of the appropriate dimension of DV according to the order of variables in Implication link
+  * Factor tensor: DV from Implication link
