@@ -84,7 +84,6 @@ The task is split on steps:
 * Messages sending
 * Calculation of final probability
 
-
 ## Factor Graph generation
 
 The first step is generation a factor graph using the initial task representation.
@@ -121,3 +120,31 @@ Rules:
 Additional rules:
   * Variable  shape: size of the appropriate dimension of DV according to the order of variables in Implication link
   * Factor tensor: DV from Implication link
+
+
+## Message Sending
+
+Messages are vectors which are connected as values to Edges.
+There are two keys:
+  * 'message-variable-factor-key' for messages from variable to factor
+  * 'message-factor-variable-key' for messages from factor to variable
+
+
+**Message from Variable V to Factor F**
+
+Conditions:
+* There is no message from V to F
+* For each edge between factor FF to variable V and FF != F there is a message from FF to V
+
+Message value:
+* Componentwise multiplication of the messages from FF to V
+
+
+**Message from Factor F to Variable V**
+
+Conditions:
+* There is no message from F to V
+* For each edge between factor F to variable VV and VV != V there is a message from VV to F
+
+Message value:
+* Multiply the tensor F to all incoming messages except variable V
