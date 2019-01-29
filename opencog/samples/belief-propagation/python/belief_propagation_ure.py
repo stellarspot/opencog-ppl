@@ -9,6 +9,7 @@ initialize_opencog(atomspace)
 
 CDV_KEY = PredicateNode('CDV')
 SHAPE_KEY = PredicateNode('shape')
+TENSOR_KEY = PredicateNode('tensor')
 
 FACTOR_KEY = PredicateNode('factor')
 VARIABLE_KEY = PredicateNode('variable')
@@ -50,11 +51,19 @@ def eval_has_dv(atom):
     return eval_has_value(atom, CDV_KEY)
 
 
-def show_cdv(atom, msg=''):
+def show_value(msg, atom, key):
+    value = atom.get_value(key)
+    if value:
+        print(msg + ':', float_value_to_list(value))
+
+
+def show_values(atom, msg=''):
     if msg:
         print(msg)
-    print('cdv:', float_value_to_list(atom.get_value(CDV_KEY)))
-    print('shape:', float_value_to_list(atom.get_value(SHAPE_KEY)))
+
+    show_value('cdv', atom, CDV_KEY)
+    show_value('shape', atom, SHAPE_KEY)
+    show_value('tensor', atom, TENSOR_KEY)
     print()
 
 
@@ -94,6 +103,18 @@ def get_edge_predicate(factor, var):
             var
         )
     )
+
+
+def set_variable_shape(v, variable):
+    shape = v.get_value(SHAPE_KEY)
+    variable.set_value(SHAPE_KEY, shape)
+
+
+def set_factor_tensor(atom, factor):
+    shape = atom.get_value(SHAPE_KEY)
+    factor.set_value(SHAPE_KEY, shape)
+    tensor = atom.get_value(CDV_KEY)
+    factor.set_value(TENSOR_KEY, tensor)
 
 
 # ; =====================================================================
@@ -138,11 +159,18 @@ def init_factor_graph_concept_node_formula(v):
     print('init_factor_graph_concept_node_formula', v)
 
     variable = get_variable_node(v)
-    factor = get_factor_node([variable])
+    factor = get_factor_node([v])
 
+    # generate factor graph predicates
     variable_predicate = get_variable_predicate(variable)
     factor_predicate = get_factor_predicate(factor)
     edge = get_edge_predicate(factor, variable)
+
+    # set variable shape
+    set_variable_shape(v, variable)
+
+    # set factor tensor
+    set_factor_tensor(v, factor)
 
     return ListLink(
         variable_predicate,
