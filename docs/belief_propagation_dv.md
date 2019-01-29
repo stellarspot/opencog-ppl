@@ -135,10 +135,19 @@ There are two keys:
 
 Conditions:
 * There is no message from V to F
-* For each edge between factor FF to variable V and FF != F there is a message from FF to V
+* For each edge between factor G to variable V and G != F there is a message from G to V
 
 Message value:
 * Componentwise multiplication of the messages from FF to V
+
+M(V->F) = Mul[G, G!=F] M (G->V)
+
+Initial message leaf variables:  
+M(V->F) = [1, 1, ... , 1]
+
+where the size of the message is shape of the variable
+
+![Bayesian Network Factor Tree](images/belief_propagation/factor_tree_message_var_f.png)
 
 
 **Message from Factor F to Variable V**
@@ -150,12 +159,20 @@ Conditions:
 Message value:
 * Multiply the tensor F to all incoming messages except variable V
 
+M(F->V) = Mul[U, U !=V] tensor(F) M[U->F]
+
+Initial message for leaf factors:  
+M(F->V) = [f(V1), f(V2), ... , f(Vn)]
+
+![Bayesian Network Factor Tree](images/belief_propagation/factor_tree_message_f_var.png)
 
 ## Simple Grass and Rain Factor Graph
 
 Variable:
 ```scheme
 (define R (ConceptNode "Rain"))
+(cog-set-value! R key (cog-new-dv zo '(80000 20000)))
+
 ```
 to
 ```scheme
@@ -184,6 +201,12 @@ to
 Implication:
 ```scheme
 (define WR (Implication R W))
+
+(define dvWR0 (cog-new-dv zo '(75000 25000)))
+(define dvWR1 (cog-new-dv zo '(10000 90000)))
+
+(define dvWR (cog-new-cdv zo (list dvWR0 dvWR1)))
+(cog-set-value! WR key dvWR)
 ```
 to
 ```scheme
