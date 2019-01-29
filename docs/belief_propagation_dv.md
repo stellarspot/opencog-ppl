@@ -9,6 +9,7 @@
 ## Known problems
 
 [Python file is not loaded in SCM](https://github.com/opencog/atomspace/issues/1888)
+[Using GlobNode in Backward Chainer](https://github.com/opencog/atomspace/issues/2009)
 
 ## Simple Grass and Rain sample
 
@@ -120,7 +121,7 @@ Rules:
 Additional rules:
   * Variable  shape: size of the appropriate dimension of DV according to the order of variables in Implication link
   * Factor tensor: DV from Implication link
-
+  * Factor shape: dimensions of DV value
 
 ## Message Sending
 
@@ -148,3 +149,72 @@ Conditions:
 
 Message value:
 * Multiply the tensor F to all incoming messages except variable V
+
+
+## Simple Grass and Rain Factor Graph
+
+Variable:
+```scheme
+(define R (ConceptNode "Rain"))
+```
+to
+```scheme
+(SetLink
+   (ListLink
+      (EvaluationLink
+         (PredicateNode "factor-node")
+         (ConceptNode "Factor-Rain")
+      )
+      (EvaluationLink
+         (PredicateNode "variable-node")
+         (ConceptNode "Variable-Rain")
+      )
+      (EvaluationLink
+         (PredicateNode "graph-edge")
+         (ListLink
+            (ConceptNode "Factor-Rain")
+            (ConceptNode "Variable-Rain")
+         )
+      )
+   )
+)
+
+```
+
+Implication:
+```scheme
+(define WR (Implication R W))
+```
+to
+```scheme
+(SetLink
+   (ListLink
+      (EvaluationLink
+         (PredicateNode "factor-node")
+         (ConceptNode "Factor-Rain-WetGrass")
+      )
+      (EvaluationLink
+         (PredicateNode "variable-node")
+         (ConceptNode "Variable-Rain")
+      )
+      (EvaluationLink
+         (PredicateNode "variable-node")
+         (ConceptNode "Variable-WetGrass")
+      )
+      (EvaluationLink
+         (PredicateNode "graph-edge")
+         (ListLink
+            (ConceptNode "Factor-Rain-WetGrass")
+            (ConceptNode "Variable-Rain")
+         )
+      )
+      (EvaluationLink
+         (PredicateNode "graph-edge")
+         (ListLink
+            (ConceptNode "Factor-Rain-WetGrass")
+            (ConceptNode "Variable-WetGrass")
+         )
+      )
+   )
+)
+```
