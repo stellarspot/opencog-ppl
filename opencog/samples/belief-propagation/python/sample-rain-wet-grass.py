@@ -11,6 +11,8 @@ wet_grass_given_rain.set_value(CDV_KEY, FloatValue([0.9, 0.1, 0.25, 0.75]))
 
 init_factor_graph()
 
+send_messages()
+
 # show_values(rain, 'Rain')
 # show_values(ConceptNode("Factor-Rain"), 'Factor Rain')
 

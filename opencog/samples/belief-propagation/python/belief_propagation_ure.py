@@ -9,11 +9,14 @@ initialize_opencog(atomspace)
 
 CDV_KEY = PredicateNode('CDV')
 SHAPE_KEY = PredicateNode('shape')
-TENSOR_KEY = PredicateNode('tensor')
 
 FACTOR_KEY = PredicateNode('factor')
 VARIABLE_KEY = PredicateNode('variable')
 EDGE_KEY = PredicateNode('edge')
+TENSOR_KEY = PredicateNode('tensor')
+
+MESSAGE_VARIABLE_FACTOR_KEY = PredicateNode('message-variable-factor')
+MESSAGE_FACTOR_VARIABLE_KEY = PredicateNode('message-factor-variable')
 
 
 # Utility methods
@@ -42,9 +45,9 @@ def float_value_to_list(value):
 
 def eval_has_value(atom, key):
     value = atom.get_value(key)
-    if not value:
-        return TruthValue(0, 1)
-    return TruthValue(1, 1)
+    if value:
+        return TruthValue(1, 1)
+    return TruthValue(0, 1)
 
 
 def eval_has_dv(atom):
@@ -118,9 +121,47 @@ def set_factor_tensor(atom, factor):
     factor.set_value(TENSOR_KEY, tensor)
 
 
+def get_neighbors_factors(variable, exclude_factor):
+    bind_link = BindLink(
+        VariableNode('$F'),
+        AndLink(
+            get_factor_predicate(
+                VariableNode('$F')),
+            get_edge_predicate(
+                VariableNode('$F'),
+                variable),
+            NotLink(
+                EqualLink(
+                    exclude_factor,
+                    VariableNode('$F')))),
+        VariableNode('$F'))
+
+    factors_link = bindlink(atomspace, bind_link)
+    return factors_link
+
+
+def can_send_message_variable_factor(variable, factor):
+    # print('can_send_message_variable_factor', variable.name, factor.name)
+    factors = get_neighbors_factors(variable, factor).out
+    # print('factors:', factors)
+
+    if len(factors) == 0:
+        return TruthValue(1, 1)
+
+    return TruthValue(0, 1)
+
+
+def create_message_variable_factor(variable, factor):
+    print('create_message_variable_factor', variable.name, factor.name)
+
+
 def init_factor_graph():
-    # init_factor_graph_concept_node()
+    init_factor_graph_concept_node()
     init_factor_graph_implication_link()
+
+
+def send_messages():
+    send_message_variable_factor()
 
 
 # ; =====================================================================
@@ -156,9 +197,8 @@ def init_factor_graph_concept_node():
             GroundedSchemaNode('py: init_factor_graph_concept_node_formula'),
             ListLink(
                 VariableNode('$V'))))
-    # bindlink(atomspace, bind_link)
-    res = bindlink(atomspace, bind_link)
-    print(res)
+    bindlink(atomspace, bind_link)
+    # print(bindlink(atomspace, bind_link))
 
 
 def init_factor_graph_concept_node_formula(v):
@@ -244,9 +284,8 @@ def init_factor_graph_implication_link():
             ListLink(
                 VariableNode('$V1'),
                 VariableNode('$V2'))))
-    # bindlink(atomspace, bind_link)
-    res = bindlink(atomspace, bind_link)
-    print(res)
+    bindlink(atomspace, bind_link)
+    # print(bindlink(atomspace, bind_link))
 
 
 def init_factor_graph_implication_link_formula(v1, v2):
@@ -263,14 +302,13 @@ def init_factor_graph_implication_link_formula(v1, v2):
     edge1 = get_edge_predicate(factor, variable1)
     edge2 = get_edge_predicate(factor, variable2)
 
-    #
     # set variable shape
     set_variable_shape(v1, variable1)
     set_variable_shape(v2, variable2)
-    #
+
     # # set factor tensor
     # set_factor_tensor(v, factor)
-    #
+
     return ListLink(
         variable_predicate_1,
         variable_predicate_2,
@@ -278,3 +316,77 @@ def init_factor_graph_implication_link_formula(v1, v2):
         edge1,
         edge2
     )
+
+
+# ; =====================================================================
+# ; Variable to Factor Message rule
+# ;
+# ; Evaluation
+# ;    Predicate "variable-node"
+# ;    A
+# ; Evaluation
+# ;    Predicate "factor-node"
+# ;    F
+# ; Evaluation
+# ;    Predicate "graph-edge"
+# ;    List
+# ;        Concept F
+# ;        Concept A
+# ; |-
+# ;
+# ; Evaluation
+# ;    Predicate "graph-message"
+# ;    List
+# ;        Concept A
+# ;        Concept F
+# ;----------------------------------------------------------------------
+
+
+def send_message_variable_factor():
+    bind_link = BindLink(
+        VariableList(
+            TypedVariableLink(
+                VariableNode('$V'),
+                TypeNode('ConceptNode')),
+            TypedVariableLink(
+                VariableNode('$F'),
+                TypeNode('ConceptNode'))),
+
+        AndLink(
+            NotLink(
+                EvaluationLink(
+                    GroundedPredicateNode('py: eval_has_value'),
+                    ListLink(
+                        get_edge_predicate(
+                            VariableNode('$V'),
+                            VariableNode('$F')),
+                        MESSAGE_VARIABLE_FACTOR_KEY))),
+            EvaluationLink(
+                GroundedPredicateNode('py: can_send_message_variable_factor'),
+                ListLink(
+                    VariableNode('$V'),
+                    VariableNode('$F')
+                )),
+            # Pattern clauses
+            EvaluationLink(
+                VARIABLE_KEY,
+                VariableNode('$V')
+            ),
+            EvaluationLink(
+                FACTOR_KEY,
+                VariableNode('$F')
+            ),
+        ),
+        ExecutionOutputLink(
+            GroundedSchemaNode('py: send_message_variable_factor_formula'),
+            ListLink(
+                VariableNode('$V'),
+                VariableNode('$F'))))
+    # bindlink(atomspace, bind_link)
+    print(bindlink(atomspace, bind_link))
+
+
+def send_message_variable_factor_formula(variable, formula):
+    print('send_message_variable_factor_formula', variable.name, formula.name)
+    create_message_variable_factor(variable, formula)
+    return ListLink()
