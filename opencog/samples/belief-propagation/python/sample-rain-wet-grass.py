@@ -22,6 +22,12 @@ send_messages()
 print("=== Iteration 2 ===")
 send_messages()
 
+print("=== Iteration 3 ===")
+send_messages()
+
+print("=== Iteration 4 ===")
+send_messages()
+
 # show_values(rain, 'Rain')
 # show_values(ConceptNode("Factor-Rain"), 'Factor Rain')
 
