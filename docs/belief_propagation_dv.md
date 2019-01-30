@@ -2,9 +2,15 @@
 
 ## Reference Implementation
 
-The reference implementation is written in Python:
+The reference implementation is written in Python.
+
+Belief Propagation lib files:
+* [Belief Propagation Constants](../opencog/samples/belief-propagation/python/belief_propagation_constants.py)
 * [Belief Propagation URE Rules](../opencog/samples/belief-propagation/python/belief_propagation_ure.py)
-* [Belief Propagation Rain Wet Grass Sample](../opencog/samples/belief-propagation/python/sample-rain-wet-grass.py)
+* [Belief Propagation algorithm methods](../opencog/samples/belief-propagation/python/belief_propagation.py)
+
+Sample:
+* [Rain Wet Grass Sample](../opencog/samples/belief-propagation/python/sample-rain-wet-grass.py)
 
 
 ## Known problems
