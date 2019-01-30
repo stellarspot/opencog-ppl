@@ -28,15 +28,13 @@ def get_factor_node(variables):
 def get_variable_predicate(variable):
     return EvaluationLink(
         VARIABLE_KEY,
-        variable
-    )
+        variable)
 
 
 def get_factor_predicate(factor):
     return EvaluationLink(
         FACTOR_KEY,
-        factor
-    )
+        factor)
 
 
 def get_edge_predicate(factor, variable):
@@ -53,9 +51,7 @@ def get_edge_predicate(factor, variable):
         EDGE_KEY,
         ListLink(
             factor,
-            variable
-        )
-    )
+            variable))
 
 
 def set_variable_shape_value(v, variable):
