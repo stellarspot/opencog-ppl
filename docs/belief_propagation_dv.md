@@ -48,36 +48,18 @@ P(R=true|WG=wet) = P(R=true, WG=wet) / P(WG=wet)
 
 ## Task Definition
 
-```scheme
-(define R (ConceptNode "Rain"))
-(define W (ConceptNode "WetGrass"))
-(define WR (Implication R W))
+```python
+from belief_propagation_ure import *
 
+rain = ConceptNode('Rain')
+wet_grass = ConceptNode('WetGrass')
+wet_grass_given_rain = ImplicationLink(rain, wet_grass)
 
-;Key for the DV Values
-(define key (PredicateNode "CDV"))
+rain.set_value(SHAPE_KEY, FloatValue(2))
+rain.set_value(CDV_KEY, FloatValue([0.2, 0.8]))
 
-;Helper simple DVs
-;which is a list of DVKey equivalents
-;a DVKey consits of a list of Intervals
-;which are list of either lenght 1 or 2
-(define zo (list (list '(0)) (list '(1))))
-
-;Rain
-;F - 0.8 , T - 0.2 , Count 100000
-(cog-set-value! R key (cog-new-dv zo '(80000 20000)))
-
-;Wet Grass given Rain
-;Rain = False
-;F - 0.75 , T - 0.25 , Count 100_000
-;Rain = True
-;F - 0.1 , T - 0.9 , Count 10-_000
-;Total Count 100000
-(define dvWR0 (cog-new-dv zo '(75000 25000)))
-(define dvWR1 (cog-new-dv zo '(10000 90000)))
-
-(define dvWR (cog-new-cdv zo (list dvWR0 dvWR1)))
-(cog-set-value! WR key dvWR)
+wet_grass.set_value(SHAPE_KEY, FloatValue(2))
+wet_grass_given_rain.set_value(CDV_KEY, FloatValue([0.9, 0.1, 0.25, 0.75]))
 ```
 
 ## Main Steps
@@ -94,31 +76,31 @@ The first step is generation a factor graph using the initial task representatio
 Rules:
 * (Concept A) with DV ->
   * Variable
-    * Predicate('Variable', 'Variable-A')
+    * Predicate('variable', 'Variable-A')
   * Factor
-    * Predicate('Factor', 'Factor-A')
+    * Predicate('factor', 'Factor-A')
   * Edge
-    * Predicate('Edge', 'Factor-A', 'Variable-A')
+    * Predicate('edge', 'Factor-A', 'Variable-A')
 * (Implication (Concept B) (Concept A)) with DV
   * Variables
-    * Predicate('Variable', 'Variable-A')
-    * Predicate('Variable', 'Variable-B')
+    * Predicate('variable', 'Variable-A')
+    * Predicate('variable', 'Variable-B')
   * Factor
-    * Predicate('Factor', 'Factor-A-B')
+    * Predicate('factor', 'Factor-A-B')
   * Edge
-    * Predicate('Edge', 'Factor-A-B', 'Variable-A')
-    * Predicate('Edge', 'Factor-A-B', 'Variable-B')
+    * Predicate('edge', 'Factor-A-B', 'Variable-A')
+    * Predicate('edge', 'Factor-A-B', 'Variable-B')
 * (Implication (Product (Concept B)(Concept C)) (Concept A)) with DV
   * Variables
-    * Predicate('Variable', 'Variable-A')
-    * Predicate('Variable', 'Variable-B')
-    * Predicate('Variable', 'Variable-C')
+    * Predicate('variable', 'Variable-A')
+    * Predicate('variable', 'Variable-B')
+    * Predicate('variable', 'Variable-C')
   * Factor
-    * Predicate('Factor', 'Factor-A-B-C')
+    * Predicate('factor', 'Factor-A-B-C')
   * Edge
-    * Predicate('Edge', 'Factor-A-B-C', 'Variable-A')
-    * Predicate('Edge', 'Factor-A-B-C', 'Variable-B')
-    * Predicate('Edge', 'Factor-A-B-C', 'Variable-C')
+    * Predicate('edge', 'Factor-A-B-C', 'Variable-A')
+    * Predicate('edge', 'Factor-A-B-C', 'Variable-B')
+    * Predicate('edge', 'Factor-A-B-C', 'Variable-C')
 
 Additional rules:
   * Variable  shape: size of the appropriate dimension of DV according to the order of variables in Implication link
@@ -129,8 +111,8 @@ Additional rules:
 
 Messages are vectors which are connected as values to Edges.
 There are two keys:
-  * 'message-variable-factor-key' for messages from variable to factor
-  * 'message-factor-variable-key' for messages from factor to variable
+  * 'message-variable-factor' key for messages from variable to factor
+  * 'message-factor-variable' key for messages from factor to variable
 
 
 **Message from Variable V to Factor F**
@@ -171,76 +153,72 @@ M(F->V) = [f(V1), f(V2), ... , f(Vn)]
 ## Simple Grass and Rain Factor Graph
 
 Variable:
-```scheme
-(define R (ConceptNode "Rain"))
-(cog-set-value! R key (cog-new-dv zo '(80000 20000)))
+```python
+rain = ConceptNode('Rain')
+rain.set_value(SHAPE_KEY, FloatValue(2))
+rain.set_value(CDV_KEY, FloatValue([0.2, 0.8]))
 
 ```
 to
 ```scheme
 (SetLink
-   (ListLink
-      (EvaluationLink
-         (PredicateNode "factor-node")
-         (ConceptNode "Factor-Rain")
+  (ListLink
+    (EvaluationLink
+      (PredicateNode "variable")
+      (ConceptNode "Variable-Rain")
+    )
+    (EvaluationLink
+      (PredicateNode "factor")
+      (ConceptNode "Factor-Rain")
+    )
+    (EvaluationLink
+      (PredicateNode "edge")
+      (ListLink
+        (ConceptNode "Factor-Rain")
+        (ConceptNode "Variable-Rain")
       )
-      (EvaluationLink
-         (PredicateNode "variable-node")
-         (ConceptNode "Variable-Rain")
-      )
-      (EvaluationLink
-         (PredicateNode "graph-edge")
-         (ListLink
-            (ConceptNode "Factor-Rain")
-            (ConceptNode "Variable-Rain")
-         )
-      )
-   )
+    )
+  )
 )
-
 ```
 
 Implication:
-```scheme
-(define WR (Implication R W))
+```python
+wet_grass_given_rain = ImplicationLink(rain, wet_grass)
+wet_grass_given_rain.set_value(CDV_KEY, FloatValue([0.9, 0.1, 0.25, 0.75]))
 
-(define dvWR0 (cog-new-dv zo '(75000 25000)))
-(define dvWR1 (cog-new-dv zo '(10000 90000)))
-
-(define dvWR (cog-new-cdv zo (list dvWR0 dvWR1)))
-(cog-set-value! WR key dvWR)
 ```
 to
 ```scheme
 (SetLink
-   (ListLink
-      (EvaluationLink
-         (PredicateNode "factor-node")
-         (ConceptNode "Factor-Rain-WetGrass")
+  (ListLink
+    (EvaluationLink
+      (PredicateNode "variable")
+      (ConceptNode "Variable-Rain")
+    )
+    (EvaluationLink
+      (PredicateNode "variable")
+      (ConceptNode "Variable-WetGrass")
+    )
+    (EvaluationLink
+      (PredicateNode "factor")
+      (ConceptNode "Factor-Rain-WetGrass")
+    )
+    (EvaluationLink
+      (PredicateNode "edge")
+      (ListLink
+        (ConceptNode "Factor-Rain-WetGrass")
+        (ConceptNode "Variable-Rain")
       )
-      (EvaluationLink
-         (PredicateNode "variable-node")
-         (ConceptNode "Variable-Rain")
+    )
+    (EvaluationLink
+      (PredicateNode "edge")
+      (ListLink
+        (ConceptNode "Factor-Rain-WetGrass")
+        (ConceptNode "Variable-WetGrass")
       )
-      (EvaluationLink
-         (PredicateNode "variable-node")
-         (ConceptNode "Variable-WetGrass")
-      )
-      (EvaluationLink
-         (PredicateNode "graph-edge")
-         (ListLink
-            (ConceptNode "Factor-Rain-WetGrass")
-            (ConceptNode "Variable-Rain")
-         )
-      )
-      (EvaluationLink
-         (PredicateNode "graph-edge")
-         (ListLink
-            (ConceptNode "Factor-Rain-WetGrass")
-            (ConceptNode "Variable-WetGrass")
-         )
-      )
-   )
+    )
+  )
 )
 ```
 ## Methods
