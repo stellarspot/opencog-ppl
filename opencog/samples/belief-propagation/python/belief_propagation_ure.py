@@ -15,7 +15,6 @@ SHAPE_KEY = PredicateNode('shape')
 FACTOR_KEY = PredicateNode('factor')
 VARIABLE_KEY = PredicateNode('variable')
 EDGE_KEY = PredicateNode('edge')
-TENSOR_KEY = PredicateNode('tensor')
 
 MESSAGE_VARIABLE_FACTOR_KEY = PredicateNode('message-variable-factor')
 MESSAGE_FACTOR_VARIABLE_KEY = PredicateNode('message-factor-variable')
@@ -104,7 +103,6 @@ def show_values(atom, msg=''):
 
     show_value('cdv', atom, CDV_KEY)
     show_value('shape', atom, SHAPE_KEY)
-    show_value('tensor', atom, TENSOR_KEY)
     print()
 
 
@@ -161,11 +159,27 @@ def set_variable_shape_value(v, variable):
         variable.set_value(SHAPE_KEY, shape)
 
 
-def set_factor_tensor(atom, factor):
-    shape = atom.get_value(SHAPE_KEY)
-    factor.set_value(SHAPE_KEY, shape)
-    tensor = atom.get_value(CDV_KEY)
-    factor.set_value(TENSOR_KEY, tensor)
+def set_factor_tensor(factor, variables, dv_atom):
+    """
+    Sets shape and tensor for the given factor.
+    Shape is a list of shapes of given variables.
+    Tensor is set in dv_atom.
+
+    :param factor: factor in factor graph
+    :param variables: initial variables
+    :param dv_atom: atom which contains dv value
+    """
+
+    # print('set factor tensor:', factor.name)
+    variables.sort()
+
+    shape = list(map(lambda v: get_variable_shape(v), variables))
+    # print('factor shape:', shape)
+    factor.set_value(SHAPE_KEY, FloatValue(shape))
+
+    tensor = get_factor_tensor(dv_atom)
+    # print('tensor: ', tensor)
+    factor.set_value(CDV_KEY, FloatValue(tensor))
 
 
 def get_neighbors_factors(variable, exclude_factor):
@@ -301,6 +315,35 @@ def get_variable_shape(variable):
     return int(shape.to_list()[0])
 
 
+def get_factor_tensor(atom):
+    """
+    Return the tensor which is set as DV value for the given atom.
+
+    :param atom: atom which contains DV
+    :return: factor tensor
+    """
+
+    tensor_value = atom.get_value(CDV_KEY)
+    assert tensor_value, 'Tensor must be set for atom: ' + str(atom)
+    return tensor_value.to_list()
+
+
+def get_factor_shape(factor):
+    """
+    Return the factor tensor dimensions dimension from shape value as list of ints
+
+    :param factor: factor in factor factor graph
+    :return: dimension of the variable
+    """
+
+    shape = factor.get_value(SHAPE_KEY)
+    assert shape, 'Shape must be set for factor: ' + factor.name
+
+    print('shape: ', shape.to_list())
+    # return int(shape.to_list()[0])
+    return [2]
+
+
 def get_initial_message_variable(variable):
     """
     :param variable: variable in factor factor graph
@@ -315,7 +358,8 @@ def get_initial_message_factor(factor):
     :param factor: factor in factor graph
     :return: initial tensor from the factor
     """
-    tensor = factor.get_value(TENSOR_KEY)
+    # TBD use get_tensor()
+    tensor = factor.get_value(CDV_KEY)
     assert tensor, 'Tensor must be set for factor: ' + factor.name
     return tensor.to_list()
 
@@ -338,6 +382,27 @@ def get_message_componentwise_multiplication(messages, size):
     return message.tolist()
 
 
+def get_message_tensor_multiplication(factor, messages):
+    print('get_message_tensor_multiplication:', factor.name, messages)
+    shape = get_factor_shape(factor)
+    # bounds = factor.get_value(ConceptNode(KEY_FACTOR_TENSOR_BOUNDS)).to_list()
+    # bounds = list(map(lambda v: int(v), bounds))
+    # tensor_values = factor.get_value(ConceptNode(KEY_FACTOR_TENSOR_VALUES)).to_list()
+    #
+    # tensor = np.array(tensor_values).reshape(bounds)
+    #
+    # t = tensor
+    # for i in range(0, len(messages)):
+    #     msg = messages[i]
+    #     if not msg:
+    #         continue
+    #     v = np.array(msg)
+    #     t = np.tensordot(t, v, axes=(i, 0))
+    #
+    # return t.tolist()
+    return []
+
+
 def set_message_edge(edge, key, message):
     """
     Sets the message to graph edge.
@@ -357,7 +422,7 @@ def create_message_variable_factor(variable, factor):
     Creates a message from the variable to factor and set it to edge.
 
     :param variable: variable in factor factor graph
-    :param factor: factor in factor factor graph
+    :param factor: factor in factor graph
     """
     factors = get_neighbors_factors(variable, factor).out
     msg = None
@@ -386,8 +451,8 @@ def create_message_factor_variable(factor, variable):
     """
     Creates a message from the factor to variable and set it to edge.
 
-    :param factor: factor in factor factor graph
-    :param variable: variable in factor factor graph
+    :param factor: factor in factor graph
+    :param variable: variable in factor graph
     """
     variables = get_neighbors_variables(factor, variable).out
     msg = None
@@ -396,6 +461,18 @@ def create_message_factor_variable(factor, variable):
         edge = get_edge_predicate(factor, variable)
         msg = get_initial_message_factor(factor)
     else:
+        messages = []
+        for v in variables:
+            edge = get_edge_predicate(factor, v)
+            msg_value = edge.get_value(MESSAGE_VARIABLE_FACTOR_KEY)
+            assert msg_value, 'Message must be set for edge:' + factor.name + '->' + v.name
+            m = float_value_to_list(msg_value)
+            messages.append(m)
+
+        # print('messages:', messages)
+        get_message_tensor_multiplication(factor, messages)
+        # shape = get_variable_shape(variable)
+        # msg = get_message_componentwise_multiplication(messages, shape)
         print('TBD: send message (f->v)')
 
     if msg:
@@ -451,7 +528,7 @@ def init_factor_graph_concept_node():
 
 
 def init_factor_graph_concept_node_formula(v):
-    print('init_factor_graph_concept_node_formula', v)
+    print('init_factor_graph_concept_node_formula', v.name)
 
     variable = get_variable_node(v)
     factor = get_factor_node([v])
@@ -465,7 +542,7 @@ def init_factor_graph_concept_node_formula(v):
     set_variable_shape_value(v, variable)
 
     # set factor tensor
-    set_factor_tensor(v, factor)
+    set_factor_tensor(factor, [v], v)
 
     return ListLink(
         variable_predicate,
@@ -530,13 +607,16 @@ def init_factor_graph_implication_link():
         ExecutionOutputLink(
             GroundedSchemaNode('py: init_factor_graph_implication_link_formula'),
             ListLink(
+                ImplicationLink(
+                    VariableNode('$V1'),
+                    VariableNode('$V2')),
                 VariableNode('$V1'),
                 VariableNode('$V2'))))
     bindlink(atomspace, bind_link)
     # print(bindlink(atomspace, bind_link))
 
 
-def init_factor_graph_implication_link_formula(v1, v2):
+def init_factor_graph_implication_link_formula(I, v1, v2):
     print('init_factor_graph_implication_link_formula', v1.name, v2.name)
 
     variable1 = get_variable_node(v1)
@@ -555,7 +635,7 @@ def init_factor_graph_implication_link_formula(v1, v2):
     set_variable_shape_value(v2, variable2)
 
     # # set factor tensor
-    # set_factor_tensor(v, factor)
+    set_factor_tensor(factor, [v1, v2], I)
 
     return ListLink(
         variable_predicate_1,
