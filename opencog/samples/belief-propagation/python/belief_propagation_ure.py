@@ -234,6 +234,29 @@ def get_neighbors_variables(factor, exclude_variable):
     return factors_link
 
 
+def get_all_neighbors_variables(factor):
+    """
+    Find all variables which are connected with the given factor.
+    This method is used for Factor tensor message multiplication to skip position
+    of the variable the message is sent to.
+
+    :param factor: factor in factor graph
+    :return: the SetLink which contains a list of all variables connected to the factor.
+    """
+    bind_link = BindLink(
+        VariableNode('$V'),
+        AndLink(
+            get_variable_predicate(
+                VariableNode('$V')),
+            get_edge_predicate(
+                factor,
+                VariableNode('$V'))),
+        VariableNode('$V'))
+
+    factors_link = bindlink(atomspace, bind_link)
+    return factors_link
+
+
 def can_send_message_variable_factor(variable, factor):
     """
     Check that message can be send from variable to factor:
@@ -383,9 +406,11 @@ def get_message_componentwise_multiplication(messages, size):
 def get_message_tensor_multiplication(factor, messages):
     """
     Multiplies the factor tensor to incoming messages to get the outcome message.
+    Each message is a list of float values or None in case it is a position
+    of the variable the messages is sent to.
 
     :param factor: factor in factor graph
-    :param messages: list of incoming messages
+    :param messages: list of incoming messages contained None in the position of the target variable.
     :return:
     """
     bounds = get_factor_shape(factor)
@@ -454,20 +479,26 @@ def create_message_factor_variable(factor, variable):
     :param factor: factor in factor graph
     :param variable: variable in factor graph
     """
-    variables = get_neighbors_variables(factor, variable).out
+    variables = get_all_neighbors_variables(factor).out
     msg = None
 
-    if not variables:
+    # variables consists at least with one variable which is an argumnet
+    # of the given factor
+    if len(variables) == 1:
         edge = get_edge_predicate(factor, variable)
         msg = get_initial_message_factor(factor)
     else:
+        # Variables must be sorted to be consistent with the factor shape
+        sorted(variables, key=lambda v: v.name)
         messages = []
         for v in variables:
             edge = get_edge_predicate(factor, v)
             msg_value = edge.get_value(MESSAGE_VARIABLE_FACTOR_KEY)
-            assert msg_value, 'Message must be set for edge:' + factor.name + '->' + v.name
-            m = float_value_to_list(msg_value)
-            messages.append(m)
+            if not msg_value:
+                messages.append(None)
+            else:
+                m = float_value_to_list(msg_value)
+                messages.append(m)
 
         msg = get_message_tensor_multiplication(factor, messages)
 
