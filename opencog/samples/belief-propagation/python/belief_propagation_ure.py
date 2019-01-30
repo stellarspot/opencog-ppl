@@ -18,8 +18,8 @@ TENSOR_KEY = PredicateNode('tensor')
 MESSAGE_VARIABLE_FACTOR_KEY = PredicateNode('message-variable-factor')
 MESSAGE_FACTOR_VARIABLE_KEY = PredicateNode('message-factor-variable')
 
-TRUTH_VALUE_FALSE = TruthValue(0, 1)
-TRUTH_VALUE_TRUE = TruthValue(1, 1)
+TV_FALSE = TruthValue(0, 1)
+TV_TRUE = TruthValue(1, 1)
 
 
 # Utility methods
@@ -56,8 +56,8 @@ def show_edges():
 
 def bool_to_tv(b):
     if not b:
-        return TRUTH_VALUE_FALSE
-    return TRUTH_VALUE_TRUE
+        return TV_FALSE
+    return TV_TRUE
 
 
 def float_value_to_list(value):
@@ -82,8 +82,8 @@ def has_value(atom, key):
 def eval_has_value(atom, key):
     value = atom.get_value(key)
     if value:
-        return TRUTH_VALUE_TRUE
-    return TRUTH_VALUE_FALSE
+        return TV_TRUE
+    return TV_FALSE
 
 
 def eval_has_dv(atom):
@@ -237,15 +237,19 @@ def can_send_message_variable_factor(variable, factor):
 
     if has_value(edge, MESSAGE_VARIABLE_FACTOR_KEY):
         # print('HAS_VALUE')
-        return TRUTH_VALUE_FALSE
+        return TV_FALSE
 
     factors = get_neighbors_factors(variable, factor).out
 
     if not factors:
-        # print('YES')
-        return TRUTH_VALUE_TRUE
+        return TV_TRUE
+    else:
+        for f in factors:
+            edge = get_edge_predicate(f, variable)
+            if not has_value(edge, MESSAGE_FACTOR_VARIABLE_KEY):
+                return TV_FALSE
 
-    return TRUTH_VALUE_FALSE
+    return TV_TRUE
 
 
 def can_send_message_factor_variable(factor, variable):
@@ -265,14 +269,21 @@ def can_send_message_factor_variable(factor, variable):
     edge = get_edge_predicate(factor, variable)
 
     if has_value(edge, MESSAGE_FACTOR_VARIABLE_KEY):
-        return TRUTH_VALUE_FALSE
+        return TV_FALSE
 
     variables = get_neighbors_variables(factor, variable).out
 
     if not variables:
-        return TRUTH_VALUE_TRUE
+        return TV_TRUE
+    else:
+        for v in variables:
+            edge = get_edge_predicate(factor, v)
+            if not has_value(edge, MESSAGE_VARIABLE_FACTOR_KEY):
+                return TV_FALSE
 
-    return TRUTH_VALUE_FALSE
+    return TV_TRUE
+
+    # return TV_FALSE
 
 
 def get_initial_message_variable(variable):
@@ -317,11 +328,13 @@ def create_message_variable_factor(variable, factor):
     :param factor: factor in factor factor graph
     """
     factors = get_neighbors_factors(variable, factor).out
-
     msg = None
+
     if not factors:
         edge = get_edge_predicate(factor, variable)
         msg = get_initial_message_variable(variable)
+    else:
+        print('TBD: send message (v->f)')
 
     if msg:
         print('message (v->f):', variable.name, factor.name, msg)
@@ -336,12 +349,13 @@ def create_message_factor_variable(factor, variable):
     :param variable: variable in factor factor graph
     """
     variables = get_neighbors_variables(factor, variable).out
-
     msg = None
+
     if not variables:
         edge = get_edge_predicate(factor, variable)
         msg = get_initial_message_factor(factor)
-        set_message_edge(edge, MESSAGE_FACTOR_VARIABLE_KEY, msg)
+    else:
+        print('TBD: send message (f->v)')
 
     if msg:
         print('message (f->v):', factor.name, variable.name, msg)
