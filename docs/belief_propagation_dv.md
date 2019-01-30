@@ -2,14 +2,16 @@
 
 ## Reference Implementation
 
-[Belief Propagation URE Rules](../opencog/samples/belief-propagation/belief-propagation-ure-rules.scm)
+The reference implementation is written in Python:
+* [Belief Propagation URE Rules](../opencog/samples/belief-propagation/python/belief_propagation_ure.py)
+* [Belief Propagation Rain Wet Grass Sample](../opencog/samples/belief-propagation/python/sample-rain-wet-grass.py)
 
-[Belief Propagation Sample](../opencog/samples/belief-propagation/sample-rain-wet-grass.scm)
 
 ## Known problems
 
 [Python file is not loaded in SCM](https://github.com/opencog/atomspace/issues/1888)
 [Using GlobNode in Backward Chainer](https://github.com/opencog/atomspace/issues/2009)
+[ForAllLink does not returns values](https://github.com/opencog/atomspace/issues/2018)
 
 ## Simple Grass and Rain sample
 
@@ -241,3 +243,10 @@ to
    )
 )
 ```
+## Methods
+
+Factor Graph Initialization:
+* init_factor_graph()
+
+Messages sending:
+* send_messages()
