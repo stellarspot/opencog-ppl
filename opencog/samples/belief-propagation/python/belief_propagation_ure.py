@@ -18,6 +18,9 @@ TENSOR_KEY = PredicateNode('tensor')
 MESSAGE_VARIABLE_FACTOR_KEY = PredicateNode('message-variable-factor')
 MESSAGE_FACTOR_VARIABLE_KEY = PredicateNode('message-factor-variable')
 
+TRUTH_VALUE_FALSE = TruthValue(0, 1)
+TRUTH_VALUE_TRUE = TruthValue(1, 1)
+
 
 # Utility methods
 
@@ -32,8 +35,8 @@ def show_atomspace():
 
 def bool_to_tv(b):
     if not b:
-        return TruthValue(0, 1)
-    return TruthValue(1, 1)
+        return TRUTH_VALUE_FALSE
+    return TRUTH_VALUE_TRUE
 
 
 def float_value_to_list(value):
@@ -43,11 +46,23 @@ def float_value_to_list(value):
     return list
 
 
+def has_value(atom, key):
+    """
+    :param atom: the given atom
+    :param key: the given key
+    :return: True if the atom contains a value for the given key
+    """
+    value = atom.get_value(key)
+    if value:
+        return True
+    return False
+
+
 def eval_has_value(atom, key):
     value = atom.get_value(key)
     if value:
-        return TruthValue(1, 1)
-    return TruthValue(0, 1)
+        return TRUTH_VALUE_TRUE
+    return TRUTH_VALUE_FALSE
 
 
 def eval_has_dv(atom):
@@ -141,18 +156,63 @@ def get_neighbors_factors(variable, exclude_factor):
 
 
 def can_send_message_variable_factor(variable, factor):
+    """
+    Check that message can be send from variable to factor:
+    - there is no a message from the variable to factor
+    - all edges from factors to the variable except the
+      the given factor have messages
+
+    :param variable: variable in factor factor graph
+    :param factor: factor in factor factor graph
+    :return: TruthValue indicates that message can be send
+    """
+
     # print('can_send_message_variable_factor', variable.name, factor.name)
+
+    edge = get_edge_predicate(variable, factor)
+
+    if has_value(edge, MESSAGE_VARIABLE_FACTOR_KEY):
+        return TRUTH_VALUE_FALSE
+
     factors = get_neighbors_factors(variable, factor).out
-    # print('factors:', factors)
 
-    if len(factors) == 0:
-        return TruthValue(1, 1)
+    if not factors:
+        return TRUTH_VALUE_TRUE
 
-    return TruthValue(0, 1)
+    return TRUTH_VALUE_FALSE
+
+
+def get_initial_message_variable(variable):
+    """
+    :param variable: variable in factor factor graph
+    :return: [1.0] * variable shape
+    """
+    shape = variable.get_value(SHAPE_KEY)
+    assert shape, 'Variable shape must be set: ' + variable.name
+    return [1.0] * int(shape.to_list()[0])
+
+
+def set_message_edge(edge, message):
+    """
+    Sets the message to graph edge.
+
+    :param edge: edge in factor graph
+    :param message: python list of float values
+    """
+
+    value = FloatValue(message)
+    edge.set_value(MESSAGE_VARIABLE_FACTOR_KEY, value)
 
 
 def create_message_variable_factor(variable, factor):
     print('create_message_variable_factor', variable.name, factor.name)
+    factors = get_neighbors_factors(variable, factor).out
+    # print('factors:', factors)
+
+    if not factors:
+        edge = get_edge_predicate(variable, factor)
+        msg = get_initial_message_variable(variable)
+        set_message_edge(edge, msg)
 
 
 def init_factor_graph():
@@ -382,11 +442,11 @@ def send_message_variable_factor():
             ListLink(
                 VariableNode('$V'),
                 VariableNode('$F'))))
-    # bindlink(atomspace, bind_link)
-    print(bindlink(atomspace, bind_link))
+    bindlink(atomspace, bind_link)
+    # print(bindlink(atomspace, bind_link))
 
 
 def send_message_variable_factor_formula(variable, formula):
-    print('send_message_variable_factor_formula', variable.name, formula.name)
+    # print('send_message_variable_factor_formula', variable.name, formula.name)
     create_message_variable_factor(variable, formula)
     return ListLink()
