@@ -330,18 +330,16 @@ def get_factor_tensor(atom):
 
 def get_factor_shape(factor):
     """
-    Return the factor tensor dimensions dimension from shape value as list of ints
+    Returns dimensions of the factor arguments
 
     :param factor: factor in factor factor graph
-    :return: dimension of the variable
+    :return: dimensions of the factor arguments
     """
 
     shape = factor.get_value(SHAPE_KEY)
     assert shape, 'Shape must be set for factor: ' + factor.name
 
-    print('shape: ', shape.to_list())
-    # return int(shape.to_list()[0])
-    return [2]
+    return [int(x) for x in shape.to_list()]
 
 
 def get_initial_message_variable(variable):
@@ -383,24 +381,26 @@ def get_message_componentwise_multiplication(messages, size):
 
 
 def get_message_tensor_multiplication(factor, messages):
-    print('get_message_tensor_multiplication:', factor.name, messages)
-    shape = get_factor_shape(factor)
-    # bounds = factor.get_value(ConceptNode(KEY_FACTOR_TENSOR_BOUNDS)).to_list()
-    # bounds = list(map(lambda v: int(v), bounds))
-    # tensor_values = factor.get_value(ConceptNode(KEY_FACTOR_TENSOR_VALUES)).to_list()
-    #
-    # tensor = np.array(tensor_values).reshape(bounds)
-    #
-    # t = tensor
-    # for i in range(0, len(messages)):
-    #     msg = messages[i]
-    #     if not msg:
-    #         continue
-    #     v = np.array(msg)
-    #     t = np.tensordot(t, v, axes=(i, 0))
-    #
-    # return t.tolist()
-    return []
+    """
+    Multiplies the factor tensor to incoming messages to get the outcome message.
+
+    :param factor: factor in factor graph
+    :param messages: list of incoming messages
+    :return:
+    """
+    bounds = get_factor_shape(factor)
+    tensor_values = get_factor_tensor(factor)
+    tensor = np.array(tensor_values).reshape(bounds)
+
+    t = tensor
+    for i in range(0, len(messages)):
+        msg = messages[i]
+        if not msg:
+            continue
+        v = np.array(msg)
+        t = np.tensordot(t, v, axes=(i, 0))
+
+    return t.tolist()
 
 
 def set_message_edge(edge, key, message):
@@ -469,11 +469,7 @@ def create_message_factor_variable(factor, variable):
             m = float_value_to_list(msg_value)
             messages.append(m)
 
-        # print('messages:', messages)
-        get_message_tensor_multiplication(factor, messages)
-        # shape = get_variable_shape(variable)
-        # msg = get_message_componentwise_multiplication(messages, shape)
-        print('TBD: send message (f->v)')
+        msg = get_message_tensor_multiplication(factor, messages)
 
     if msg:
         print('message (f->v):', factor.name, variable.name, msg)
