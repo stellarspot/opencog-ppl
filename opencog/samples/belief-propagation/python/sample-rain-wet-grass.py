@@ -11,9 +11,12 @@ wet_grass_given_rain.set_value(CDV_KEY, FloatValue([0.9, 0.1, 0.25, 0.75]))
 
 init_factor_graph()
 
+# show_atomspace()
+# show_edges()
+
 print("=== Iteration 1 ===")
 send_messages()
-
+#
 print("=== Iteration 2 ===")
 send_messages()
 

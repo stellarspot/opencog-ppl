@@ -167,6 +167,13 @@ def set_factor_tensor(atom, factor):
 
 
 def get_neighbors_factors(variable, exclude_factor):
+    """
+    Find all but exclude_factor factors which are connected with the given variable.
+
+    :param variable: variable in factor graph
+    :param exclude_factor: the factor that must must be excluded from the result.
+    :return: the SetLink which contains a list of factors except the given factor.
+    """
     bind_link = BindLink(
         VariableNode('$F'),
         AndLink(
@@ -180,6 +187,32 @@ def get_neighbors_factors(variable, exclude_factor):
                     exclude_factor,
                     VariableNode('$F')))),
         VariableNode('$F'))
+
+    factors_link = bindlink(atomspace, bind_link)
+    return factors_link
+
+
+def get_neighbors_variables(factor, exclude_variable):
+    """
+    Find all but exclude_variable variables which are connected with the given factor.
+
+    :param factor: factor in factor graph
+    :param exclude_variable: the variable that must must be excluded from the result.
+    :return: the SetLink which contains a list of variables except the given variable.
+    """
+    bind_link = BindLink(
+        VariableNode('$V'),
+        AndLink(
+            get_variable_predicate(
+                VariableNode('$V')),
+            get_edge_predicate(
+                factor,
+                VariableNode('$V')),
+            NotLink(
+                EqualLink(
+                    exclude_variable,
+                    VariableNode('$V')))),
+        VariableNode('$V'))
 
     factors_link = bindlink(atomspace, bind_link)
     return factors_link
@@ -227,17 +260,17 @@ def can_send_message_factor_variable(factor, variable):
     :return: TruthValue indicates that message can be send
     """
 
-    # print('can_send_message_variable_factor', variable.name, factor.name)
+    # print('can_send_message_factor_variable', factor.name, variable.name)
 
-    # edge = get_edge_predicate(variable, factor)
-    #
-    # if has_value(edge, MESSAGE_VARIABLE_FACTOR_KEY):
-    #     return TRUTH_VALUE_FALSE
-    #
-    # factors = get_neighbors_factors(variable, factor).out
-    #
-    # if not factors:
-    #     return TRUTH_VALUE_TRUE
+    edge = get_edge_predicate(factor, variable)
+
+    if has_value(edge, MESSAGE_FACTOR_VARIABLE_KEY):
+        return TRUTH_VALUE_FALSE
+
+    variables = get_neighbors_variables(factor, variable).out
+
+    if not variables:
+        return TRUTH_VALUE_TRUE
 
     return TRUTH_VALUE_FALSE
 
@@ -248,8 +281,18 @@ def get_initial_message_variable(variable):
     :return: [1.0] * variable shape
     """
     shape = variable.get_value(SHAPE_KEY)
-    assert shape, 'Variable shape must be set: ' + variable.name
+    assert shape, 'Shape must be set for variable: ' + variable.name
     return [1.0] * int(shape.to_list()[0])
+
+
+def get_initial_message_factor(factor):
+    """
+    :param factor: factor in factor graph
+    :return: initial tensor from the factor
+    """
+    tensor = factor.get_value(TENSOR_KEY)
+    assert tensor, 'Tensor must be set for factor: ' + factor.name
+    return tensor.to_list()
 
 
 def set_message_edge(edge, key, message):
@@ -267,14 +310,42 @@ def set_message_edge(edge, key, message):
 
 
 def create_message_variable_factor(variable, factor):
-    print('create_message_variable_factor', variable.name, factor.name)
-    factors = get_neighbors_factors(variable, factor).out
-    # print('factors:', factors)
+    """
+    Creates a message from the variable to factor and set it to edge.
 
+    :param variable: variable in factor factor graph
+    :param factor: factor in factor factor graph
+    """
+    factors = get_neighbors_factors(variable, factor).out
+
+    msg = None
     if not factors:
         edge = get_edge_predicate(factor, variable)
         msg = get_initial_message_variable(variable)
+
+    if msg:
+        print('message (v->f):', variable.name, factor.name, msg)
         set_message_edge(edge, MESSAGE_VARIABLE_FACTOR_KEY, msg)
+
+
+def create_message_factor_variable(factor, variable):
+    """
+    Creates a message from the factor to variable and set it to edge.
+
+    :param factor: factor in factor factor graph
+    :param variable: variable in factor factor graph
+    """
+    variables = get_neighbors_variables(factor, variable).out
+
+    msg = None
+    if not variables:
+        edge = get_edge_predicate(factor, variable)
+        msg = get_initial_message_factor(factor)
+        set_message_edge(edge, MESSAGE_FACTOR_VARIABLE_KEY, msg)
+
+    if msg:
+        print('message (f->v):', factor.name, variable.name, msg)
+        set_message_edge(edge, MESSAGE_FACTOR_VARIABLE_KEY, msg)
 
 
 def init_factor_graph():
@@ -284,6 +355,7 @@ def init_factor_graph():
 
 def send_messages():
     send_message_variable_factor()
+    send_message_factor_variable()
 
 
 # ; =====================================================================
@@ -587,6 +659,6 @@ def send_message_factor_variable():
 
 
 def send_message_factor_variable_formula(factor, variable):
-    print('send_message_factor_variable_formula', factor.name, variable.name)
-    # create_message_factor_variable(variable, formula)
+    # print('send_message_factor_variable_formula', factor.name, variable.name)
+    create_message_factor_variable(factor, variable)
     return ListLink()
