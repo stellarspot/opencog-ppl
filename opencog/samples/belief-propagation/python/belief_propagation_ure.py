@@ -31,6 +31,27 @@ def show_atomspace():
     print('---------------------')
 
 
+def show_edges():
+    bind_link = BindLink(
+        VariableList(
+            TypedVariableLink(
+                VariableNode('$F'),
+                TypeNode('ConceptNode')),
+            TypedVariableLink(
+                VariableNode('$V'),
+                TypeNode('ConceptNode'))),
+        get_edge_predicate(
+            VariableNode('$F'),
+            VariableNode('$V')
+        ),
+        get_edge_predicate(
+            VariableNode('$F'),
+            VariableNode('$V')
+        )
+    )
+    print(bindlink(atomspace, bind_link))
+
+
 # Belief Propagation Utility methods
 
 def bool_to_tv(b):
@@ -113,12 +134,21 @@ def get_factor_predicate(factor):
     )
 
 
-def get_edge_predicate(factor, var):
+def get_edge_predicate(factor, variable):
+    """
+    Create an edge for the given factor and variable in the factor graph.
+    Note, that the factor must always be the first argument and the variable the second.
+    There are no edges from variables to factors.
+
+    :param factor: factor in factor factor graph
+    :param variable: variable in factor factor graph
+    :return: edge predicate for the given factor and variable
+    """
     return EvaluationLink(
         EDGE_KEY,
         ListLink(
             factor,
-            var
+            variable
         )
     )
 
@@ -169,17 +199,21 @@ def can_send_message_variable_factor(variable, factor):
 
     # print('can_send_message_variable_factor', variable.name, factor.name)
 
-    edge = get_edge_predicate(variable, factor)
+    edge = get_edge_predicate(factor, variable)
+    # print('edge:', edge)
 
     if has_value(edge, MESSAGE_VARIABLE_FACTOR_KEY):
+        # print('HAS_VALUE')
         return TRUTH_VALUE_FALSE
 
     factors = get_neighbors_factors(variable, factor).out
 
     if not factors:
+        # print('YES')
         return TRUTH_VALUE_TRUE
 
     return TRUTH_VALUE_FALSE
+
 
 def can_send_message_factor_variable(factor, variable):
     """
@@ -218,16 +252,18 @@ def get_initial_message_variable(variable):
     return [1.0] * int(shape.to_list()[0])
 
 
-def set_message_edge(edge, message):
+def set_message_edge(edge, key, message):
     """
     Sets the message to graph edge.
 
     :param edge: edge in factor graph
+    :param key: key for the message,
+                either MESSAGE_VARIABLE_FACTOR_KEY or MESSAGE_FACTOR_VARIABLE_KEY
     :param message: python list of float values
     """
 
     value = FloatValue(message)
-    edge.set_value(MESSAGE_VARIABLE_FACTOR_KEY, value)
+    edge.set_value(key, value)
 
 
 def create_message_variable_factor(variable, factor):
@@ -236,9 +272,9 @@ def create_message_variable_factor(variable, factor):
     # print('factors:', factors)
 
     if not factors:
-        edge = get_edge_predicate(variable, factor)
+        edge = get_edge_predicate(factor, variable)
         msg = get_initial_message_variable(variable)
-        set_message_edge(edge, msg)
+        set_message_edge(edge, MESSAGE_VARIABLE_FACTOR_KEY, msg)
 
 
 def init_factor_graph():
@@ -352,7 +388,6 @@ def init_factor_graph_implication_link():
             TypedVariableLink(
                 VariableNode('$V2'),
                 TypeNode('ConceptNode'))),
-
         AndLink(
             # Preconditions
             EvaluationLink(
@@ -444,8 +479,8 @@ def send_message_variable_factor():
                     GroundedPredicateNode('py: eval_has_value'),
                     ListLink(
                         get_edge_predicate(
-                            VariableNode('$V'),
-                            VariableNode('$F')),
+                            VariableNode('$F'),
+                            VariableNode('$V')),
                         MESSAGE_VARIABLE_FACTOR_KEY))),
             EvaluationLink(
                 GroundedPredicateNode('py: can_send_message_variable_factor'),
@@ -462,6 +497,9 @@ def send_message_variable_factor():
                 FACTOR_KEY,
                 VariableNode('$F')
             ),
+            get_edge_predicate(
+                VariableNode('$F'),
+                VariableNode('$V'))
         ),
         ExecutionOutputLink(
             GroundedSchemaNode('py: send_message_variable_factor_formula'),
@@ -535,6 +573,9 @@ def send_message_factor_variable():
                 VARIABLE_KEY,
                 VariableNode('$V')
             ),
+            get_edge_predicate(
+                VariableNode('$F'),
+                VariableNode('$V'))
         ),
         ExecutionOutputLink(
             GroundedSchemaNode('py: send_message_factor_variable_formula'),
