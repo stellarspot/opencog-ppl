@@ -1,3 +1,5 @@
+import numpy as np
+
 from opencog.utilities import initialize_opencog
 from opencog.type_constructors import *
 from opencog.bindlink import bindlink
@@ -153,7 +155,7 @@ def get_edge_predicate(factor, variable):
     )
 
 
-def set_variable_shape(v, variable):
+def set_variable_shape_value(v, variable):
     shape = v.get_value(SHAPE_KEY)
     if shape:
         variable.set_value(SHAPE_KEY, shape)
@@ -286,14 +288,26 @@ def can_send_message_factor_variable(factor, variable):
     # return TV_FALSE
 
 
+def get_variable_shape(variable):
+    """
+    Return the variable dimension from shape value as int
+
+    :param variable: variable in factor factor graph
+    :return: dimension of the variable
+    """
+
+    shape = variable.get_value(SHAPE_KEY)
+    assert shape, 'Shape must be set for variable: ' + variable.name
+    return int(shape.to_list()[0])
+
+
 def get_initial_message_variable(variable):
     """
     :param variable: variable in factor factor graph
     :return: [1.0] * variable shape
     """
-    shape = variable.get_value(SHAPE_KEY)
-    assert shape, 'Shape must be set for variable: ' + variable.name
-    return [1.0] * int(shape.to_list()[0])
+
+    return [1.0] * get_variable_shape(variable)
 
 
 def get_initial_message_factor(factor):
@@ -304,6 +318,24 @@ def get_initial_message_factor(factor):
     tensor = factor.get_value(TENSOR_KEY)
     assert tensor, 'Tensor must be set for factor: ' + factor.name
     return tensor.to_list()
+
+
+def get_message_componentwise_multiplication(messages, size):
+    """
+    Multiplies the given list of messages componentwise.
+    Each message is python list of floats with the same size.
+
+    :param messages: list of incoming messages
+    :param size: size of outcome message
+    :return: outcome message
+    """
+
+    message = np.array([1.0] * size)
+    arrays = list(map(lambda msg: np.array(msg), messages))
+    for msg in arrays:
+        message = message * msg
+
+    return message.tolist()
 
 
 def set_message_edge(edge, key, message):
@@ -334,7 +366,16 @@ def create_message_variable_factor(variable, factor):
         edge = get_edge_predicate(factor, variable)
         msg = get_initial_message_variable(variable)
     else:
-        print('TBD: send message (v->f)')
+        messages = []
+        for f in factors:
+            edge = get_edge_predicate(f, variable)
+            msg_value = edge.get_value(MESSAGE_FACTOR_VARIABLE_KEY)
+            assert msg_value, 'Message must be set for edge:' + f.name + '->' + variable.name
+            m = float_value_to_list(msg_value)
+            messages.append(m)
+
+        shape = get_variable_shape(variable)
+        msg = get_message_componentwise_multiplication(messages, shape)
 
     if msg:
         print('message (v->f):', variable.name, factor.name, msg)
@@ -421,7 +462,7 @@ def init_factor_graph_concept_node_formula(v):
     edge = get_edge_predicate(factor, variable)
 
     # set variable shape
-    set_variable_shape(v, variable)
+    set_variable_shape_value(v, variable)
 
     # set factor tensor
     set_factor_tensor(v, factor)
@@ -510,8 +551,8 @@ def init_factor_graph_implication_link_formula(v1, v2):
     edge2 = get_edge_predicate(factor, variable2)
 
     # set variable shape
-    set_variable_shape(v1, variable1)
-    set_variable_shape(v2, variable2)
+    set_variable_shape_value(v1, variable1)
+    set_variable_shape_value(v2, variable2)
 
     # # set factor tensor
     # set_factor_tensor(v, factor)
