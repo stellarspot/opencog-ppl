@@ -181,6 +181,32 @@ def can_send_message_variable_factor(variable, factor):
 
     return TRUTH_VALUE_FALSE
 
+def can_send_message_factor_variable(factor, variable):
+    """
+    Check that message can be send from factor to variable :
+    - there is no a message from the factor to variable
+    - all edges from variables to the factor except the
+      the given variable have messages
+
+    :param factor: factor in factor factor graph
+    :param variable: variable in factor factor graph
+    :return: TruthValue indicates that message can be send
+    """
+
+    # print('can_send_message_variable_factor', variable.name, factor.name)
+
+    # edge = get_edge_predicate(variable, factor)
+    #
+    # if has_value(edge, MESSAGE_VARIABLE_FACTOR_KEY):
+    #     return TRUTH_VALUE_FALSE
+    #
+    # factors = get_neighbors_factors(variable, factor).out
+    #
+    # if not factors:
+    #     return TRUTH_VALUE_TRUE
+
+    return TRUTH_VALUE_FALSE
+
 
 def get_initial_message_variable(variable):
     """
@@ -449,4 +475,77 @@ def send_message_variable_factor():
 def send_message_variable_factor_formula(variable, formula):
     # print('send_message_variable_factor_formula', variable.name, formula.name)
     create_message_variable_factor(variable, formula)
+    return ListLink()
+
+
+# ; =====================================================================
+# ; Factor to Variable Message rule
+# ;
+# ; Evaluation
+# ;    Predicate "factor-node"
+# ;    F
+# ; Evaluation
+# ;    Predicate "variable-node"
+# ;    A
+# ; Evaluation
+# ;    Predicate "graph-edge"
+# ;    List
+# ;        Concept F
+# ;        Concept A
+# ; |-
+# ;
+# ; Evaluation
+# ;    Predicate "graph-message"
+# ;    List
+# ;        Concept F
+# ;        Concept A
+# ;----------------------------------------------------------------------
+
+def send_message_factor_variable():
+    bind_link = BindLink(
+        VariableList(
+            TypedVariableLink(
+                VariableNode('$F'),
+                TypeNode('ConceptNode')),
+            TypedVariableLink(
+                VariableNode('$V'),
+                TypeNode('ConceptNode'))),
+
+        AndLink(
+            NotLink(
+                EvaluationLink(
+                    GroundedPredicateNode('py: eval_has_value'),
+                    ListLink(
+                        get_edge_predicate(
+                            VariableNode('$F'),
+                            VariableNode('$V')),
+                        MESSAGE_FACTOR_VARIABLE_KEY))),
+            EvaluationLink(
+                GroundedPredicateNode('py: can_send_message_factor_variable'),
+                ListLink(
+                    VariableNode('$F'),
+                    VariableNode('$V')
+                )),
+            # Pattern clauses
+            EvaluationLink(
+                FACTOR_KEY,
+                VariableNode('$F')
+            ),
+            EvaluationLink(
+                VARIABLE_KEY,
+                VariableNode('$V')
+            ),
+        ),
+        ExecutionOutputLink(
+            GroundedSchemaNode('py: send_message_factor_variable_formula'),
+            ListLink(
+                VariableNode('$F'),
+                VariableNode('$V'))))
+    bindlink(atomspace, bind_link)
+    # print(bindlink(atomspace, bind_link))
+
+
+def send_message_factor_variable_formula(factor, variable):
+    print('send_message_factor_variable_formula', factor.name, variable.name)
+    # create_message_factor_variable(variable, formula)
     return ListLink()
