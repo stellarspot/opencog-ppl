@@ -15,9 +15,9 @@ Sample:
 
 ## Known problems
 
-[Python file is not loaded in SCM](https://github.com/opencog/atomspace/issues/1888)
-[Using GlobNode in Backward Chainer](https://github.com/opencog/atomspace/issues/2009)
-[ForAllLink does not returns values](https://github.com/opencog/atomspace/issues/2018)
+* [Python file is not loaded in SCM](https://github.com/opencog/atomspace/issues/1888)
+* [Using GlobNode in Backward Chainer](https://github.com/opencog/atomspace/issues/2009)
+* [ForAllLink does not returns values](https://github.com/opencog/atomspace/issues/2018)
 
 ## Simple Grass and Rain sample
 
