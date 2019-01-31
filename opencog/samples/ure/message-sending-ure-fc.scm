@@ -23,6 +23,9 @@
 
 (edge node-a node-b)
 
+(cog-set-value! node-a (PredicateNode "CDV") (stv 1 1))
+
+
 ;;;;;;;;;;;;;;;
 ;; Rule base ;;
 ;;;;;;;;;;;;;;;
@@ -34,9 +37,14 @@
   (VariableList
    (TypedVariable (Variable "$X") (Type "ConceptNode"))
    (TypedVariable (Variable "$Y") (Type "ConceptNode")))
-  (edge
-   (Variable "$X")
-   (Variable "$Y"))
+  (And
+   (Evaluation
+    (GroundedPredicate "scm: has-ure-dv")
+    (VariableNode "$X"))
+   (edge
+    (Variable "$X")
+    (Variable "$Y"))
+  )
   (ExecutionOutputLink
    (GroundedSchemaNode "scm: message-sending-formula")
    (ListLink
@@ -55,6 +63,11 @@
  (DefinedSchema "message-sending-rule"))
 
 (Define message-sending-rule-name message-sending-rule)
+
+
+;;; formulas ;;;
+(define (has-ure-dv A)
+ (bool->tv #t))
 
 ;;;;;;;;;;
 ;; URE  ;;
