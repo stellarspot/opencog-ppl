@@ -28,7 +28,7 @@
 ;;;;;;;;;;;;;;;
 
 
-(define modus-ponens-rule
+(define message-sending-rule
 
  (Bind
   (VariableList
@@ -38,23 +38,23 @@
    (Variable "$X")
    (Variable "$Y"))
   (ExecutionOutputLink
-   (GroundedSchemaNode "scm: modus-ponens-formula")
+   (GroundedSchemaNode "scm: message-sending-formula")
    (ListLink
     (message
      (Variable "$X")
      (Variable "$Y"))))))
 
 
-(define (modus-ponens-formula M)
- (display "[modus-ponens-formula]")
+(define (message-sending-formula M)
+ (display "[message-sending-formula]")
  (newline)
  M
 )
 
-(define modus-ponens-rule-name
- (DefinedSchema "modus-ponens-rule"))
+(define message-sending-rule-name
+ (DefinedSchema "message-sending-rule"))
 
-(Define modus-ponens-rule-name modus-ponens-rule)
+(Define message-sending-rule-name message-sending-rule)
 
 ;;;;;;;;;;
 ;; URE  ;;
@@ -65,7 +65,7 @@
 ;; Add rules to bayesian-rb
 (ure-add-rules bayesian-rb
  (list
-  (cons modus-ponens-rule-name (stv 1 1))))
+  (cons message-sending-rule-name (stv 1 1))))
 
 ;; Set URE parameters
 (ure-set-maximum-iterations bayesian-rb 20)
@@ -79,11 +79,6 @@
 
 
 (display
- (cog-bc
+ (cog-fc
   bayesian-rb
-  (Evaluation
-   message-key
-   (List
-    (VariableNode "$X")
-    node-b))
-  #:vardecl (TypedVariable (VariableNode "$X") (TypeNode "ConceptNode"))))
+  (SetLink)))
