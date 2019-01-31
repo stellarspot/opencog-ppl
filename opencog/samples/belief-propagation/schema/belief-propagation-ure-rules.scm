@@ -126,12 +126,15 @@ def get_message(n1, n2):
     return None
 
 def can_send_message_variable_factor(v, f):
+    print('can send msg (v-f): ', v.name, f.name)
     factors = get_factors(v, f)
 
     for nf in factors.out:
         msg = get_message(nf, v)
         if not msg:
             return TruthValue(0, 0)
+
+    print('Yes')
     return TruthValue(1, 1)
 
 
@@ -158,7 +161,9 @@ def get_initial_factor_message(f):
 
 
 def send_message_variable_factor(msg, v, f):
+    print('!!!!!')
     factors = get_factors(v, f).out
+    print('factors:', factors)
 
     if len(factors) == 0:
         shape = v.get_value(ConceptNode('probability-shape'))
@@ -169,8 +174,9 @@ def send_message_variable_factor(msg, v, f):
     return ConceptNode('Test')
 
 def send_message_factor_variable(msg, v, f):
-    #print('send msg (f-v): ', f.name, v.name)
+    print('send msg (f-v): ', f.name, v.name)
     variables = get_variables(f, v).out
+    #print('variables:', variables)
 
     if len(variables) == 0:
         msg_value = get_initial_factor_message(f)
@@ -256,17 +262,39 @@ def send_message_factor_variable(msg, v, f):
    (GroundedSchemaNode "py: send_message_variable_factor")
    (ListLink M v f))))
 
-;(define (send-message-factor-variable M f v)
-; (cog-execute!
-;  (ExecutionOutputLink
-;   (GroundedSchemaNode "py: send_message_factor_variable")
-;   (ListLink M f v))))
-
 (define (send-message-factor-variable M v f)
  (cog-execute!
   (ExecutionOutputLink
    (GroundedSchemaNode "py: send_message_factor_variable")
    (ListLink M f v))))
+
+
+(define (show-value atom key)
+ (display (cog-value atom key))
+)
+
+(define (has-value atom key)
+ "
+ Return TrueTV iff atom has an attached value for the given key
+ "
+ (let
+  ((dv (cog-value atom key)))
+  (if (equal? dv '())
+   (cog-new-stv 0 0)
+   (cog-new-stv 1 1)
+  )
+ )
+; (let
+;  ((dv (cog-value atom key)))
+;  (if (equal? dv '())
+;   (bool->tv #f)
+;   (if (cog-dv? dv)
+;    (bool->tv (not (cog-dv-is-empty dv)))
+;    (bool->tv (not (cog-cdv-is-empty dv)))
+;   ))
+; )
+)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Knowledge Base to Factor Graph  ;;
@@ -305,7 +333,7 @@ def send_message_factor_variable(msg, v, f):
 
 
 (define (init-factor-graph-concept-node-formula v)
- (display "init factor graph conept node formula:\n")
+ (display "init factor graph concept node formula:\n")
  (let*
   (
     (factor (get-factor (List v)))
@@ -467,7 +495,7 @@ def send_message_factor_variable(msg, v, f):
 
 
 (define (message-variable-to-factor-formula M v f)
-; (display "message variable to factor formula:\n")
+ (display "message variable to factor formula:\n")
  (send-message-variable-factor M v f)
  M
 )

@@ -55,6 +55,7 @@
 ;(display R)
 ;(display key)
 ;(display (cog-value R key))
+(display (has-value W key))
 
 ;(display
  (cog-execute! init-factor-graph-concept-node)
@@ -71,10 +72,10 @@
 ;)
 
 ;(display
- (cog-execute! message-factor-to-variable)
+; (cog-execute! message-factor-to-variable)
 ;)
 
-(display "=== show message ===\n")
+;(display "=== show message ===\n")
 
 ;(show-dv
 ; (EvaluationLink
@@ -86,9 +87,9 @@
 
 (display "=== Generate Messages [2] ===\n")
 
-;(display
+(display
  (cog-execute! message-variable-to-factor)
-;)
+)
 
 ;(display
 ; (cog-bc
