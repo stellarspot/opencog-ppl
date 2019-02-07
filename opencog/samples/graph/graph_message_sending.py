@@ -30,18 +30,33 @@ def has_message(edge):
     return TV_TRUE if edge.get_value(MESSAGE_KEY) else TV_FALSE
 
 
-def set_message(v1, v2, message):
+def set_message_value(v1, v2, message):
     get_directed_message_edge(v1, v2).set_value(MESSAGE_KEY, FloatValue(message))
 
 
-def get_message(v1, v2):
+def get_message_value(v1, v2):
     value = get_directed_message_edge(v1, v2).get_value(MESSAGE_KEY)
     # Workaround
     value = FloatValue(0, value=value)
     return int(value.to_list()[0])
 
 
-def get_neigbours(v1, v2):
+def get_neigbours(v):
+    neighbour_nodes_rule = BindLink(
+        TypedVariableLink(
+            VariableNode('$V'),
+            TypeNode('ConceptNode')),
+        AndLink(
+            # Pattern clauses
+            get_directed_message_edge(
+                VariableNode('$V'),
+                v)),
+        VariableNode('$V'))
+
+    return execute_atom(atomspace, neighbour_nodes_rule)
+
+
+def get_neigbours_except(v1, v2):
     neighbour_nodes_rule = BindLink(
         TypedVariableLink(
             VariableNode('$V'),
@@ -62,7 +77,7 @@ def get_neigbours(v1, v2):
 
 
 def can_send_message(v1, v2):
-    neigbor_nodes = get_neigbours(v1, v2)
+    neigbor_nodes = get_neigbours_except(v1, v2)
 
     for v in neigbor_nodes.out:
         if has_message(get_directed_message_edge(v, v1)) == TV_FALSE:
@@ -72,30 +87,64 @@ def can_send_message(v1, v2):
 
 
 def send_message(v1, v2):
-    neigbor_nodes = get_neigbours(v1, v2)
+    neigbor_nodes = get_neigbours_except(v1, v2)
 
     message = 1
 
     for v in neigbor_nodes.out:
-        msg = get_message(v, v1)
+        msg = get_message_value(v, v1)
         message += msg
 
     print('   send message:', v1.name, "->", v2.name, message)
 
-    set_message(v1, v2, message)
+    set_message_value(v1, v2, message)
     return get_directed_message_edge(v1, v2)
+
+
+def get_node_value(n):
+    neigbours = get_neigbours(n)
+    message = 0
+    for v in neigbours.out:
+        msg = get_message_value(v, n)
+        message += msg
+
+    return message
 
 
 # Graph
 # A - +     + - D
 #     C --- F
-# E - +     + - E
-
+# B - +     + - E
 get_edge(get_node("A"), get_node("C"))
 get_edge(get_node("B"), get_node("C"))
 get_edge(get_node("D"), get_node("F"))
 get_edge(get_node("E"), get_node("F"))
 get_edge(get_node("C"), get_node("F"))
+
+nodes = [get_node("A"),
+         get_node("B"),
+         get_node("C"),
+         get_node("D"),
+         get_node("E"),
+         get_node("F")]
+
+# Graph
+# A - +
+#     C --- E --- D --- F
+# B - +
+
+# get_edge(get_node("A"), get_node("C"))
+# get_edge(get_node("B"), get_node("C"))
+# get_edge(get_node("D"), get_node("E"))
+# get_edge(get_node("C"), get_node("E"))
+# get_edge(get_node("F"), get_node("D"))
+#
+# nodes = [get_node("A"),
+#          get_node("B"),
+#          get_node("C"),
+#          get_node("D"),
+#          get_node("E"),
+#          get_node("F")]
 
 directed_message_edge_creation_rule = BindLink(
     VariableList(
@@ -165,3 +214,7 @@ res = execute_atom(atomspace, message_sending_rule)
 # set_message(get_node("B"), get_node("C"), 1)
 #
 # send_message(get_node("C"), get_node("D"))
+
+for node in nodes:
+    msg = get_node_value(node)
+    print('node:', node.name, "value:", msg)
