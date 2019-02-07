@@ -34,13 +34,41 @@ def has_message(edge):
     return TV_TRUE if edge.get_value(MESSAGE_KEY) else TV_FALSE
 
 
+def can_send_message(v1, v2):
+    neighbour_nodes_rule = BindLink(
+        TypedVariableLink(
+            VariableNode('$V'),
+            TypeNode('ConceptNode')),
+        AndLink(
+            # Preconditions
+            NotLink(
+                EqualLink(
+                    VariableNode('$V'),
+                    v2)),
+            # Pattern clauses
+            get_directed_message_edge(
+                VariableNode('$V'),
+                v1)),
+        VariableNode('$V'))
+
+    neigbor_nodes = execute_atom(atomspace, neighbour_nodes_rule)
+    print('can send message:', v1.name, "->", v2.name)
+
+    for v in neigbor_nodes.out:
+        if has_message(get_directed_message_edge(v, v1)) == TV_FALSE:
+            return TV_FALSE
+
+    print('   Can Send Message!')
+    return TV_TRUE
+
+
 # Graph
 # A - +     + - D
 #     C --- F
 # E - +     + - E
 
 get_edge(get_node("A"), get_node("C"))
-get_edge(get_node("E"), get_node("C"))
+get_edge(get_node("B"), get_node("C"))
 get_edge(get_node("D"), get_node("F"))
 get_edge(get_node("E"), get_node("F"))
 get_edge(get_node("C"), get_node("F"))
@@ -82,6 +110,12 @@ message_sending_rule = BindLink(
                     get_directed_message_edge(
                         VariableNode('$X'),
                         VariableNode('$Y'))))),
+        EvaluationLink(
+            GroundedPredicateNode('py: can_send_message'),
+            ListLink(
+                VariableNode('$X'),
+                VariableNode('$Y')
+            )),
         # Pattern clauses
         get_directed_message_edge(
             VariableNode('$X'),
@@ -92,6 +126,7 @@ message_sending_rule = BindLink(
         VariableNode('$Y')))
 
 res = execute_atom(atomspace, directed_message_edge_creation_rule)
-res = execute_atom(atomspace, message_sending_rule)
+# print(res)
 
-print(res)
+res = execute_atom(atomspace, message_sending_rule)
+# print(res)
