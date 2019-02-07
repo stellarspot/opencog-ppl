@@ -34,7 +34,7 @@ def has_message(edge):
     return TV_TRUE if edge.get_value(MESSAGE_KEY) else TV_FALSE
 
 
-def can_send_message(v1, v2):
+def get_neigbours(v1, v2):
     neighbour_nodes_rule = BindLink(
         TypedVariableLink(
             VariableNode('$V'),
@@ -51,7 +51,11 @@ def can_send_message(v1, v2):
                 v1)),
         VariableNode('$V'))
 
-    neigbor_nodes = execute_atom(atomspace, neighbour_nodes_rule)
+    return execute_atom(atomspace, neighbour_nodes_rule)
+
+
+def can_send_message(v1, v2):
+    neigbor_nodes = get_neigbours(v1, v2)
     print('can send message:', v1.name, "->", v2.name)
 
     for v in neigbor_nodes.out:
@@ -76,29 +80,29 @@ get_edge(get_node("C"), get_node("F"))
 directed_message_edge_creation_rule = BindLink(
     VariableList(
         TypedVariableLink(
-            VariableNode('$X'),
+            VariableNode('$V1'),
             TypeNode('ConceptNode')),
         TypedVariableLink(
-            VariableNode('$Y'),
+            VariableNode('$V2'),
             TypeNode('ConceptNode'))),
     get_edge(
-        VariableNode('$X'),
-        VariableNode('$Y')),
+        VariableNode('$V1'),
+        VariableNode('$V2')),
     ListLink(
         get_directed_message_edge(
-            VariableNode('$X'),
-            VariableNode('$Y')),
+            VariableNode('$V1'),
+            VariableNode('$V2')),
         get_directed_message_edge(
-            VariableNode('$Y'),
-            VariableNode('$X'))))
+            VariableNode('$V2'),
+            VariableNode('$V1'))))
 
 message_sending_rule = BindLink(
     VariableList(
         TypedVariableLink(
-            VariableNode('$X'),
+            VariableNode('$V1'),
             TypeNode('ConceptNode')),
         TypedVariableLink(
-            VariableNode('$Y'),
+            VariableNode('$V2'),
             TypeNode('ConceptNode'))),
 
     AndLink(
@@ -108,22 +112,22 @@ message_sending_rule = BindLink(
                 GroundedPredicateNode('py: has_message'),
                 ListLink(
                     get_directed_message_edge(
-                        VariableNode('$X'),
-                        VariableNode('$Y'))))),
+                        VariableNode('$V1'),
+                        VariableNode('$V2'))))),
         EvaluationLink(
             GroundedPredicateNode('py: can_send_message'),
             ListLink(
-                VariableNode('$X'),
-                VariableNode('$Y')
+                VariableNode('$V1'),
+                VariableNode('$V2')
             )),
         # Pattern clauses
         get_directed_message_edge(
-            VariableNode('$X'),
-            VariableNode('$Y'))
+            VariableNode('$V1'),
+            VariableNode('$V2'))
     ),
     get_message(
-        VariableNode('$X'),
-        VariableNode('$Y')))
+        VariableNode('$V1'),
+        VariableNode('$V2')))
 
 res = execute_atom(atomspace, directed_message_edge_creation_rule)
 # print(res)
