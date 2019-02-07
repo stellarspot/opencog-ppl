@@ -38,7 +38,7 @@ def get_message_value(v1, v2):
     value = get_directed_message_edge(v1, v2).get_value(MESSAGE_KEY)
     # Workaround
     value = FloatValue(0, value=value)
-    return int(value.to_list()[0])
+    return float(value.to_list()[0])
 
 
 def get_neigbours(v):
@@ -89,7 +89,8 @@ def can_send_message(v1, v2):
 def send_message(v1, v2):
     neigbor_nodes = get_neigbours_except(v1, v2)
 
-    message = 1
+    a = 0.8
+    message = 10
 
     for v in neigbor_nodes.out:
         msg = get_message_value(v, v1)
@@ -97,6 +98,7 @@ def send_message(v1, v2):
 
     print('   send message:', v1.name, "->", v2.name, message)
 
+    message = a * message
     set_message_value(v1, v2, message)
     return get_directed_message_edge(v1, v2)
 
@@ -112,39 +114,20 @@ def get_node_value(n):
 
 
 # Graph
-# A - +     + - D
-#     C --- F
-# B - +     + - E
+# A - +
+#     C --- D --- E
+# B - +
+
 get_edge(get_node("A"), get_node("C"))
 get_edge(get_node("B"), get_node("C"))
-get_edge(get_node("D"), get_node("F"))
-get_edge(get_node("E"), get_node("F"))
-get_edge(get_node("C"), get_node("F"))
+get_edge(get_node("C"), get_node("D"))
+get_edge(get_node("D"), get_node("E"))
 
 nodes = [get_node("A"),
          get_node("B"),
          get_node("C"),
          get_node("D"),
-         get_node("E"),
-         get_node("F")]
-
-# Graph
-# A - +
-#     C --- E --- D --- F
-# B - +
-
-# get_edge(get_node("A"), get_node("C"))
-# get_edge(get_node("B"), get_node("C"))
-# get_edge(get_node("D"), get_node("E"))
-# get_edge(get_node("C"), get_node("E"))
-# get_edge(get_node("F"), get_node("D"))
-#
-# nodes = [get_node("A"),
-#          get_node("B"),
-#          get_node("C"),
-#          get_node("D"),
-#          get_node("E"),
-#          get_node("F")]
+         get_node("E")]
 
 directed_message_edge_creation_rule = BindLink(
     VariableList(
