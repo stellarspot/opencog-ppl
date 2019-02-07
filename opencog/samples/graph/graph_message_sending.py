@@ -22,16 +22,23 @@ def get_edge(a, b):
     return EvaluationLink(EDGE_KEY, ListLink(a, b))
 
 
-def get_message(a, b):
-    return EvaluationLink(MESSAGE_KEY, ListLink(a, b))
-
-
 def get_directed_message_edge(a, b):
     return EvaluationLink(DIRECTED_MESSAGE_EDGE_KEY, ListLink(a, b))
 
 
 def has_message(edge):
     return TV_TRUE if edge.get_value(MESSAGE_KEY) else TV_FALSE
+
+
+def set_message(v1, v2, message):
+    get_directed_message_edge(v1, v2).set_value(MESSAGE_KEY, FloatValue(message))
+
+
+def get_message(v1, v2):
+    value = get_directed_message_edge(v1, v2).get_value(MESSAGE_KEY)
+    # Workaround
+    value = FloatValue(0, value=value)
+    return int(value.to_list()[0])
 
 
 def get_neigbours(v1, v2):
@@ -56,14 +63,27 @@ def get_neigbours(v1, v2):
 
 def can_send_message(v1, v2):
     neigbor_nodes = get_neigbours(v1, v2)
-    print('can send message:', v1.name, "->", v2.name)
 
     for v in neigbor_nodes.out:
         if has_message(get_directed_message_edge(v, v1)) == TV_FALSE:
             return TV_FALSE
 
-    print('   Can Send Message!')
     return TV_TRUE
+
+
+def send_message(v1, v2):
+    neigbor_nodes = get_neigbours(v1, v2)
+
+    message = 1
+
+    for v in neigbor_nodes.out:
+        msg = get_message(v, v1)
+        message += msg
+
+    print('   send message:', v1.name, "->", v2.name, message)
+
+    set_message(v1, v2, message)
+    return get_directed_message_edge(v1, v2)
 
 
 # Graph
@@ -125,12 +145,23 @@ message_sending_rule = BindLink(
             VariableNode('$V1'),
             VariableNode('$V2'))
     ),
-    get_message(
-        VariableNode('$V1'),
-        VariableNode('$V2')))
+    ExecutionOutputLink(
+        GroundedSchemaNode('py: send_message'),
+        ListLink(
+            VariableNode('$V1'),
+            VariableNode('$V2'))))
 
 res = execute_atom(atomspace, directed_message_edge_creation_rule)
 # print(res)
 
+print("=== iter 1 ===")
 res = execute_atom(atomspace, message_sending_rule)
-# print(res)
+print("=== iter 2 ===")
+res = execute_atom(atomspace, message_sending_rule)
+print("=== iter 3 ===")
+res = execute_atom(atomspace, message_sending_rule)
+
+# set_message(get_node("A"), get_node("C"), 1)
+# set_message(get_node("B"), get_node("C"), 1)
+#
+# send_message(get_node("C"), get_node("D"))
