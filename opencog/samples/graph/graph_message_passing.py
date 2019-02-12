@@ -48,9 +48,9 @@ def send_initial_message(m, v1, v2):
     return m
 
 
-def send_message(m, v1, v2):
+def send_message(msg, v1, v2, messages):
     print('send message:', v1.name, v2.name)
-    return m
+    return msg
 
 
 # Graph
@@ -63,12 +63,12 @@ node_c = ConceptNode("C")
 get_edge(node_a, node_b)
 get_edge(node_b, node_c)
 
-# # Graph
-# # A - +
-# #     C --- D --- E
-# # B - +
-#
-#
+# Graph
+# A - +
+#     C --- D --- E
+# B - +
+
+
 # node_a = ConceptNode("A")
 # node_b = ConceptNode("B")
 # node_c = ConceptNode("C")
@@ -140,6 +140,28 @@ res = execute_atom(atomspace, create_initial_messages_rule)
 # print('send initial messages')
 # print(res)
 
+DefineLink(
+    DefinedSchemaNode("get_incoming_messages"),
+    LambdaLink(
+        VariableList(
+            TypedVariableLink(
+                VariableNode('$V1'),
+                TypeNode('ConceptNode')),
+            TypedVariableLink(
+                VariableNode('$V2'),
+                TypeNode('ConceptNode'))),
+        BindLink(
+            TypedVariableLink(
+                VariableNode('$V'),
+                TypeNode('ConceptNode')),
+            AndLink(
+                get_message(VariableNode('$V'), VariableNode('$V1')),
+                NotLink(
+                    EqualLink(
+                        VariableNode('$V'),
+                        VariableNode('$V2')))),
+            get_message(VariableNode('$V'), VariableNode('$V1')))))
+
 create_messages_rule = BindLink(
     VariableList(
         TypedVariableLink(
@@ -174,14 +196,19 @@ create_messages_rule = BindLink(
                         EqualLink(
                             VariableNode('$V'),
                             VariableNode('$V2')))),
-                VariableNode('$V')))),
+                VariableNode('$V'))
+        )),
     ExecutionOutputLink(
         GroundedSchemaNode('py: send_message'),
         ListLink(
             get_message(VariableNode('$V1'), VariableNode('$V2')),
             VariableNode('$V1'),
-            VariableNode('$V2')))
-)
+            VariableNode('$V2'),
+            PutLink(
+                DefinedSchemaNode("get_incoming_messages"),
+                ListLink(
+                    VariableNode('$V1'),
+                    VariableNode('$V2'))))))
 
 res = execute_atom(atomspace, create_messages_rule)
 # print('send messages')
