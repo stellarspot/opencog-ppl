@@ -21,3 +21,15 @@
    (List
     (Number 3)
     (Number 4)))))
+
+
+(display
+ (cog-execute!
+  (Put
+   (Inheritance
+    (Variable "$BALL")
+    (Variable "$COLOR")
+   )
+   (List
+    (Concept "ball1")
+    (Concept "green")))))
