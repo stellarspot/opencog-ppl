@@ -6,16 +6,10 @@ from opencog.utilities import initialize_opencog
 atomspace = AtomSpace()
 initialize_opencog(atomspace)
 
-TV_FALSE = TruthValue(0, 1)
-TV_TRUE = TruthValue(1, 1)
-
 NODE_KEY = PredicateNode('node')
 EDGE_KEY = PredicateNode('edge')
 DIRECTED_EDGE_KEY = PredicateNode('directed-edge')
 MESSAGE_KEY = PredicateNode('message')
-
-
-# MESSAGE_PATH_KEY = PredicateNode('message-path-key')
 
 
 def get_node(n):
@@ -34,8 +28,15 @@ def get_message(a, b):
     return EvaluationLink(MESSAGE_KEY, ListLink(a, b))
 
 
-def get_message_path(v, v1, v2):
-    return EvaluationLink(MESSAGE_PATH_KEY, ListLink(v, v1, v2))
+def calculate_message_value(messages):
+    a = 0.8
+    value = 1
+
+    for message in messages.get_out():
+        val = message.get_value(MESSAGE_KEY).to_list()[0]
+        value += a * val
+
+    return value
 
 
 def set_message_value(m, value):
@@ -44,24 +45,25 @@ def set_message_value(m, value):
 
 def send_initial_message(m, v1, v2):
     print('send initial message:', v1.name, v2.name)
-    set_message_value(m, 1.0)
+    set_message_value(m, calculate_message_value(SetLink()))
     return m
 
 
 def send_message(msg, v1, v2, messages):
     print('send message:', v1.name, v2.name)
+    set_message_value(msg, calculate_message_value(messages))
     return msg
 
 
 # Graph
 # A --- B --- C
 
-node_a = ConceptNode("A")
-node_b = ConceptNode("B")
-node_c = ConceptNode("C")
-
-get_edge(node_a, node_b)
-get_edge(node_b, node_c)
+# node_a = ConceptNode("A")
+# node_b = ConceptNode("B")
+# node_c = ConceptNode("C")
+#
+# get_edge(node_a, node_b)
+# get_edge(node_b, node_c)
 
 # Graph
 # A - +
@@ -69,17 +71,16 @@ get_edge(node_b, node_c)
 # B - +
 
 
-# node_a = ConceptNode("A")
-# node_b = ConceptNode("B")
-# node_c = ConceptNode("C")
-# node_d = ConceptNode("D")
-# node_e = ConceptNode("E")
-#
-# get_edge(node_a, node_c)
-# get_edge(node_b, node_c)
-# get_edge(node_c, node_d)
-# get_edge(node_d, node_e)
+node_a = ConceptNode("A")
+node_b = ConceptNode("B")
+node_c = ConceptNode("C")
+node_d = ConceptNode("D")
+node_e = ConceptNode("E")
 
+get_edge(node_a, node_c)
+get_edge(node_b, node_c)
+get_edge(node_c, node_d)
+get_edge(node_d, node_e)
 
 directed_message_edge_creation_rule = BindLink(
     VariableList(
@@ -211,5 +212,26 @@ create_messages_rule = BindLink(
                     VariableNode('$V2'))))))
 
 res = execute_atom(atomspace, create_messages_rule)
+res = execute_atom(atomspace, create_messages_rule)
 # print('send messages')
 # print(res)
+
+
+# Show all messages
+all_messages_rule = GetLink(
+    VariableList(
+        TypedVariableLink(
+            VariableNode('$V1'),
+            TypeNode('ConceptNode')),
+        TypedVariableLink(
+            VariableNode('$V2'),
+            TypeNode('ConceptNode'))),
+    get_message(VariableNode('$V1'), VariableNode('$V2')))
+
+all_messages = execute_atom(atomspace, all_messages_rule)
+
+for listLink in all_messages.get_out():
+    v1 = listLink.get_out()[0]
+    v2 = listLink.get_out()[1]
+    value = get_message(v1, v2).get_value(MESSAGE_KEY)
+    print('message:', v1.name, v2.name, value.to_list())
