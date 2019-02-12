@@ -55,6 +55,10 @@ def send_message(msg, v1, v2, messages):
     return msg
 
 
+def set_node_message(node, v1, messages):
+    return node
+
+
 # Graph
 # A --- B --- C
 
@@ -82,6 +86,44 @@ get_edge(node_b, node_c)
 get_edge(node_c, node_d)
 get_edge(node_d, node_e)
 
+# Get all incoming messages for the given vertex
+DefineLink(
+    DefinedSchemaNode("get_all_incoming_messages"),
+    LambdaLink(
+        TypedVariableLink(
+            VariableNode('$V1'),
+            TypeNode('ConceptNode')),
+        BindLink(
+            TypedVariableLink(
+                VariableNode('$V'),
+                TypeNode('ConceptNode')),
+            get_message(VariableNode('$V'), VariableNode('$V1')),
+            get_message(VariableNode('$V'), VariableNode('$V1')))
+    ))
+
+# Get all incoming messages except excluded for the given vertex
+DefineLink(
+    DefinedSchemaNode("get_incoming_messages"),
+    LambdaLink(
+        VariableList(
+            TypedVariableLink(
+                VariableNode('$V1'),
+                TypeNode('ConceptNode')),
+            TypedVariableLink(
+                VariableNode('$V2'),
+                TypeNode('ConceptNode'))),
+        BindLink(
+            TypedVariableLink(
+                VariableNode('$V'),
+                TypeNode('ConceptNode')),
+            AndLink(
+                get_message(VariableNode('$V'), VariableNode('$V1')),
+                NotLink(
+                    EqualLink(
+                        VariableNode('$V'),
+                        VariableNode('$V2')))),
+            get_message(VariableNode('$V'), VariableNode('$V1')))))
+
 directed_message_edge_creation_rule = BindLink(
     VariableList(
         TypedVariableLink(
@@ -94,6 +136,8 @@ directed_message_edge_creation_rule = BindLink(
         VariableNode('$V1'),
         VariableNode('$V2')),
     ListLink(
+        get_node(VariableNode('$V1')),
+        get_node(VariableNode('$V2')),
         get_directed_edge(
             VariableNode('$V1'),
             VariableNode('$V2')),
@@ -140,28 +184,6 @@ create_initial_messages_rule = BindLink(
 res = execute_atom(atomspace, create_initial_messages_rule)
 # print('send initial messages')
 # print(res)
-
-DefineLink(
-    DefinedSchemaNode("get_incoming_messages"),
-    LambdaLink(
-        VariableList(
-            TypedVariableLink(
-                VariableNode('$V1'),
-                TypeNode('ConceptNode')),
-            TypedVariableLink(
-                VariableNode('$V2'),
-                TypeNode('ConceptNode'))),
-        BindLink(
-            TypedVariableLink(
-                VariableNode('$V'),
-                TypeNode('ConceptNode')),
-            AndLink(
-                get_message(VariableNode('$V'), VariableNode('$V1')),
-                NotLink(
-                    EqualLink(
-                        VariableNode('$V'),
-                        VariableNode('$V2')))),
-            get_message(VariableNode('$V'), VariableNode('$V1')))))
 
 create_messages_rule = BindLink(
     VariableList(
@@ -216,6 +238,23 @@ res = execute_atom(atomspace, create_messages_rule)
 # print('send messages')
 # print(res)
 
+
+create_node_value_rule = BindLink(
+    TypedVariableLink(
+        VariableNode('$V1'),
+        TypeNode('ConceptNode')),
+    get_node(VariableNode("$V1")),
+    ExecutionOutputLink(
+        GroundedSchemaNode('py: set_node_message'),
+        ListLink(
+            get_node(VariableNode("$V1")),
+            VariableNode('$V1'),
+            PutLink(
+                DefinedSchemaNode("get_all_incoming_messages"),
+                VariableNode('$V1')))))
+
+res = execute_atom(atomspace, create_node_value_rule)
+# print(res)
 
 # Show all messages
 all_messages_rule = GetLink(
