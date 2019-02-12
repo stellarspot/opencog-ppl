@@ -46,23 +46,62 @@ node_c = ConceptNode("C")
 get_edge(node_a, node_b)
 get_edge(node_b, node_c)
 
-create_initial_messages_rule = BindLink(
+# get_edge(node_a, node_b)
+# get_edge(node_a, node_c)
+
+
+directed_message_edge_creation_rule = BindLink(
     VariableList(
-        TypedVariableLink(
-            VariableNode('$V'),
-            TypeNode('ConceptNode')),
         TypedVariableLink(
             VariableNode('$V1'),
             TypeNode('ConceptNode')),
         TypedVariableLink(
             VariableNode('$V2'),
             TypeNode('ConceptNode'))),
+    get_edge(
+        VariableNode('$V1'),
+        VariableNode('$V2')),
+    ListLink(
+        get_directed_edge(
+            VariableNode('$V1'),
+            VariableNode('$V2')),
+        get_directed_edge(
+            VariableNode('$V2'),
+            VariableNode('$V1'))))
 
+res = execute_atom(atomspace, directed_message_edge_creation_rule)
+# print("create directed graph")
+# print(res)
+
+
+create_initial_messages_rule = BindLink(
+    VariableList(
+        TypedVariableLink(
+            VariableNode('$V1'),
+            TypeNode('ConceptNode')),
+        TypedVariableLink(
+            VariableNode('$V2'),
+            TypeNode('ConceptNode'))),
     AndLink(
-        AbsentLink(
-            get_edge(VariableNode('$V'), VariableNode('$V1'))
+        EqualLink(
+            BindLink(
+                TypedVariableLink(
+                    VariableNode('$V'),
+                    TypeNode('ConceptNode')),
+                AndLink(
+                    get_directed_edge(VariableNode('$V1'), VariableNode('$V')),
+                    NotLink(
+                        EqualLink(
+                            VariableNode('$V'),
+                            VariableNode('$V2')
+                        )
+                    )
+                ),
+                VariableNode('$V')
+            ),
+            SetLink()
         ),
-        get_edge(VariableNode('$V1'), VariableNode('$V2'))
+        get_directed_edge(VariableNode('$V1'), VariableNode('$V2'))
     ),
     get_message(VariableNode('$V1'), VariableNode('$V2'))
 )
