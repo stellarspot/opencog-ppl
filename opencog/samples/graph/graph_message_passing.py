@@ -137,6 +137,8 @@ create_initial_messages_rule = BindLink(
 )
 
 res = execute_atom(atomspace, create_initial_messages_rule)
+# print('send initial messages')
+# print(res)
 
 create_messages_rule = BindLink(
     VariableList(
@@ -149,8 +151,7 @@ create_messages_rule = BindLink(
     AndLink(
         get_directed_edge(VariableNode('$V1'), VariableNode('$V2')),
         AbsentLink(
-            get_message(VariableNode('$V1'), VariableNode('$V2'))
-        ),
+            get_message(VariableNode('$V1'), VariableNode('$V2'))),
         EqualLink(
             BindLink(
                 TypedVariableLink(
@@ -163,7 +164,6 @@ create_messages_rule = BindLink(
                             VariableNode('$V'),
                             VariableNode('$V2')))),
                 VariableNode('$V')),
-
             BindLink(
                 TypedVariableLink(
                     VariableNode('$V'),
@@ -174,9 +174,7 @@ create_messages_rule = BindLink(
                         EqualLink(
                             VariableNode('$V'),
                             VariableNode('$V2')))),
-                VariableNode('$V')),
-        )
-    ),
+                VariableNode('$V')))),
     ExecutionOutputLink(
         GroundedSchemaNode('py: send_message'),
         ListLink(
