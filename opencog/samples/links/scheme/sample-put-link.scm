@@ -33,3 +33,17 @@
    (List
     (Concept "ball1")
     (Concept "green")))))
+
+
+; Using sets
+; Apply variable for each value from the set
+(display
+ (cog-execute!
+  (Put
+   (Inheritance
+    (Concept "ball")
+    (Variable "$COLOR")
+   )
+   (Set
+    (Concept "red")
+    (Concept "blue")))))
