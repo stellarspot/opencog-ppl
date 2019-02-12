@@ -47,3 +47,18 @@
    (Set
     (Concept "red")
     (Concept "blue")))))
+
+; Filter values
+; Filter out nodes that are not concepts
+(display
+ (cog-execute!
+  (PutLink
+   (TypedVariableLink
+    (VariableNode "%x")
+    (TypeNode "ConceptNode"))
+   (VariableNode "%x")
+   (SetLink
+    (NumberNode "42")
+    (ConceptNode "foo")
+    (SchemaNode "finagle")
+    (ConceptNode "bar")))))
