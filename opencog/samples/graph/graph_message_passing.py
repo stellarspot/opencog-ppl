@@ -30,7 +30,7 @@ def get_message(a, b):
 
 def calculate_message_value(messages):
     a = 0.8
-    value = 1
+    value = 1.0
 
     for message in messages.get_out():
         val = message.get_value(MESSAGE_KEY).to_list()[0]
@@ -56,6 +56,12 @@ def send_message(msg, v1, v2, messages):
 
 
 def set_node_message(node, v1, messages):
+    value = 1.0
+    for message in messages.get_out():
+        val = message.get_value(MESSAGE_KEY).to_list()[0]
+        value *= val
+
+    node.set_value(MESSAGE_KEY, FloatValue(value))
     return node
 
 
@@ -256,6 +262,7 @@ create_node_value_rule = BindLink(
 res = execute_atom(atomspace, create_node_value_rule)
 # print(res)
 
+# Print result
 # Show all messages
 all_messages_rule = GetLink(
     VariableList(
@@ -274,3 +281,15 @@ for listLink in all_messages.get_out():
     v2 = listLink.get_out()[1]
     value = get_message(v1, v2).get_value(MESSAGE_KEY)
     print('message:', v1.name, v2.name, value.to_list())
+
+all_nodes_rule = GetLink(
+    TypedVariableLink(
+        VariableNode('$V1'),
+        TypeNode('ConceptNode')),
+    get_node(VariableNode('$V1')))
+
+all_nodes = execute_atom(atomspace, all_nodes_rule)
+
+for vertex in all_nodes.get_out():
+    value = get_node(vertex).get_value(MESSAGE_KEY)
+    print('node:', vertex.name, value.to_list())
