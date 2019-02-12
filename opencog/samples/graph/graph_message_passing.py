@@ -1,4 +1,4 @@
-from opencog.bindlink import execute_atom, evaluate_atom
+from opencog.bindlink import execute_atom
 from opencog.type_constructors import *
 from opencog.utilities import initialize_opencog
 
@@ -43,7 +43,13 @@ def set_message_value(m, value):
 
 
 def send_initial_message(m, v1, v2):
+    print('send initial message:', v1.name, v2.name)
     set_message_value(m, 1.0)
+    return m
+
+
+def send_message(m, v1, v2):
+    print('send message:', v1.name, v2.name)
     return m
 
 
@@ -104,16 +110,10 @@ create_initial_messages_rule = BindLink(
                     NotLink(
                         EqualLink(
                             VariableNode('$V'),
-                            VariableNode('$V2')
-                        )
-                    )
-                ),
-                VariableNode('$V')
-            ),
-            SetLink()
-        ),
-        get_directed_edge(VariableNode('$V1'), VariableNode('$V2'))
-    ),
+                            VariableNode('$V2')))),
+                VariableNode('$V')),
+            SetLink()),
+        get_directed_edge(VariableNode('$V1'), VariableNode('$V2'))),
     ExecutionOutputLink(
         GroundedSchemaNode('py: send_initial_message'),
         ListLink(
@@ -123,5 +123,54 @@ create_initial_messages_rule = BindLink(
 )
 
 res = execute_atom(atomspace, create_initial_messages_rule)
-print('send initial messages')
+
+create_messages_rule = BindLink(
+    VariableList(
+        TypedVariableLink(
+            VariableNode('$V1'),
+            TypeNode('ConceptNode')),
+        TypedVariableLink(
+            VariableNode('$V2'),
+            TypeNode('ConceptNode'))),
+    AndLink(
+        get_directed_edge(VariableNode('$V1'), VariableNode('$V2')),
+        AbsentLink(
+            get_message(VariableNode('$V1'), VariableNode('$V2'))
+        ),
+        EqualLink(
+            BindLink(
+                TypedVariableLink(
+                    VariableNode('$V'),
+                    TypeNode('ConceptNode')),
+                AndLink(
+                    get_directed_edge(VariableNode('$V'), VariableNode('$V1')),
+                    NotLink(
+                        EqualLink(
+                            VariableNode('$V'),
+                            VariableNode('$V2')))),
+                VariableNode('$V')),
+
+            BindLink(
+                TypedVariableLink(
+                    VariableNode('$V'),
+                    TypeNode('ConceptNode')),
+                AndLink(
+                    get_message(VariableNode('$V'), VariableNode('$V1')),
+                    NotLink(
+                        EqualLink(
+                            VariableNode('$V'),
+                            VariableNode('$V2')))),
+                VariableNode('$V')),
+        )
+    ),
+    ExecutionOutputLink(
+        GroundedSchemaNode('py: send_message'),
+        ListLink(
+            get_message(VariableNode('$V1'), VariableNode('$V2')),
+            VariableNode('$V1'),
+            VariableNode('$V2')))
+)
+
+res = execute_atom(atomspace, create_messages_rule)
+print('send messages')
 print(res)
