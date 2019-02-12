@@ -63,8 +63,22 @@ node_c = ConceptNode("C")
 get_edge(node_a, node_b)
 get_edge(node_b, node_c)
 
-# get_edge(node_a, node_b)
+# # Graph
+# # A - +
+# #     C --- D --- E
+# # B - +
+#
+#
+# node_a = ConceptNode("A")
+# node_b = ConceptNode("B")
+# node_c = ConceptNode("C")
+# node_d = ConceptNode("D")
+# node_e = ConceptNode("E")
+#
 # get_edge(node_a, node_c)
+# get_edge(node_b, node_c)
+# get_edge(node_c, node_d)
+# get_edge(node_d, node_e)
 
 
 directed_message_edge_creation_rule = BindLink(
@@ -172,5 +186,5 @@ create_messages_rule = BindLink(
 )
 
 res = execute_atom(atomspace, create_messages_rule)
-print('send messages')
-print(res)
+# print('send messages')
+# print(res)
