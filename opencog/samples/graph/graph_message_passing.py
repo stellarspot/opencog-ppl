@@ -13,7 +13,9 @@ NODE_KEY = PredicateNode('node')
 EDGE_KEY = PredicateNode('edge')
 DIRECTED_EDGE_KEY = PredicateNode('directed-edge')
 MESSAGE_KEY = PredicateNode('message')
-MESSAGE_PATH_KEY = PredicateNode('message-path-key')
+
+
+# MESSAGE_PATH_KEY = PredicateNode('message-path-key')
 
 
 def get_node(n):
@@ -34,6 +36,15 @@ def get_message(a, b):
 
 def get_message_path(v, v1, v2):
     return EvaluationLink(MESSAGE_PATH_KEY, ListLink(v, v1, v2))
+
+
+def set_message_value(m, value):
+    m.set_value(MESSAGE_KEY, FloatValue(value))
+
+
+def send_initial_message(m, v1, v2):
+    set_message_value(m, 1.0)
+    return m
 
 
 # Graph
@@ -103,8 +114,14 @@ create_initial_messages_rule = BindLink(
         ),
         get_directed_edge(VariableNode('$V1'), VariableNode('$V2'))
     ),
-    get_message(VariableNode('$V1'), VariableNode('$V2'))
+    ExecutionOutputLink(
+        GroundedSchemaNode('py: send_initial_message'),
+        ListLink(
+            get_message(VariableNode('$V1'), VariableNode('$V2')),
+            VariableNode('$V1'),
+            VariableNode('$V2')))
 )
 
 res = execute_atom(atomspace, create_initial_messages_rule)
+print('send initial messages')
 print(res)
