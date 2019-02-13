@@ -100,10 +100,15 @@ def run_fc():
 
     scheme_eval(atomspace, execute_code)
 
+    # chainer = ForwardChainer(atomspace,
+    #                          ConceptNode("fc-deduction-rule-base"),
+    #                          SetLink())
+
     chainer = ForwardChainer(atomspace,
                              ConceptNode("fc-deduction-rule-base"),
                              InheritanceLink(VariableNode("$who"), c),
                              TypedVariableLink(VariableNode("$who"), TypeNode("ConceptNode")))
+
     chainer.do_chain()
     return chainer.get_results()
 
