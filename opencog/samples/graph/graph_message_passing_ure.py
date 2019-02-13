@@ -252,38 +252,22 @@ create_node_value_rule = BindLink(
 
 def run_message_passing():
     res = execute_atom(atomspace, directed_message_edge_creation_rule)
-    # print("create directed graph")
-    # print(res)
-
     res = execute_atom(atomspace, create_initial_messages_rule)
-    print('send initial messages')
-    print(res)
     res = execute_atom(atomspace, create_messages_rule)
     res = execute_atom(atomspace, create_messages_rule)
-    # print('send messages')
-    # print(res)
     res = execute_atom(atomspace, create_node_value_rule)
-    # print(res)
-    pass
 
 
 def run_message_passing_ure():
-    print('run_message_passing_ure')
     res = execute_atom(atomspace, directed_message_edge_creation_rule)
-    # print("create directed graph")
-    # print(res)
-
     res = execute_atom(atomspace, create_initial_messages_rule)
-    # print('send initial messages')
-    # print(res)
-
     fc_deduction_rule_name = DefinedSchemaNode("fc-deduction-rule")
 
     DefineLink(
         fc_deduction_rule_name,
         create_messages_rule)
 
-    fc_deduction_rbs = ConceptNode("fc-deduction-rule-base")
+    fc_deduction_rbs = ConceptNode("fc-message-sending-rule")
 
     InheritanceLink(
         fc_deduction_rbs,
@@ -294,32 +278,26 @@ def run_message_passing_ure():
         '''
         (use-modules (opencog) (opencog query) (opencog exec) (opencog rule-engine))
 
-        (define fc-deduction-rbs (ConceptNode "fc-deduction-rule-base"))
+        (define fc-message-sending-rbs (ConceptNode "fc-message-sending-rule"))
 
-        (define fc-deduction-rule-name
+        (define fc-message-sending-rule-name
             (DefinedSchemaNode "fc-deduction-rule"))
 
-        (ure-add-rules fc-deduction-rbs (list fc-deduction-rule-name))
+        (ure-add-rules fc-message-sending-rbs (list fc-message-sending-rule-name))
 
-        (ure-set-num-parameter fc-deduction-rbs "URE:maximum-iterations" 20)
+        (ure-set-num-parameter fc-message-sending-rbs "URE:maximum-iterations" 20)
 
-        (ure-set-fuzzy-bool-parameter fc-deduction-rbs "URE:attention-allocation" 0)
+        (ure-set-fuzzy-bool-parameter fc-message-sending-rbs "URE:attention-allocation" 0)
         '''
 
     scheme_eval(atomspace, execute_code)
 
     chainer = ForwardChainer(atomspace,
-                             ConceptNode("fc-deduction-rule-base"),
+                             ConceptNode("fc-message-sending-rule"),
                              SetLink())
     chainer.do_chain()
     results = chainer.get_results()
-
-    print(results)
-
     res = execute_atom(atomspace, create_node_value_rule)
-    # print(res)
-
-    pass
 
 
 def show_results():
@@ -336,11 +314,12 @@ def show_results():
 
     all_messages = execute_atom(atomspace, all_messages_rule)
 
+    print("messages:")
     for listLink in all_messages.get_out():
         v1 = listLink.get_out()[0]
         v2 = listLink.get_out()[1]
         value = get_message(v1, v2).get_value(MESSAGE_KEY)
-        print('message:', v1.name, v2.name, value.to_list())
+        print('  message:', v1.name, v2.name, value.to_list())
 
     # Show all nodes
     all_nodes_rule = GetLink(
@@ -351,9 +330,10 @@ def show_results():
 
     all_nodes = execute_atom(atomspace, all_nodes_rule)
 
+    print("nodes:")
     for vertex in all_nodes.get_out():
         value = get_node(vertex).get_value(MESSAGE_KEY)
-        print('node:', vertex.name, value.to_list())
+        print('  node:', vertex.name, value.to_list())
 
 
 # run_message_passing()
