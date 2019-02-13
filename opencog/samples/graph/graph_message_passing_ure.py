@@ -261,27 +261,27 @@ def run_message_passing():
 def run_message_passing_ure():
     res = execute_atom(atomspace, directed_message_edge_creation_rule)
     res = execute_atom(atomspace, create_initial_messages_rule)
-    fc_deduction_rule_name = DefinedSchemaNode("fc-deduction-rule")
+
+    fc_message_sending_rule_name = DefinedSchemaNode("fc-message-sending-rule")
 
     DefineLink(
-        fc_deduction_rule_name,
+        fc_message_sending_rule_name,
         create_messages_rule)
 
-    fc_deduction_rbs = ConceptNode("fc-message-sending-rule")
+    fc_message_sending_rbs = ConceptNode("fc-message-sending-rule")
 
     InheritanceLink(
-        fc_deduction_rbs,
+        fc_message_sending_rbs,
         ConceptNode("URE")
     )
 
-    execute_code = \
-        '''
-        (use-modules (opencog) (opencog query) (opencog exec) (opencog rule-engine))
+    execute_code = '''
+        (use-modules (opencog) (opencog rule-engine))
 
         (define fc-message-sending-rbs (ConceptNode "fc-message-sending-rule"))
 
         (define fc-message-sending-rule-name
-            (DefinedSchemaNode "fc-deduction-rule"))
+            (DefinedSchemaNode "fc-message-sending-rule"))
 
         (ure-add-rules fc-message-sending-rbs (list fc-message-sending-rule-name))
 
