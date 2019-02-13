@@ -151,11 +151,6 @@ directed_message_edge_creation_rule = BindLink(
             VariableNode('$V2'),
             VariableNode('$V1'))))
 
-res = execute_atom(atomspace, directed_message_edge_creation_rule)
-# print("create directed graph")
-# print(res)
-
-
 create_initial_messages_rule = BindLink(
     VariableList(
         TypedVariableLink(
@@ -186,10 +181,6 @@ create_initial_messages_rule = BindLink(
             VariableNode('$V1'),
             VariableNode('$V2')))
 )
-
-res = execute_atom(atomspace, create_initial_messages_rule)
-# print('send initial messages')
-# print(res)
 
 create_messages_rule = BindLink(
     VariableList(
@@ -239,12 +230,6 @@ create_messages_rule = BindLink(
                     VariableNode('$V1'),
                     VariableNode('$V2'))))))
 
-res = execute_atom(atomspace, create_messages_rule)
-res = execute_atom(atomspace, create_messages_rule)
-# print('send messages')
-# print(res)
-
-
 create_node_value_rule = BindLink(
     TypedVariableLink(
         VariableNode('$V1'),
@@ -259,37 +244,57 @@ create_node_value_rule = BindLink(
                 DefinedSchemaNode("get_all_incoming_messages"),
                 VariableNode('$V1')))))
 
-res = execute_atom(atomspace, create_node_value_rule)
-# print(res)
 
-# Print result
-# Show all messages
-all_messages_rule = GetLink(
-    VariableList(
+def run_message_passing():
+    res = execute_atom(atomspace, directed_message_edge_creation_rule)
+    # print("create directed graph")
+    # print(res)
+
+    res = execute_atom(atomspace, create_initial_messages_rule)
+    # print('send initial messages')
+    # print(res)
+    res = execute_atom(atomspace, create_messages_rule)
+    res = execute_atom(atomspace, create_messages_rule)
+    # print('send messages')
+    # print(res)
+    res = execute_atom(atomspace, create_node_value_rule)
+    # print(res)
+    pass
+
+
+def show_results():
+    # Print result
+    # Show all messages
+    all_messages_rule = GetLink(
+        VariableList(
+            TypedVariableLink(
+                VariableNode('$V1'),
+                TypeNode('ConceptNode')),
+            TypedVariableLink(
+                VariableNode('$V2'),
+                TypeNode('ConceptNode'))),
+        get_message(VariableNode('$V1'), VariableNode('$V2')))
+
+    all_messages = execute_atom(atomspace, all_messages_rule)
+
+    for listLink in all_messages.get_out():
+        v1 = listLink.get_out()[0]
+        v2 = listLink.get_out()[1]
+        value = get_message(v1, v2).get_value(MESSAGE_KEY)
+        print('message:', v1.name, v2.name, value.to_list())
+
+    all_nodes_rule = GetLink(
         TypedVariableLink(
             VariableNode('$V1'),
             TypeNode('ConceptNode')),
-        TypedVariableLink(
-            VariableNode('$V2'),
-            TypeNode('ConceptNode'))),
-    get_message(VariableNode('$V1'), VariableNode('$V2')))
+        get_node(VariableNode('$V1')))
 
-all_messages = execute_atom(atomspace, all_messages_rule)
+    all_nodes = execute_atom(atomspace, all_nodes_rule)
 
-for listLink in all_messages.get_out():
-    v1 = listLink.get_out()[0]
-    v2 = listLink.get_out()[1]
-    value = get_message(v1, v2).get_value(MESSAGE_KEY)
-    print('message:', v1.name, v2.name, value.to_list())
+    for vertex in all_nodes.get_out():
+        value = get_node(vertex).get_value(MESSAGE_KEY)
+        print('node:', vertex.name, value.to_list())
 
-all_nodes_rule = GetLink(
-    TypedVariableLink(
-        VariableNode('$V1'),
-        TypeNode('ConceptNode')),
-    get_node(VariableNode('$V1')))
 
-all_nodes = execute_atom(atomspace, all_nodes_rule)
-
-for vertex in all_nodes.get_out():
-    value = get_node(vertex).get_value(MESSAGE_KEY)
-    print('node:', vertex.name, value.to_list())
+run_message_passing()
+show_results()
