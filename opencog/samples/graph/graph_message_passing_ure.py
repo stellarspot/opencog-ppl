@@ -1,8 +1,16 @@
 from opencog.ure import ForwardChainer
+from opencog.ure import BackwardChainer
 from opencog.bindlink import execute_atom
 from opencog.type_constructors import *
 from opencog.utilities import initialize_opencog
-from opencog.scheme_wrapper import scheme_eval
+
+from opencog.logger import Logger, log
+
+# Logging will be written to opencog.log in the current directory.
+# log.set_level('FINE')
+# log.set_level('DEBUG')
+# log.set_level('INFO')
+
 
 # AtomSpace Initialization
 atomspace = AtomSpace()
@@ -24,8 +32,14 @@ def get_edge(a, b):
     return EvaluationLink(EDGE_KEY, ListLink(a, b))
 
 
+# def get_directed_edge(a, b):
+#     return EvaluationLink(DIRECTED_EDGE_KEY, ListLink(a, b))
+#
+
 def get_directed_edge(a, b):
-    return EvaluationLink(DIRECTED_EDGE_KEY, ListLink(a, b))
+    directed_edge = EvaluationLink(DIRECTED_EDGE_KEY, ListLink(a, b))
+    directed_edge.tv = TV_TRUE
+    return directed_edge
 
 
 def get_message(a, b):
@@ -57,6 +71,7 @@ def send_initial_message(m, v1, v2):
 def send_message(msg, v1, v2, messages):
     print('send message:', v1.name, v2.name)
     set_message_value(msg, calculate_message_value(messages))
+    msg.tv = TV_TRUE
     return msg
 
 
@@ -81,21 +96,33 @@ def set_node_message(node, v1, messages):
 # get_edge(node_b, node_c)
 
 # Graph
-# A - +
-#     C --- D --- E
-# B - +
-
+# A --- B --- C --- D
 
 node_a = ConceptNode("A")
 node_b = ConceptNode("B")
 node_c = ConceptNode("C")
 node_d = ConceptNode("D")
-node_e = ConceptNode("E")
 
-get_edge(node_a, node_c)
+get_edge(node_a, node_b)
 get_edge(node_b, node_c)
 get_edge(node_c, node_d)
-get_edge(node_d, node_e)
+
+# Graph
+# A - +
+#     C --- D --- E
+# B - +
+
+
+# node_a = ConceptNode("A")
+# node_b = ConceptNode("B")
+# node_c = ConceptNode("C")
+# node_d = ConceptNode("D")
+# node_e = ConceptNode("E")
+#
+# get_edge(node_a, node_c)
+# get_edge(node_b, node_c)
+# get_edge(node_c, node_d)
+# get_edge(node_d, node_e)
 
 # Get all incoming messages for the given vertex
 DefineLink(
@@ -275,28 +302,55 @@ def run_message_passing_ure():
         ConceptNode("URE")
     )
 
-    execute_code = '''
-        (use-modules (opencog) (opencog rule-engine))
 
-        (define fc-message-sending-rbs (ConceptNode "fc-message-sending-rule"))
+    MemberLink(
+        fc_message_sending_rule_name,
+        fc_message_sending_rbs
+    )
 
-        (define fc-message-sending-rule-name
-            (DefinedSchemaNode "fc-message-sending-rule"))
+    # Set URE maximum-iterations
+    from opencog.scheme_wrapper import scheme_eval
 
-        (ure-add-rules fc-message-sending-rbs (list fc-message-sending-rule-name))
-
-        (ure-set-num-parameter fc-message-sending-rbs "URE:maximum-iterations" 20)
-
-        (ure-set-fuzzy-bool-parameter fc-message-sending-rbs "URE:attention-allocation" 0)
+    execute_code = \
+        '''
+        (use-modules (opencog rule-engine))
+        (ure-set-num-parameter (ConceptNode "fc-message-sending-rbs") "URE:maximum-iterations" 30)
         '''
 
     scheme_eval(atomspace, execute_code)
 
-    chainer = ForwardChainer(atomspace,
+    # chainer = ForwardChainer(atomspace,
+    #                          ConceptNode("fc-message-sending-rule"),
+    #                          SetLink())
+
+
+    # log.set_level('FINE')
+    # chainer = ForwardChainer(atomspace,
+    #                          ConceptNode("fc-message-sending-rule"),
+    #                          get_message(VariableNode("$V1"), VariableNode("$V2")),
+    #                          VariableList(
+    #                              TypedVariableLink(VariableNode("$V1"), TypeNode("ConceptNode")),
+    #                              TypedVariableLink(VariableNode("$V2"), TypeNode("ConceptNode")))
+    #                          )
+
+
+    # chainer = BackwardChainer(atomspace,
+    #                          ConceptNode("fc-message-sending-rule"),
+    #                          get_message(VariableNode("$V1"), VariableNode("$V2")))
+
+
+    chainer = BackwardChainer(atomspace,
                              ConceptNode("fc-message-sending-rule"),
-                             SetLink())
+                             get_message(VariableNode("$V1"), VariableNode("$V2")),
+                             VariableList(
+                                 TypedVariableLink(VariableNode("$V1"), TypeNode("ConceptNode")),
+                                 TypedVariableLink(VariableNode("$V2"), TypeNode("ConceptNode"))))
+
     chainer.do_chain()
+
     results = chainer.get_results()
+    log.set_level('INFO')
+
     res = execute_atom(atomspace, create_node_value_rule)
 
 
