@@ -1,25 +1,18 @@
-from opencog.ure import ForwardChainer
-from opencog.scheme_wrapper import scheme_eval
 from opencog.type_constructors import *
-from opencog.utilities import initialize_opencog
 from opencog.atomspace import TruthValue
-from opencog.bindlink import execute_atom
 
-atomspace = AtomSpace()
-initialize_opencog(atomspace)
+# =============================================================================
+# Crisp logic entailment (Deduction) Rule.
+#
+#  A->B
+#  B->C
+#  |-
+#  A->C
+#
+# See https://github.com/opencog/atomspace/tree/master/examples/rule-engine for more details.
+# -----------------------------------------------------------------------------
 
-a = ConceptNode("A")
-b = ConceptNode("B")
-c = ConceptNode("C")
-
-AB = InheritanceLink(a, b)
-BC = InheritanceLink(b, c)
-
-a.tv = TruthValue(1, 1)
-AB.tv = TruthValue(0.8, 0.9)
-BC.tv = TruthValue(0.85, 0.95)
-
-fc_deduction_rule = BindLink(
+deduction_rule = BindLink(
     VariableList(
         TypedVariableLink(
             VariableNode('$A'),
@@ -42,7 +35,7 @@ fc_deduction_rule = BindLink(
                 VariableNode('$A'),
                 VariableNode('$C')))),
     ExecutionOutputLink(
-        GroundedSchemaNode('py: fc_deduction_formula'),
+        GroundedSchemaNode('py: deduction_formula'),
         ListLink(
             InheritanceLink(
                 VariableNode('$A'),
@@ -55,66 +48,53 @@ fc_deduction_rule = BindLink(
                 VariableNode('$C')))))
 
 
-def fc_deduction_formula(AC, AB, BC):
+# -----------------------------------------------------------------------------
+# Deduction Formula
+#
+# If both confidence and strength of A->B and B->C are above 0.5 then
+# set the TV of A->C to (stv 1 1)
+# -----------------------------------------------------------------------------
+
+def deduction_formula(AC, AB, BC):
     tv1 = AB.tv
     tv2 = BC.tv
 
     if tv1.mean > 0.5 and tv2.mean > 0.5 and tv1.confidence > 0.5 and tv2.confidence > 0.5:
-        tv = TruthValue(1, 1)
+        AC.tv = TruthValue(1, 1)
     else:
-        tv = TruthValue(0, 0)
+        AC.tv = TruthValue(0, 0)
 
-    AC.tv = tv
     return AC
 
 
-def run_fc():
-    fc_deduction_rule_name = DefinedSchemaNode("fc-deduction-rule")
+#############################
+## Associate rules to PLN  ##
+#############################
 
-    DefineLink(
-        fc_deduction_rule_name,
-        fc_deduction_rule)
+deduction_rule_name = DefinedSchemaNode("deduction-rule")
 
-    fc_deduction_rbs = ConceptNode("fc-deduction-rule-base")
+DefineLink(
+    deduction_rule_name,
+    deduction_rule)
 
-    InheritanceLink(
-        fc_deduction_rbs,
-        ConceptNode("URE")
-    )
+deduction_rbs = ConceptNode("deduction-rule-base")
 
-    execute_code = \
-        '''
-        (use-modules (opencog) (opencog query) (opencog exec) (opencog rule-engine))
+InheritanceLink(
+    deduction_rbs,
+    ConceptNode("URE"))
 
-        (define fc-deduction-rbs (ConceptNode "fc-deduction-rule-base"))
+MemberLink(
+    deduction_rule_name,
+    deduction_rbs
+)
 
-        (define fc-deduction-rule-name
-            (DefinedSchemaNode "fc-deduction-rule"))
+# Set URE maximum-iterations
+from opencog.scheme_wrapper import scheme_eval
 
-        (ure-add-rules fc-deduction-rbs (list fc-deduction-rule-name))
+execute_code = \
+    '''
+    (use-modules (opencog rule-engine))
+    (ure-set-num-parameter (ConceptNode "deduction-rule-base") "URE:maximum-iterations" 30)
+    '''
 
-        (ure-set-num-parameter fc-deduction-rbs "URE:maximum-iterations" 20)
-
-        (ure-set-fuzzy-bool-parameter fc-deduction-rbs "URE:attention-allocation" 0)
-        '''
-
-    scheme_eval(atomspace, execute_code)
-
-    # chainer = ForwardChainer(atomspace,
-    #                          ConceptNode("fc-deduction-rule-base"),
-    #                          SetLink())
-
-    chainer = ForwardChainer(atomspace,
-                             ConceptNode("fc-deduction-rule-base"),
-                             InheritanceLink(VariableNode("$who"), c),
-                             TypedVariableLink(VariableNode("$who"), TypeNode("ConceptNode")))
-
-    chainer.do_chain()
-    return chainer.get_results()
-
-    # res = execute_atom(atomspace, fc_deduction_rule)
-    # print(res)
-
-
-results = run_fc()
-print(results)
+scheme_eval(atomspace, execute_code)
