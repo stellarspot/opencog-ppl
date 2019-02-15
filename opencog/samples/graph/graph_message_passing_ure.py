@@ -76,6 +76,7 @@ def send_message(msg, v1, v2, messages):
 
 
 def set_node_message(node, v1, messages):
+    print('lambda: ', messages)
     value = 1.0
     for message in messages.get_out():
         val = message.get_value(MESSAGE_KEY).to_list()[0]

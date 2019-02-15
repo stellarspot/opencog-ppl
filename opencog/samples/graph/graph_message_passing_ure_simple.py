@@ -1,3 +1,4 @@
+from opencog.ure import ForwardChainer
 from opencog.ure import BackwardChainer
 from opencog.bindlink import execute_atom
 from opencog.type_constructors import *
@@ -121,23 +122,23 @@ def run_message_passing_ure():
 
     fc_message_sending_rbs = ConceptNode("fc-message-sending-rule")
 
-    InheritanceLink(
-        fc_message_sending_rbs,
-        ConceptNode("URE")
-    )
-
     MemberLink(
         fc_message_sending_rule_name,
         fc_message_sending_rbs
     )
+
+    EvaluationLink(
+        PredicateNode("URE:FC:retry-exhausted-sources"),
+        fc_message_sending_rbs
+    ).tv = TruthValue(1, 1)
 
     # Set URE maximum-iterations
     from opencog.scheme_wrapper import scheme_eval
 
     execute_code = \
         '''
-        (use-modules (opencog rule-engine))
-        (ure-set-num-parameter (ConceptNode "fc-message-sending-rbs") "URE:maximum-iterations" 30)
+        (use-modules (opencog) (opencog rule-engine))
+        (ure-set-num-parameter (ConceptNode "fc-message-sending-rbs") "URE:maximum-iterations" 10)
         '''
 
     scheme_eval(atomspace, execute_code)
@@ -148,12 +149,19 @@ def run_message_passing_ure():
             log.info(str(atom))
     log.info("=== Dump AtomSpace End   ===")
 
-    chainer = BackwardChainer(atomspace,
+    chainer = ForwardChainer(atomspace,
                               ConceptNode("fc-message-sending-rule"),
-                              get_message(VariableNode("$V1"), VariableNode("$V2")),
+                              get_directed_edge(VariableNode("$V1"), VariableNode("$V2")),
                               VariableList(
                                   TypedVariableLink(VariableNode("$V1"), TypeNode("ConceptNode")),
                                   TypedVariableLink(VariableNode("$V2"), TypeNode("ConceptNode"))))
+
+    # chainer = BackwardChainer(atomspace,
+    #                           ConceptNode("fc-message-sending-rule"),
+    #                           get_message(VariableNode("$V1"), VariableNode("$V2")),
+    #                           VariableList(
+    #                               TypedVariableLink(VariableNode("$V1"), TypeNode("ConceptNode")),
+    #                               TypedVariableLink(VariableNode("$V2"), TypeNode("ConceptNode"))))
 
     chainer.do_chain()
     results = chainer.get_results()
