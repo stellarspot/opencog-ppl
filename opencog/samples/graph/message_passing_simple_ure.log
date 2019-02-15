@@ -1,0 +1,1500 @@
+[2019-02-15 12:15:43:654] [INFO] [global_python_initialize] Start
+[2019-02-15 12:15:43:654] [INFO] [global_python_initialize] Adding OpenCog sys.path directories
+[2019-02-15 12:15:43:654] [INFO] [global_python_initialize] Finish
+[2019-02-15 12:15:43:654] [INFO] PythonEval::initialize_python_objects_and_imports Finished initialising python evaluator.
+[2019-02-15 12:15:43:836] [INFO] === Dump AtomSpace Begin ===
+[2019-02-15 12:15:43:836] [INFO] (ConceptNode "B")
+
+[2019-02-15 12:15:43:836] [INFO] (ConceptNode "A")
+
+[2019-02-15 12:15:43:836] [INFO] (ConceptNode "C")
+
+[2019-02-15 12:15:43:836] [INFO] (ConceptNode "D")
+
+[2019-02-15 12:15:43:836] [INFO] (ConceptNode "fc-message-sending-rbs")
+
+[2019-02-15 12:15:43:836] [INFO] (ConceptNode "fc-message-sending-rule")
+
+[2019-02-15 12:15:43:836] [INFO] (ConceptNode "URE")
+
+[2019-02-15 12:15:43:836] [INFO] (NumberNode "30.000000")
+
+[2019-02-15 12:15:43:836] [INFO] (SetLink
+)
+
+[2019-02-15 12:15:43:836] [INFO] (ListLink
+  (EvaluationLink
+    (PredicateNode "message")
+    (ListLink
+      (VariableNode "$V1")
+      (VariableNode "$V2")
+    )
+  )
+  (VariableNode "$V1")
+  (VariableNode "$V2")
+)
+
+[2019-02-15 12:15:43:836] [INFO] (ListLink
+  (VariableNode "$V")
+  (VariableNode "$V1")
+)
+
+[2019-02-15 12:15:43:836] [INFO] (ListLink
+  (VariableNode "$V1")
+  (VariableNode "$V2")
+)
+
+[2019-02-15 12:15:43:836] [INFO] (ListLink
+  (ConceptNode "B")
+  (ConceptNode "A")
+)
+
+[2019-02-15 12:15:43:836] [INFO] (ListLink
+  (ConceptNode "C")
+  (ConceptNode "D")
+)
+
+[2019-02-15 12:15:43:836] [INFO] (ListLink
+  (ConceptNode "A")
+  (ConceptNode "B")
+)
+
+[2019-02-15 12:15:43:836] [INFO] (ListLink
+  (ConceptNode "C")
+  (ConceptNode "B")
+)
+
+[2019-02-15 12:15:43:836] [INFO] (ListLink
+  (ConceptNode "B")
+  (ConceptNode "C")
+)
+
+[2019-02-15 12:15:43:836] [INFO] (ListLink
+  (ConceptNode "D")
+  (ConceptNode "C")
+)
+
+[2019-02-15 12:15:43:836] [INFO] (MemberLink
+  (DefinedSchemaNode "fc-message-sending-rule")
+  (ConceptNode "fc-message-sending-rule")
+)
+
+[2019-02-15 12:15:43:836] [INFO] (InheritanceLink
+  (ConceptNode "fc-message-sending-rule")
+  (ConceptNode "URE")
+)
+
+[2019-02-15 12:15:43:836] [INFO] (AndLink
+  (EvaluationLink (stv 1.000000 1.000000)
+    (PredicateNode "directed-edge")
+    (ListLink
+      (VariableNode "$V1")
+      (VariableNode "$V2")
+    )
+  )
+  (EqualLink
+    (BindLink
+      (TypedVariableLink
+        (VariableNode "$V")
+        (TypeNode "ConceptNode")
+      )
+      (AndLink
+        (EvaluationLink
+          (PredicateNode "message")
+          (ListLink
+            (VariableNode "$V")
+            (VariableNode "$V1")
+          )
+        )
+        (NotLink
+          (EqualLink
+            (VariableNode "$V")
+            (VariableNode "$V2")
+          )
+        )
+      )
+      (VariableNode "$V")
+    )
+    (BindLink
+      (TypedVariableLink
+        (VariableNode "$V")
+        (TypeNode "ConceptNode")
+      )
+      (AndLink
+        (EvaluationLink (stv 1.000000 1.000000)
+          (PredicateNode "directed-edge")
+          (ListLink
+            (VariableNode "$V")
+            (VariableNode "$V1")
+          )
+        )
+        (NotLink
+          (EqualLink
+            (VariableNode "$V")
+            (VariableNode "$V2")
+          )
+        )
+      )
+      (VariableNode "$V")
+    )
+  )
+  (AbsentLink
+    (EvaluationLink
+      (PredicateNode "message")
+      (ListLink
+        (VariableNode "$V1")
+        (VariableNode "$V2")
+      )
+    )
+  )
+)
+
+[2019-02-15 12:15:43:836] [INFO] (AndLink
+  (EvaluationLink (stv 1.000000 1.000000)
+    (PredicateNode "directed-edge")
+    (ListLink
+      (VariableNode "$V")
+      (VariableNode "$V1")
+    )
+  )
+  (NotLink
+    (EqualLink
+      (VariableNode "$V")
+      (VariableNode "$V2")
+    )
+  )
+)
+
+[2019-02-15 12:15:43:836] [INFO] (AndLink
+  (EvaluationLink
+    (PredicateNode "message")
+    (ListLink
+      (VariableNode "$V")
+      (VariableNode "$V1")
+    )
+  )
+  (NotLink
+    (EqualLink
+      (VariableNode "$V")
+      (VariableNode "$V2")
+    )
+  )
+)
+
+[2019-02-15 12:15:43:836] [INFO] (NotLink
+  (EqualLink
+    (VariableNode "$V")
+    (VariableNode "$V2")
+  )
+)
+
+[2019-02-15 12:15:43:836] [INFO] (AbsentLink
+  (EvaluationLink
+    (PredicateNode "message")
+    (ListLink
+      (VariableNode "$V1")
+      (VariableNode "$V2")
+    )
+  )
+)
+
+[2019-02-15 12:15:43:836] [INFO] (VariableNode "$V")
+
+[2019-02-15 12:15:43:836] [INFO] (VariableNode "$V1")
+
+[2019-02-15 12:15:43:836] [INFO] (VariableNode "$V2")
+
+[2019-02-15 12:15:43:836] [INFO] (VariableList
+  (TypedVariableLink
+    (VariableNode "$V1")
+    (TypeNode "ConceptNode")
+  )
+  (TypedVariableLink
+    (VariableNode "$V2")
+    (TypeNode "ConceptNode")
+  )
+)
+
+[2019-02-15 12:15:43:836] [INFO] (DefineLink
+  (DefinedSchemaNode "fc-message-sending-rule")
+  (BindLink
+    (VariableList
+      (TypedVariableLink
+        (VariableNode "$V1")
+        (TypeNode "ConceptNode")
+      )
+      (TypedVariableLink
+        (VariableNode "$V2")
+        (TypeNode "ConceptNode")
+      )
+    )
+    (AndLink
+      (EvaluationLink (stv 1.000000 1.000000)
+        (PredicateNode "directed-edge")
+        (ListLink
+          (VariableNode "$V1")
+          (VariableNode "$V2")
+        )
+      )
+      (EqualLink
+        (BindLink
+          (TypedVariableLink
+            (VariableNode "$V")
+            (TypeNode "ConceptNode")
+          )
+          (AndLink
+            (EvaluationLink
+              (PredicateNode "message")
+              (ListLink
+                (VariableNode "$V")
+                (VariableNode "$V1")
+              )
+            )
+            (NotLink
+              (EqualLink
+                (VariableNode "$V")
+                (VariableNode "$V2")
+              )
+            )
+          )
+          (VariableNode "$V")
+        )
+        (BindLink
+          (TypedVariableLink
+            (VariableNode "$V")
+            (TypeNode "ConceptNode")
+          )
+          (AndLink
+            (EvaluationLink (stv 1.000000 1.000000)
+              (PredicateNode "directed-edge")
+              (ListLink
+                (VariableNode "$V")
+                (VariableNode "$V1")
+              )
+            )
+            (NotLink
+              (EqualLink
+                (VariableNode "$V")
+                (VariableNode "$V2")
+              )
+            )
+          )
+          (VariableNode "$V")
+        )
+      )
+      (AbsentLink
+        (EvaluationLink
+          (PredicateNode "message")
+          (ListLink
+            (VariableNode "$V1")
+            (VariableNode "$V2")
+          )
+        )
+      )
+    )
+    (ExecutionOutputLink
+      (GroundedSchemaNode "py: send_message")
+      (ListLink
+        (EvaluationLink
+          (PredicateNode "message")
+          (ListLink
+            (VariableNode "$V1")
+            (VariableNode "$V2")
+          )
+        )
+        (VariableNode "$V1")
+        (VariableNode "$V2")
+      )
+    )
+  )
+)
+
+[2019-02-15 12:15:43:836] [INFO] (BindLink
+  (VariableList
+    (TypedVariableLink
+      (VariableNode "$V1")
+      (TypeNode "ConceptNode")
+    )
+    (TypedVariableLink
+      (VariableNode "$V2")
+      (TypeNode "ConceptNode")
+    )
+  )
+  (AndLink
+    (EvaluationLink (stv 1.000000 1.000000)
+      (PredicateNode "directed-edge")
+      (ListLink
+        (VariableNode "$V1")
+        (VariableNode "$V2")
+      )
+    )
+    (EqualLink
+      (BindLink
+        (TypedVariableLink
+          (VariableNode "$V")
+          (TypeNode "ConceptNode")
+        )
+        (AndLink
+          (EvaluationLink
+            (PredicateNode "message")
+            (ListLink
+              (VariableNode "$V")
+              (VariableNode "$V1")
+            )
+          )
+          (NotLink
+            (EqualLink
+              (VariableNode "$V")
+              (VariableNode "$V2")
+            )
+          )
+        )
+        (VariableNode "$V")
+      )
+      (BindLink
+        (TypedVariableLink
+          (VariableNode "$V")
+          (TypeNode "ConceptNode")
+        )
+        (AndLink
+          (EvaluationLink (stv 1.000000 1.000000)
+            (PredicateNode "directed-edge")
+            (ListLink
+              (VariableNode "$V")
+              (VariableNode "$V1")
+            )
+          )
+          (NotLink
+            (EqualLink
+              (VariableNode "$V")
+              (VariableNode "$V2")
+            )
+          )
+        )
+        (VariableNode "$V")
+      )
+    )
+    (AbsentLink
+      (EvaluationLink
+        (PredicateNode "message")
+        (ListLink
+          (VariableNode "$V1")
+          (VariableNode "$V2")
+        )
+      )
+    )
+  )
+  (ExecutionOutputLink
+    (GroundedSchemaNode "py: send_message")
+    (ListLink
+      (EvaluationLink
+        (PredicateNode "message")
+        (ListLink
+          (VariableNode "$V1")
+          (VariableNode "$V2")
+        )
+      )
+      (VariableNode "$V1")
+      (VariableNode "$V2")
+    )
+  )
+)
+
+[2019-02-15 12:15:43:836] [INFO] (BindLink
+  (TypedVariableLink
+    (VariableNode "$V")
+    (TypeNode "ConceptNode")
+  )
+  (AndLink
+    (EvaluationLink (stv 1.000000 1.000000)
+      (PredicateNode "directed-edge")
+      (ListLink
+        (VariableNode "$V")
+        (VariableNode "$V1")
+      )
+    )
+    (NotLink
+      (EqualLink
+        (VariableNode "$V")
+        (VariableNode "$V2")
+      )
+    )
+  )
+  (VariableNode "$V")
+)
+
+[2019-02-15 12:15:43:836] [INFO] (BindLink
+  (TypedVariableLink
+    (VariableNode "$V")
+    (TypeNode "ConceptNode")
+  )
+  (AndLink
+    (EvaluationLink
+      (PredicateNode "message")
+      (ListLink
+        (VariableNode "$V")
+        (VariableNode "$V1")
+      )
+    )
+    (NotLink
+      (EqualLink
+        (VariableNode "$V")
+        (VariableNode "$V2")
+      )
+    )
+  )
+  (VariableNode "$V")
+)
+
+[2019-02-15 12:15:43:836] [INFO] (EvaluationLink
+  (PredicateNode "message")
+  (ListLink
+    (VariableNode "$V")
+    (VariableNode "$V1")
+  )
+)
+
+[2019-02-15 12:15:43:836] [INFO] (EvaluationLink (stv 1.000000 1.000000)
+  (PredicateNode "directed-edge")
+  (ListLink
+    (VariableNode "$V")
+    (VariableNode "$V1")
+  )
+)
+
+[2019-02-15 12:15:43:836] [INFO] (EvaluationLink
+  (PredicateNode "message")
+  (ListLink
+    (VariableNode "$V1")
+    (VariableNode "$V2")
+  )
+)
+
+[2019-02-15 12:15:43:836] [INFO] (EvaluationLink (stv 1.000000 1.000000)
+  (PredicateNode "directed-edge")
+  (ListLink
+    (VariableNode "$V1")
+    (VariableNode "$V2")
+  )
+)
+
+[2019-02-15 12:15:43:836] [INFO] (EvaluationLink (stv 1.000000 1.000000)
+  (PredicateNode "message")
+  (ListLink
+    (ConceptNode "D")
+    (ConceptNode "C")
+  )
+)
+
+[2019-02-15 12:15:43:836] [INFO] (EvaluationLink (stv 1.000000 1.000000)
+  (PredicateNode "message")
+  (ListLink
+    (ConceptNode "A")
+    (ConceptNode "B")
+  )
+)
+
+[2019-02-15 12:15:43:836] [INFO] (EvaluationLink (stv 1.000000 1.000000)
+  (PredicateNode "directed-edge")
+  (ListLink
+    (ConceptNode "B")
+    (ConceptNode "A")
+  )
+)
+
+[2019-02-15 12:15:43:836] [INFO] (EvaluationLink (stv 1.000000 1.000000)
+  (PredicateNode "directed-edge")
+  (ListLink
+    (ConceptNode "C")
+    (ConceptNode "B")
+  )
+)
+
+[2019-02-15 12:15:43:836] [INFO] (EvaluationLink (stv 1.000000 1.000000)
+  (PredicateNode "directed-edge")
+  (ListLink
+    (ConceptNode "D")
+    (ConceptNode "C")
+  )
+)
+
+[2019-02-15 12:15:43:836] [INFO] (EvaluationLink (stv 1.000000 1.000000)
+  (PredicateNode "directed-edge")
+  (ListLink
+    (ConceptNode "B")
+    (ConceptNode "C")
+  )
+)
+
+[2019-02-15 12:15:43:836] [INFO] (EvaluationLink (stv 1.000000 1.000000)
+  (PredicateNode "directed-edge")
+  (ListLink
+    (ConceptNode "A")
+    (ConceptNode "B")
+  )
+)
+
+[2019-02-15 12:15:43:836] [INFO] (EvaluationLink (stv 1.000000 1.000000)
+  (PredicateNode "directed-edge")
+  (ListLink
+    (ConceptNode "C")
+    (ConceptNode "D")
+  )
+)
+
+[2019-02-15 12:15:43:836] [INFO] (ExecutionLink
+  (SchemaNode "URE:maximum-iterations")
+  (ConceptNode "fc-message-sending-rbs")
+  (NumberNode "30.000000")
+)
+
+[2019-02-15 12:15:43:836] [INFO] (SchemaNode "URE:maximum-iterations")
+
+[2019-02-15 12:15:43:836] [INFO] (DefinedSchemaNode "fc-message-sending-rule")
+
+[2019-02-15 12:15:43:836] [INFO] (GroundedSchemaNode "py: send_message")
+
+[2019-02-15 12:15:43:836] [INFO] (PredicateNode "edge")
+
+[2019-02-15 12:15:43:836] [INFO] (PredicateNode "message")
+
+[2019-02-15 12:15:43:836] [INFO] (PredicateNode "directed-edge")
+
+[2019-02-15 12:15:43:836] [INFO] (TypeNode "ConceptNode")
+
+[2019-02-15 12:15:43:836] [INFO] (TypedVariableLink
+  (VariableNode "$V")
+  (TypeNode "ConceptNode")
+)
+
+[2019-02-15 12:15:43:836] [INFO] (TypedVariableLink
+  (VariableNode "$V1")
+  (TypeNode "ConceptNode")
+)
+
+[2019-02-15 12:15:43:836] [INFO] (TypedVariableLink
+  (VariableNode "$V2")
+  (TypeNode "ConceptNode")
+)
+
+[2019-02-15 12:15:43:836] [INFO] (EqualLink
+  (BindLink
+    (TypedVariableLink
+      (VariableNode "$V")
+      (TypeNode "ConceptNode")
+    )
+    (AndLink
+      (EvaluationLink
+        (PredicateNode "message")
+        (ListLink
+          (VariableNode "$V")
+          (VariableNode "$V1")
+        )
+      )
+      (NotLink
+        (EqualLink
+          (VariableNode "$V")
+          (VariableNode "$V2")
+        )
+      )
+    )
+    (VariableNode "$V")
+  )
+  (BindLink
+    (TypedVariableLink
+      (VariableNode "$V")
+      (TypeNode "ConceptNode")
+    )
+    (AndLink
+      (EvaluationLink (stv 1.000000 1.000000)
+        (PredicateNode "directed-edge")
+        (ListLink
+          (VariableNode "$V")
+          (VariableNode "$V1")
+        )
+      )
+      (NotLink
+        (EqualLink
+          (VariableNode "$V")
+          (VariableNode "$V2")
+        )
+      )
+    )
+    (VariableNode "$V")
+  )
+)
+
+[2019-02-15 12:15:43:836] [INFO] (EqualLink
+  (VariableNode "$V")
+  (VariableNode "$V2")
+)
+
+[2019-02-15 12:15:43:836] [INFO] (ExecutionOutputLink
+  (GroundedSchemaNode "py: send_message")
+  (ListLink
+    (EvaluationLink
+      (PredicateNode "message")
+      (ListLink
+        (VariableNode "$V1")
+        (VariableNode "$V2")
+      )
+    )
+    (VariableNode "$V1")
+    (VariableNode "$V2")
+  )
+)
+
+[2019-02-15 12:15:43:836] [INFO] === Dump AtomSpace End   ===
+[2019-02-15 12:15:43:836] [DEBUG] [URE] Start Backward Chaining
+[2019-02-15 12:15:43:836] [DEBUG] [URE] With rule set:
+size = 1
+rule[0]:
+  name: fc-message-sending-rule
+  tv: (stv 1.000000 0.000000)
+  rule:
+    (BindLink
+      (VariableList
+        (TypedVariableLink
+          (VariableNode "$V1") ; [5226589003363294115][1]
+          (TypeNode "ConceptNode") ; [3788740094387130450][1]
+        ) ; [11584282302424711624][1]
+        (TypedVariableLink
+          (VariableNode "$V2") ; [6100347143669767807][1]
+          (TypeNode "ConceptNode") ; [3788740094387130450][1]
+        ) ; [15323292610158142079][1]
+      ) ; [17372096013266553407][1]
+      (AndLink
+        (EvaluationLink (stv 1.000000 1.000000)
+          (PredicateNode "directed-edge") ; [4325327290331491294][1]
+          (ListLink
+            (VariableNode "$V1") ; [5226589003363294115][1]
+            (VariableNode "$V2") ; [6100347143669767807][1]
+          ) ; [17238848551304727046][1]
+        ) ; [12055429428481433098][1]
+        (EqualLink
+          (BindLink
+            (TypedVariableLink
+              (VariableNode "$V") ; [4586212285747253940][1]
+              (TypeNode "ConceptNode") ; [3788740094387130450][1]
+            ) ; [14684260958391183253][1]
+            (AndLink
+              (EvaluationLink
+                (PredicateNode "message") ; [2885514659138236404][1]
+                (ListLink
+                  (VariableNode "$V") ; [4586212285747253940][1]
+                  (VariableNode "$V1") ; [5226589003363294115][1]
+                ) ; [10052891553401003230][1]
+              ) ; [14481890075933394569][1]
+              (NotLink
+                (EqualLink
+                  (VariableNode "$V") ; [4586212285747253940][1]
+                  (VariableNode "$V2") ; [6100347143669767807][1]
+                ) ; [15813509596948663265][1]
+              ) ; [18218903400702146077][1]
+            ) ; [10972927983246815115][1]
+            (VariableNode "$V") ; [4586212285747253940][1]
+          ) ; [13559927622062716015][1]
+          (BindLink
+            (TypedVariableLink
+              (VariableNode "$V") ; [4586212285747253940][1]
+              (TypeNode "ConceptNode") ; [3788740094387130450][1]
+            ) ; [14684260958391183253][1]
+            (AndLink
+              (EvaluationLink (stv 1.000000 1.000000)
+                (PredicateNode "directed-edge") ; [4325327290331491294][1]
+                (ListLink
+                  (VariableNode "$V") ; [4586212285747253940][1]
+                  (VariableNode "$V1") ; [5226589003363294115][1]
+                ) ; [10052891553401003230][1]
+              ) ; [11117475564448791091][1]
+              (NotLink
+                (EqualLink
+                  (VariableNode "$V") ; [4586212285747253940][1]
+                  (VariableNode "$V2") ; [6100347143669767807][1]
+                ) ; [15813509596948663265][1]
+              ) ; [18218903400702146077][1]
+            ) ; [9495005084783623414][1]
+            (VariableNode "$V") ; [4586212285747253940][1]
+          ) ; [14912300357769641793][1]
+        ) ; [12640389569711536142][1]
+        (AbsentLink
+          (EvaluationLink
+            (PredicateNode "message") ; [2885514659138236404][1]
+            (ListLink
+              (VariableNode "$V1") ; [5226589003363294115][1]
+              (VariableNode "$V2") ; [6100347143669767807][1]
+            ) ; [17238848551304727046][1]
+          ) ; [10194864726681600016][1]
+        ) ; [13572467323569696154][1]
+      ) ; [11589572931086582318][1]
+      (ExecutionOutputLink
+        (GroundedSchemaNode "py: send_message") ; [2338148044748007496][1]
+        (ListLink
+          (EvaluationLink
+            (PredicateNode "message") ; [2885514659138236404][1]
+            (ListLink
+              (VariableNode "$V1") ; [5226589003363294115][1]
+              (VariableNode "$V2") ; [6100347143669767807][1]
+            ) ; [17238848551304727046][1]
+          ) ; [10194864726681600016][1]
+          (VariableNode "$V1") ; [5226589003363294115][1]
+          (VariableNode "$V2") ; [6100347143669767807][1]
+        ) ; [10526237389875259796][1]
+      ) ; [15563534790446814559][1]
+    ) ; [16645970716144944763][1]
+
+
+[2019-02-15 12:15:43:836] [DEBUG] [URE] Iteration 1/+inf
+[2019-02-15 12:15:43:836] [DEBUG] [URE] Initialize BIT with:
+(BindLink
+  (VariableList
+    (TypedVariableLink
+      (VariableNode "$V1") ; [5226589003363294115][1]
+      (TypeNode "ConceptNode") ; [3788740094387130450][1]
+    ) ; [11584282302424711624][1]
+    (TypedVariableLink
+      (VariableNode "$V2") ; [6100347143669767807][1]
+      (TypeNode "ConceptNode") ; [3788740094387130450][1]
+    ) ; [15323292610158142079][1]
+  ) ; [17372096013266553407][1]
+  (EvaluationLink
+    (PredicateNode "message") ; [2885514659138236404][1]
+    (ListLink
+      (VariableNode "$V1") ; [5226589003363294115][1]
+      (VariableNode "$V2") ; [6100347143669767807][1]
+    ) ; [17238848551304727046][1]
+  ) ; [10194864726681600016][1]
+  (EvaluationLink
+    (PredicateNode "message") ; [2885514659138236404][1]
+    (ListLink
+      (VariableNode "$V1") ; [5226589003363294115][1]
+      (VariableNode "$V2") ; [6100347143669767807][1]
+    ) ; [17238848551304727046][1]
+  ) ; [10194864726681600016][1]
+) ; [17142589942510245297][4]
+
+[2019-02-15 12:15:43:836] [DEBUG] [URE] Selected and-BIT for fulfillment (fcs value):
+[17142589942510245297][4]
+[2019-02-15 12:15:43:836] [DEBUG] [URE] Results:
+size = 2
+atom[0]:
+  (EvaluationLink (stv 1.000000 1.000000)
+    (PredicateNode "message") ; [2885514659138236404][1]
+    (ListLink
+      (ConceptNode "D") ; [246139194733523439][1]
+      (ConceptNode "C") ; [4439051644955498719][1]
+    ) ; [13416663964047721479][1]
+  ) ; [12681799675962735891][1]
+atom[1]:
+  (EvaluationLink (stv 1.000000 1.000000)
+    (PredicateNode "message") ; [2885514659138236404][1]
+    (ListLink
+      (ConceptNode "A") ; [6977233224879699947][1]
+      (ConceptNode "B") ; [241354064890084361][1]
+    ) ; [17442645837238618257][1]
+  ) ; [17172685343606181379][1]
+
+[2019-02-15 12:15:43:836] [DEBUG] [URE] Iteration 2/+inf
+[2019-02-15 12:15:43:836] [DEBUG] [URE] Weighted and-BITs:
+1 [17142589942510245297][4]
+[2019-02-15 12:15:43:836] [DEBUG] [URE] Selected and-BIT for expansion:
+(BindLink
+  (VariableList
+    (TypedVariableLink
+      (VariableNode "$V1") ; [5226589003363294115][1]
+      (TypeNode "ConceptNode") ; [3788740094387130450][1]
+    ) ; [11584282302424711624][1]
+    (TypedVariableLink
+      (VariableNode "$V2") ; [6100347143669767807][1]
+      (TypeNode "ConceptNode") ; [3788740094387130450][1]
+    ) ; [15323292610158142079][1]
+  ) ; [17372096013266553407][1]
+  (EvaluationLink
+    (PredicateNode "message") ; [2885514659138236404][1]
+    (ListLink
+      (VariableNode "$V1") ; [5226589003363294115][1]
+      (VariableNode "$V2") ; [6100347143669767807][1]
+    ) ; [17238848551304727046][1]
+  ) ; [10194864726681600016][1]
+  (EvaluationLink
+    (PredicateNode "message") ; [2885514659138236404][1]
+    (ListLink
+      (VariableNode "$V1") ; [5226589003363294115][1]
+      (VariableNode "$V2") ; [6100347143669767807][1]
+    ) ; [17238848551304727046][1]
+  ) ; [10194864726681600016][1]
+) ; [17142589942510245297][4]
+
+[2019-02-15 12:15:43:836] [DEBUG] [URE] Selected BIT-node for expansion:
+body:
+  (EvaluationLink
+    (PredicateNode "message") ; [2885514659138236404][1]
+    (ListLink
+      (VariableNode "$V1") ; [5226589003363294115][1]
+      (VariableNode "$V2") ; [6100347143669767807][1]
+    ) ; [17238848551304727046][1]
+  ) ; [10194864726681600016][1]
+exhausted: 0
+rules:
+  size = 0
+[2019-02-15 12:15:43:837] [DEBUG] [URE] The following rules are valid:
+size = 1
+atom[0]:
+  (DefinedSchemaNode "fc-message-sending-rule") ; [6897493433917712193][1]
+
+[2019-02-15 12:15:43:837] [DEBUG] [URE] Rule TVs of expanding a preproof into another preproof:
+(stv 1.000000 0.000000) (DefinedSchemaNode "fc-message-sending-rule") ; [6897493433917712193][1]
+
+[2019-02-15 12:15:43:837] [DEBUG] [URE] Rule weights:
+1 (DefinedSchemaNode "fc-message-sending-rule") ; [6897493433917712193][1]
+
+[2019-02-15 12:15:43:837] [DEBUG] [URE] Selected rule, with probability 0.5 of success:
+name: fc-message-sending-rule
+tv: (stv 1.000000 0.000000)
+rule:
+  (BindLink
+    (VariableList
+      (TypedVariableLink
+        (VariableNode "$V1") ; [5226589003363294115][1]
+        (TypeNode "ConceptNode") ; [3788740094387130450][-1]
+      ) ; [11584282302424711624][-1]
+      (TypedVariableLink
+        (VariableNode "$V2") ; [6100347143669767807][1]
+        (TypeNode "ConceptNode") ; [3788740094387130450][-1]
+      ) ; [15323292610158142079][-1]
+    ) ; [17372096013266553407][-1]
+    (AndLink
+      (EvaluationLink
+        (PredicateNode "directed-edge") ; [4325327290331491294][1]
+        (ListLink
+          (VariableNode "$V1") ; [5226589003363294115][1]
+          (VariableNode "$V2") ; [6100347143669767807][1]
+        ) ; [17238848551304727046][-1]
+      ) ; [12055429428481433098][-1]
+      (EqualLink
+        (BindLink
+          (TypedVariableLink
+            (VariableNode "$V") ; [4586212285747253940][1]
+            (TypeNode "ConceptNode") ; [3788740094387130450][1]
+          ) ; [14684260958391183253][-1]
+          (AndLink
+            (EvaluationLink
+              (PredicateNode "message") ; [2885514659138236404][1]
+              (ListLink
+                (VariableNode "$V") ; [4586212285747253940][1]
+                (VariableNode "$V1") ; [5226589003363294115][1]
+              ) ; [10052891553401003230][-1]
+            ) ; [14481890075933394569][-1]
+            (NotLink
+              (EqualLink
+                (VariableNode "$V") ; [4586212285747253940][1]
+                (VariableNode "$V2") ; [6100347143669767807][1]
+              ) ; [15813509596948663265][-1]
+            ) ; [18218903400702146077][-1]
+          ) ; [10972927983246815115][-1]
+          (VariableNode "$V") ; [4586212285747253940][1]
+        ) ; [13559927622062716015][-1]
+        (BindLink
+          (TypedVariableLink
+            (VariableNode "$V") ; [4586212285747253940][1]
+            (TypeNode "ConceptNode") ; [3788740094387130450][1]
+          ) ; [14684260958391183253][-1]
+          (AndLink
+            (EvaluationLink
+              (PredicateNode "directed-edge") ; [4325327290331491294][1]
+              (ListLink
+                (VariableNode "$V") ; [4586212285747253940][1]
+                (VariableNode "$V1") ; [5226589003363294115][1]
+              ) ; [10052891553401003230][-1]
+            ) ; [11117475564448791091][-1]
+            (NotLink
+              (EqualLink
+                (VariableNode "$V") ; [4586212285747253940][1]
+                (VariableNode "$V2") ; [6100347143669767807][1]
+              ) ; [15813509596948663265][-1]
+            ) ; [18218903400702146077][-1]
+          ) ; [9495005084783623414][-1]
+          (VariableNode "$V") ; [4586212285747253940][1]
+        ) ; [14912300357769641793][-1]
+      ) ; [12640389569711536142][-1]
+      (AbsentLink
+        (EvaluationLink
+          (PredicateNode "message") ; [2885514659138236404][1]
+          (ListLink
+            (VariableNode "$V1") ; [5226589003363294115][1]
+            (VariableNode "$V2") ; [6100347143669767807][1]
+          ) ; [17238848551304727046][-1]
+        ) ; [10194864726681600016][-1]
+      ) ; [13572467323569696154][-1]
+    ) ; [11589572931086582318][-1]
+    (ExecutionOutputLink
+      (GroundedSchemaNode "py: send_message") ; [2338148044748007496][1]
+      (ListLink
+        (EvaluationLink
+          (PredicateNode "message") ; [2885514659138236404][1]
+          (ListLink
+            (VariableNode "$V1") ; [5226589003363294115][1]
+            (VariableNode "$V2") ; [6100347143669767807][1]
+          ) ; [17238848551304727046][-1]
+        ) ; [10194864726681600016][-1]
+        (VariableNode "$V1") ; [5226589003363294115][1]
+        (VariableNode "$V2") ; [6100347143669767807][1]
+      ) ; [10526237389875259796][-1]
+    ) ; [15563534790446814559][-1]
+  ) ; [16645970716144944763][-1]
+
+[2019-02-15 12:15:43:837] [DEBUG] [URE] Expanded forward chainer strategy:
+(BindLink
+  (VariableList
+    (TypedVariableLink
+      (VariableNode "$V1") ; [5226589003363294115][1]
+      (TypeNode "ConceptNode") ; [3788740094387130450][1]
+    ) ; [11584282302424711624][1]
+    (TypedVariableLink
+      (VariableNode "$V2") ; [6100347143669767807][1]
+      (TypeNode "ConceptNode") ; [3788740094387130450][1]
+    ) ; [15323292610158142079][1]
+  ) ; [17372096013266553407][1]
+  (AndLink
+    (EvaluationLink (stv 1.000000 1.000000)
+      (PredicateNode "directed-edge") ; [4325327290331491294][1]
+      (ListLink
+        (VariableNode "$V1") ; [5226589003363294115][1]
+        (VariableNode "$V2") ; [6100347143669767807][1]
+      ) ; [17238848551304727046][1]
+    ) ; [12055429428481433098][1]
+    (EqualLink
+      (BindLink
+        (TypedVariableLink
+          (VariableNode "$V") ; [4586212285747253940][1]
+          (TypeNode "ConceptNode") ; [3788740094387130450][1]
+        ) ; [14684260958391183253][1]
+        (AndLink
+          (EvaluationLink
+            (PredicateNode "message") ; [2885514659138236404][1]
+            (ListLink
+              (VariableNode "$V") ; [4586212285747253940][1]
+              (VariableNode "$V1") ; [5226589003363294115][1]
+            ) ; [10052891553401003230][1]
+          ) ; [14481890075933394569][1]
+          (NotLink
+            (EqualLink
+              (VariableNode "$V") ; [4586212285747253940][1]
+              (VariableNode "$V2") ; [6100347143669767807][1]
+            ) ; [15813509596948663265][1]
+          ) ; [18218903400702146077][1]
+        ) ; [10972927983246815115][1]
+        (VariableNode "$V") ; [4586212285747253940][1]
+      ) ; [13559927622062716015][1]
+      (BindLink
+        (TypedVariableLink
+          (VariableNode "$V") ; [4586212285747253940][1]
+          (TypeNode "ConceptNode") ; [3788740094387130450][1]
+        ) ; [14684260958391183253][1]
+        (AndLink
+          (EvaluationLink (stv 1.000000 1.000000)
+            (PredicateNode "directed-edge") ; [4325327290331491294][1]
+            (ListLink
+              (VariableNode "$V") ; [4586212285747253940][1]
+              (VariableNode "$V1") ; [5226589003363294115][1]
+            ) ; [10052891553401003230][1]
+          ) ; [11117475564448791091][1]
+          (NotLink
+            (EqualLink
+              (VariableNode "$V") ; [4586212285747253940][1]
+              (VariableNode "$V2") ; [6100347143669767807][1]
+            ) ; [15813509596948663265][1]
+          ) ; [18218903400702146077][1]
+        ) ; [9495005084783623414][1]
+        (VariableNode "$V") ; [4586212285747253940][1]
+      ) ; [14912300357769641793][1]
+    ) ; [12640389569711536142][1]
+    (AbsentLink
+      (EvaluationLink
+        (PredicateNode "message") ; [2885514659138236404][1]
+        (ListLink
+          (VariableNode "$V1") ; [5226589003363294115][1]
+          (VariableNode "$V2") ; [6100347143669767807][1]
+        ) ; [17238848551304727046][1]
+      ) ; [10194864726681600016][1]
+    ) ; [13572467323569696154][1]
+  ) ; [11589572931086582318][1]
+  (ExecutionOutputLink
+    (GroundedSchemaNode "py: send_message") ; [2338148044748007496][1]
+    (ListLink
+      (EvaluationLink
+        (PredicateNode "message") ; [2885514659138236404][1]
+        (ListLink
+          (VariableNode "$V1") ; [5226589003363294115][1]
+          (VariableNode "$V2") ; [6100347143669767807][1]
+        ) ; [17238848551304727046][1]
+      ) ; [10194864726681600016][1]
+      (VariableNode "$V1") ; [5226589003363294115][1]
+      (VariableNode "$V2") ; [6100347143669767807][1]
+    ) ; [10526237389875259796][1]
+  ) ; [15563534790446814559][1]
+) ; [16645970716144944763][1]
+
+[2019-02-15 12:15:43:837] [DEBUG] [URE] With inference tree:
+
+[5226589003363294115][1] [6100347143669767807][1]
+------------------send_message-------------------
+            [10194864726681600016][1]
+
+[2019-02-15 12:15:43:837] [DEBUG] [URE] Selected and-BIT for fulfillment (fcs value):
+[16645970716144944763][1]
+[2019-02-15 12:15:43:838] [DEBUG] [URE] Results:
+size = 3
+atom[0]:
+  (EvaluationLink (stv 1.000000 1.000000)
+    (PredicateNode "message") ; [2885514659138236404][1]
+    (ListLink
+      (ConceptNode "C") ; [4439051644955498719][1]
+      (ConceptNode "B") ; [241354064890084361][1]
+    ) ; [10311758197844633392][1]
+  ) ; [13824821652441076624][1]
+atom[1]:
+  (EvaluationLink (stv 1.000000 1.000000)
+    (PredicateNode "message") ; [2885514659138236404][1]
+    (ListLink
+      (ConceptNode "B") ; [241354064890084361][1]
+      (ConceptNode "C") ; [4439051644955498719][1]
+    ) ; [12617154930450755241][1]
+  ) ; [16656906798563519875][1]
+atom[2]:
+  (EvaluationLink (stv 1.000000 1.000000)
+    (PredicateNode "message") ; [2885514659138236404][1]
+    (ListLink
+      (ConceptNode "C") ; [4439051644955498719][1]
+      (ConceptNode "D") ; [246139194733523439][1]
+    ) ; [9295071311705907645][1]
+  ) ; [17515447151081162322][1]
+
+[2019-02-15 12:15:43:838] [DEBUG] [URE] Iteration 3/+inf
+[2019-02-15 12:15:43:838] [DEBUG] [URE] Weighted and-BITs:
+1 [17142589942510245297][4]
+1 [16645970716144944763][1]
+[2019-02-15 12:15:43:838] [DEBUG] [URE] Selected and-BIT for expansion:
+(BindLink
+  (VariableList
+    (TypedVariableLink
+      (VariableNode "$V1") ; [5226589003363294115][1]
+      (TypeNode "ConceptNode") ; [3788740094387130450][1]
+    ) ; [11584282302424711624][1]
+    (TypedVariableLink
+      (VariableNode "$V2") ; [6100347143669767807][1]
+      (TypeNode "ConceptNode") ; [3788740094387130450][1]
+    ) ; [15323292610158142079][1]
+  ) ; [17372096013266553407][1]
+  (EvaluationLink
+    (PredicateNode "message") ; [2885514659138236404][1]
+    (ListLink
+      (VariableNode "$V1") ; [5226589003363294115][1]
+      (VariableNode "$V2") ; [6100347143669767807][1]
+    ) ; [17238848551304727046][1]
+  ) ; [10194864726681600016][1]
+  (EvaluationLink
+    (PredicateNode "message") ; [2885514659138236404][1]
+    (ListLink
+      (VariableNode "$V1") ; [5226589003363294115][1]
+      (VariableNode "$V2") ; [6100347143669767807][1]
+    ) ; [17238848551304727046][1]
+  ) ; [10194864726681600016][1]
+) ; [17142589942510245297][4]
+
+[2019-02-15 12:15:43:838] [DEBUG] [URE] Selected BIT-node for expansion:
+body:
+  (EvaluationLink
+    (PredicateNode "message") ; [2885514659138236404][1]
+    (ListLink
+      (VariableNode "$V1") ; [5226589003363294115][1]
+      (VariableNode "$V2") ; [6100347143669767807][1]
+    ) ; [17238848551304727046][1]
+  ) ; [10194864726681600016][1]
+exhausted: 0
+rules:
+  size = 1
+  rule[0]:
+    fc-message-sending-rule [16645970716144944763][-1]
+[2019-02-15 12:15:43:839] [DEBUG] [URE] No valid rule for the selected BIT-node, abort expansion
+[2019-02-15 12:15:43:839] [DEBUG] [URE] Cannot fulfill an empty and-BIT. Abort BIT fulfillment
+[2019-02-15 12:15:43:839] [DEBUG] [URE] Iteration 4/+inf
+[2019-02-15 12:15:43:839] [DEBUG] [URE] Weighted and-BITs:
+1 [17142589942510245297][4]
+1 [16645970716144944763][1]
+[2019-02-15 12:15:43:839] [DEBUG] [URE] Selected and-BIT for expansion:
+(BindLink
+  (VariableList
+    (TypedVariableLink
+      (VariableNode "$V1") ; [5226589003363294115][1]
+      (TypeNode "ConceptNode") ; [3788740094387130450][1]
+    ) ; [11584282302424711624][1]
+    (TypedVariableLink
+      (VariableNode "$V2") ; [6100347143669767807][1]
+      (TypeNode "ConceptNode") ; [3788740094387130450][1]
+    ) ; [15323292610158142079][1]
+  ) ; [17372096013266553407][1]
+  (EvaluationLink
+    (PredicateNode "message") ; [2885514659138236404][1]
+    (ListLink
+      (VariableNode "$V1") ; [5226589003363294115][1]
+      (VariableNode "$V2") ; [6100347143669767807][1]
+    ) ; [17238848551304727046][1]
+  ) ; [10194864726681600016][1]
+  (EvaluationLink
+    (PredicateNode "message") ; [2885514659138236404][1]
+    (ListLink
+      (VariableNode "$V1") ; [5226589003363294115][1]
+      (VariableNode "$V2") ; [6100347143669767807][1]
+    ) ; [17238848551304727046][1]
+  ) ; [10194864726681600016][1]
+) ; [17142589942510245297][4]
+
+[2019-02-15 12:15:43:839] [DEBUG] [URE] All BIT-nodes of this and-BIT are exhausted (or possibly fulfilled). Abort expansion.
+[2019-02-15 12:15:43:839] [DEBUG] [URE] Cannot fulfill an empty and-BIT. Abort BIT fulfillment
+[2019-02-15 12:15:43:839] [DEBUG] [URE] Iteration 5/+inf
+[2019-02-15 12:15:43:839] [DEBUG] [URE] Weighted and-BITs:
+0 [17142589942510245297][4]
+1 [16645970716144944763][1]
+[2019-02-15 12:15:43:839] [DEBUG] [URE] Selected and-BIT for expansion:
+(BindLink
+  (VariableList
+    (TypedVariableLink
+      (VariableNode "$V1") ; [5226589003363294115][1]
+      (TypeNode "ConceptNode") ; [3788740094387130450][1]
+    ) ; [11584282302424711624][1]
+    (TypedVariableLink
+      (VariableNode "$V2") ; [6100347143669767807][1]
+      (TypeNode "ConceptNode") ; [3788740094387130450][1]
+    ) ; [15323292610158142079][1]
+  ) ; [17372096013266553407][1]
+  (AndLink
+    (EvaluationLink (stv 1.000000 1.000000)
+      (PredicateNode "directed-edge") ; [4325327290331491294][1]
+      (ListLink
+        (VariableNode "$V1") ; [5226589003363294115][1]
+        (VariableNode "$V2") ; [6100347143669767807][1]
+      ) ; [17238848551304727046][1]
+    ) ; [12055429428481433098][1]
+    (EqualLink
+      (BindLink
+        (TypedVariableLink
+          (VariableNode "$V") ; [4586212285747253940][1]
+          (TypeNode "ConceptNode") ; [3788740094387130450][1]
+        ) ; [14684260958391183253][1]
+        (AndLink
+          (EvaluationLink
+            (PredicateNode "message") ; [2885514659138236404][1]
+            (ListLink
+              (VariableNode "$V") ; [4586212285747253940][1]
+              (VariableNode "$V1") ; [5226589003363294115][1]
+            ) ; [10052891553401003230][1]
+          ) ; [14481890075933394569][1]
+          (NotLink
+            (EqualLink
+              (VariableNode "$V") ; [4586212285747253940][1]
+              (VariableNode "$V2") ; [6100347143669767807][1]
+            ) ; [15813509596948663265][1]
+          ) ; [18218903400702146077][1]
+        ) ; [10972927983246815115][1]
+        (VariableNode "$V") ; [4586212285747253940][1]
+      ) ; [13559927622062716015][1]
+      (BindLink
+        (TypedVariableLink
+          (VariableNode "$V") ; [4586212285747253940][1]
+          (TypeNode "ConceptNode") ; [3788740094387130450][1]
+        ) ; [14684260958391183253][1]
+        (AndLink
+          (EvaluationLink (stv 1.000000 1.000000)
+            (PredicateNode "directed-edge") ; [4325327290331491294][1]
+            (ListLink
+              (VariableNode "$V") ; [4586212285747253940][1]
+              (VariableNode "$V1") ; [5226589003363294115][1]
+            ) ; [10052891553401003230][1]
+          ) ; [11117475564448791091][1]
+          (NotLink
+            (EqualLink
+              (VariableNode "$V") ; [4586212285747253940][1]
+              (VariableNode "$V2") ; [6100347143669767807][1]
+            ) ; [15813509596948663265][1]
+          ) ; [18218903400702146077][1]
+        ) ; [9495005084783623414][1]
+        (VariableNode "$V") ; [4586212285747253940][1]
+      ) ; [14912300357769641793][1]
+    ) ; [12640389569711536142][1]
+    (AbsentLink
+      (EvaluationLink
+        (PredicateNode "message") ; [2885514659138236404][1]
+        (ListLink
+          (VariableNode "$V1") ; [5226589003363294115][1]
+          (VariableNode "$V2") ; [6100347143669767807][1]
+        ) ; [17238848551304727046][1]
+      ) ; [10194864726681600016][1]
+    ) ; [13572467323569696154][1]
+  ) ; [11589572931086582318][1]
+  (ExecutionOutputLink
+    (GroundedSchemaNode "py: send_message") ; [2338148044748007496][1]
+    (ListLink
+      (EvaluationLink
+        (PredicateNode "message") ; [2885514659138236404][1]
+        (ListLink
+          (VariableNode "$V1") ; [5226589003363294115][1]
+          (VariableNode "$V2") ; [6100347143669767807][1]
+        ) ; [17238848551304727046][1]
+      ) ; [10194864726681600016][1]
+      (VariableNode "$V1") ; [5226589003363294115][1]
+      (VariableNode "$V2") ; [6100347143669767807][1]
+    ) ; [10526237389875259796][1]
+  ) ; [15563534790446814559][1]
+) ; [16645970716144944763][1]
+
+[2019-02-15 12:15:43:839] [DEBUG] [URE] Selected BIT-node for expansion:
+body:
+  (VariableNode "$V2") ; [6100347143669767807][1]
+exhausted: 0
+rules:
+  size = 0
+[2019-02-15 12:15:43:839] [DEBUG] [URE] No valid rule for the selected BIT-node, abort expansion
+[2019-02-15 12:15:43:839] [DEBUG] [URE] Cannot fulfill an empty and-BIT. Abort BIT fulfillment
+[2019-02-15 12:15:43:839] [DEBUG] [URE] Iteration 6/+inf
+[2019-02-15 12:15:43:839] [DEBUG] [URE] Weighted and-BITs:
+0 [17142589942510245297][4]
+1 [16645970716144944763][1]
+[2019-02-15 12:15:43:839] [DEBUG] [URE] Selected and-BIT for expansion:
+(BindLink
+  (VariableList
+    (TypedVariableLink
+      (VariableNode "$V1") ; [5226589003363294115][1]
+      (TypeNode "ConceptNode") ; [3788740094387130450][1]
+    ) ; [11584282302424711624][1]
+    (TypedVariableLink
+      (VariableNode "$V2") ; [6100347143669767807][1]
+      (TypeNode "ConceptNode") ; [3788740094387130450][1]
+    ) ; [15323292610158142079][1]
+  ) ; [17372096013266553407][1]
+  (AndLink
+    (EvaluationLink (stv 1.000000 1.000000)
+      (PredicateNode "directed-edge") ; [4325327290331491294][1]
+      (ListLink
+        (VariableNode "$V1") ; [5226589003363294115][1]
+        (VariableNode "$V2") ; [6100347143669767807][1]
+      ) ; [17238848551304727046][1]
+    ) ; [12055429428481433098][1]
+    (EqualLink
+      (BindLink
+        (TypedVariableLink
+          (VariableNode "$V") ; [4586212285747253940][1]
+          (TypeNode "ConceptNode") ; [3788740094387130450][1]
+        ) ; [14684260958391183253][1]
+        (AndLink
+          (EvaluationLink
+            (PredicateNode "message") ; [2885514659138236404][1]
+            (ListLink
+              (VariableNode "$V") ; [4586212285747253940][1]
+              (VariableNode "$V1") ; [5226589003363294115][1]
+            ) ; [10052891553401003230][1]
+          ) ; [14481890075933394569][1]
+          (NotLink
+            (EqualLink
+              (VariableNode "$V") ; [4586212285747253940][1]
+              (VariableNode "$V2") ; [6100347143669767807][1]
+            ) ; [15813509596948663265][1]
+          ) ; [18218903400702146077][1]
+        ) ; [10972927983246815115][1]
+        (VariableNode "$V") ; [4586212285747253940][1]
+      ) ; [13559927622062716015][1]
+      (BindLink
+        (TypedVariableLink
+          (VariableNode "$V") ; [4586212285747253940][1]
+          (TypeNode "ConceptNode") ; [3788740094387130450][1]
+        ) ; [14684260958391183253][1]
+        (AndLink
+          (EvaluationLink (stv 1.000000 1.000000)
+            (PredicateNode "directed-edge") ; [4325327290331491294][1]
+            (ListLink
+              (VariableNode "$V") ; [4586212285747253940][1]
+              (VariableNode "$V1") ; [5226589003363294115][1]
+            ) ; [10052891553401003230][1]
+          ) ; [11117475564448791091][1]
+          (NotLink
+            (EqualLink
+              (VariableNode "$V") ; [4586212285747253940][1]
+              (VariableNode "$V2") ; [6100347143669767807][1]
+            ) ; [15813509596948663265][1]
+          ) ; [18218903400702146077][1]
+        ) ; [9495005084783623414][1]
+        (VariableNode "$V") ; [4586212285747253940][1]
+      ) ; [14912300357769641793][1]
+    ) ; [12640389569711536142][1]
+    (AbsentLink
+      (EvaluationLink
+        (PredicateNode "message") ; [2885514659138236404][1]
+        (ListLink
+          (VariableNode "$V1") ; [5226589003363294115][1]
+          (VariableNode "$V2") ; [6100347143669767807][1]
+        ) ; [17238848551304727046][1]
+      ) ; [10194864726681600016][1]
+    ) ; [13572467323569696154][1]
+  ) ; [11589572931086582318][1]
+  (ExecutionOutputLink
+    (GroundedSchemaNode "py: send_message") ; [2338148044748007496][1]
+    (ListLink
+      (EvaluationLink
+        (PredicateNode "message") ; [2885514659138236404][1]
+        (ListLink
+          (VariableNode "$V1") ; [5226589003363294115][1]
+          (VariableNode "$V2") ; [6100347143669767807][1]
+        ) ; [17238848551304727046][1]
+      ) ; [10194864726681600016][1]
+      (VariableNode "$V1") ; [5226589003363294115][1]
+      (VariableNode "$V2") ; [6100347143669767807][1]
+    ) ; [10526237389875259796][1]
+  ) ; [15563534790446814559][1]
+) ; [16645970716144944763][1]
+
+[2019-02-15 12:15:43:839] [DEBUG] [URE] Selected BIT-node for expansion:
+body:
+  (VariableNode "$V1") ; [5226589003363294115][1]
+exhausted: 0
+rules:
+  size = 0
+[2019-02-15 12:15:43:839] [DEBUG] [URE] No valid rule for the selected BIT-node, abort expansion
+[2019-02-15 12:15:43:839] [DEBUG] [URE] Cannot fulfill an empty and-BIT. Abort BIT fulfillment
+[2019-02-15 12:15:43:839] [DEBUG] [URE] Iteration 7/+inf
+[2019-02-15 12:15:43:839] [DEBUG] [URE] Weighted and-BITs:
+0 [17142589942510245297][4]
+1 [16645970716144944763][1]
+[2019-02-15 12:15:43:839] [DEBUG] [URE] Selected and-BIT for expansion:
+(BindLink
+  (VariableList
+    (TypedVariableLink
+      (VariableNode "$V1") ; [5226589003363294115][1]
+      (TypeNode "ConceptNode") ; [3788740094387130450][1]
+    ) ; [11584282302424711624][1]
+    (TypedVariableLink
+      (VariableNode "$V2") ; [6100347143669767807][1]
+      (TypeNode "ConceptNode") ; [3788740094387130450][1]
+    ) ; [15323292610158142079][1]
+  ) ; [17372096013266553407][1]
+  (AndLink
+    (EvaluationLink (stv 1.000000 1.000000)
+      (PredicateNode "directed-edge") ; [4325327290331491294][1]
+      (ListLink
+        (VariableNode "$V1") ; [5226589003363294115][1]
+        (VariableNode "$V2") ; [6100347143669767807][1]
+      ) ; [17238848551304727046][1]
+    ) ; [12055429428481433098][1]
+    (EqualLink
+      (BindLink
+        (TypedVariableLink
+          (VariableNode "$V") ; [4586212285747253940][1]
+          (TypeNode "ConceptNode") ; [3788740094387130450][1]
+        ) ; [14684260958391183253][1]
+        (AndLink
+          (EvaluationLink
+            (PredicateNode "message") ; [2885514659138236404][1]
+            (ListLink
+              (VariableNode "$V") ; [4586212285747253940][1]
+              (VariableNode "$V1") ; [5226589003363294115][1]
+            ) ; [10052891553401003230][1]
+          ) ; [14481890075933394569][1]
+          (NotLink
+            (EqualLink
+              (VariableNode "$V") ; [4586212285747253940][1]
+              (VariableNode "$V2") ; [6100347143669767807][1]
+            ) ; [15813509596948663265][1]
+          ) ; [18218903400702146077][1]
+        ) ; [10972927983246815115][1]
+        (VariableNode "$V") ; [4586212285747253940][1]
+      ) ; [13559927622062716015][1]
+      (BindLink
+        (TypedVariableLink
+          (VariableNode "$V") ; [4586212285747253940][1]
+          (TypeNode "ConceptNode") ; [3788740094387130450][1]
+        ) ; [14684260958391183253][1]
+        (AndLink
+          (EvaluationLink (stv 1.000000 1.000000)
+            (PredicateNode "directed-edge") ; [4325327290331491294][1]
+            (ListLink
+              (VariableNode "$V") ; [4586212285747253940][1]
+              (VariableNode "$V1") ; [5226589003363294115][1]
+            ) ; [10052891553401003230][1]
+          ) ; [11117475564448791091][1]
+          (NotLink
+            (EqualLink
+              (VariableNode "$V") ; [4586212285747253940][1]
+              (VariableNode "$V2") ; [6100347143669767807][1]
+            ) ; [15813509596948663265][1]
+          ) ; [18218903400702146077][1]
+        ) ; [9495005084783623414][1]
+        (VariableNode "$V") ; [4586212285747253940][1]
+      ) ; [14912300357769641793][1]
+    ) ; [12640389569711536142][1]
+    (AbsentLink
+      (EvaluationLink
+        (PredicateNode "message") ; [2885514659138236404][1]
+        (ListLink
+          (VariableNode "$V1") ; [5226589003363294115][1]
+          (VariableNode "$V2") ; [6100347143669767807][1]
+        ) ; [17238848551304727046][1]
+      ) ; [10194864726681600016][1]
+    ) ; [13572467323569696154][1]
+  ) ; [11589572931086582318][1]
+  (ExecutionOutputLink
+    (GroundedSchemaNode "py: send_message") ; [2338148044748007496][1]
+    (ListLink
+      (EvaluationLink
+        (PredicateNode "message") ; [2885514659138236404][1]
+        (ListLink
+          (VariableNode "$V1") ; [5226589003363294115][1]
+          (VariableNode "$V2") ; [6100347143669767807][1]
+        ) ; [17238848551304727046][1]
+      ) ; [10194864726681600016][1]
+      (VariableNode "$V1") ; [5226589003363294115][1]
+      (VariableNode "$V2") ; [6100347143669767807][1]
+    ) ; [10526237389875259796][1]
+  ) ; [15563534790446814559][1]
+) ; [16645970716144944763][1]
+
+[2019-02-15 12:15:43:839] [DEBUG] [URE] All BIT-nodes of this and-BIT are exhausted (or possibly fulfilled). Abort expansion.
+[2019-02-15 12:15:43:839] [DEBUG] [URE] Cannot fulfill an empty and-BIT. Abort BIT fulfillment
+[2019-02-15 12:15:43:839] [DEBUG] [URE] Terminate: all AndBITS are exhausted
+[2019-02-15 12:15:43:839] [DEBUG] [URE] Finished Backward Chaining with solutions:
+(SetLink
+  (EvaluationLink (stv 1.000000 1.000000)
+    (PredicateNode "message") ; [2885514659138236404][1]
+    (ListLink
+      (ConceptNode "D") ; [246139194733523439][1]
+      (ConceptNode "C") ; [4439051644955498719][1]
+    ) ; [13416663964047721479][1]
+  ) ; [12681799675962735891][1]
+  (EvaluationLink (stv 1.000000 1.000000)
+    (PredicateNode "message") ; [2885514659138236404][1]
+    (ListLink
+      (ConceptNode "C") ; [4439051644955498719][1]
+      (ConceptNode "B") ; [241354064890084361][1]
+    ) ; [10311758197844633392][1]
+  ) ; [13824821652441076624][1]
+  (EvaluationLink (stv 1.000000 1.000000)
+    (PredicateNode "message") ; [2885514659138236404][1]
+    (ListLink
+      (ConceptNode "B") ; [241354064890084361][1]
+      (ConceptNode "C") ; [4439051644955498719][1]
+    ) ; [12617154930450755241][1]
+  ) ; [16656906798563519875][1]
+  (EvaluationLink (stv 1.000000 1.000000)
+    (PredicateNode "message") ; [2885514659138236404][1]
+    (ListLink
+      (ConceptNode "A") ; [6977233224879699947][1]
+      (ConceptNode "B") ; [241354064890084361][1]
+    ) ; [17442645837238618257][1]
+  ) ; [17172685343606181379][1]
+  (EvaluationLink (stv 1.000000 1.000000)
+    (PredicateNode "message") ; [2885514659138236404][1]
+    (ListLink
+      (ConceptNode "C") ; [4439051644955498719][1]
+      (ConceptNode "D") ; [246139194733523439][1]
+    ) ; [9295071311705907645][1]
+  ) ; [17515447151081162322][1]
+) ; [16214951156639241716][1]
+
