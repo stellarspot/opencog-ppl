@@ -144,10 +144,10 @@ def run_message_passing_ure():
 
     log.info("=== Dump AtomSpace Begin ===")
     for atom in atomspace:
-        log.info(str(atom))
+        if not atom.incoming:
+            log.info(str(atom))
     log.info("=== Dump AtomSpace End   ===")
 
-    # log.set_level('FINE')
     chainer = BackwardChainer(atomspace,
                               ConceptNode("fc-message-sending-rule"),
                               get_message(VariableNode("$V1"), VariableNode("$V2")),
