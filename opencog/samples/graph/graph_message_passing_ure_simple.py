@@ -29,7 +29,7 @@ def send_initial_message(m, v1, v2):
     return m
 
 
-def send_message(msg, v1, v2, messages):
+def send_message(msg, v1, v2):
     print('send message:', v1.name, v2.name)
     msg.tv = TV_TRUE
     return msg
@@ -56,29 +56,6 @@ get_directed_edge(node_d, node_c)
 
 send_initial_message(get_message(node_a, node_b), node_a, node_b)
 send_initial_message(get_message(node_d, node_c), node_d, node_c)
-
-# Get all incoming messages except excluded for the given vertex
-DefineLink(
-    DefinedSchemaNode("get_incoming_messages"),
-    LambdaLink(
-        VariableList(
-            TypedVariableLink(
-                VariableNode('$V1'),
-                TypeNode('ConceptNode')),
-            TypedVariableLink(
-                VariableNode('$V2'),
-                TypeNode('ConceptNode'))),
-        BindLink(
-            TypedVariableLink(
-                VariableNode('$V'),
-                TypeNode('ConceptNode')),
-            AndLink(
-                get_message(VariableNode('$V'), VariableNode('$V1')),
-                NotLink(
-                    EqualLink(
-                        VariableNode('$V'),
-                        VariableNode('$V2')))),
-            get_message(VariableNode('$V'), VariableNode('$V1')))))
 
 # Create message rule
 
@@ -123,12 +100,7 @@ create_messages_rule = BindLink(
         ListLink(
             get_message(VariableNode('$V1'), VariableNode('$V2')),
             VariableNode('$V1'),
-            VariableNode('$V2'),
-            PutLink(
-                DefinedSchemaNode("get_incoming_messages"),
-                ListLink(
-                    VariableNode('$V1'),
-                    VariableNode('$V2'))))))
+            VariableNode('$V2'))))
 
 
 def run_message_passing():
