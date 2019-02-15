@@ -3,6 +3,8 @@ from opencog.bindlink import execute_atom
 from opencog.type_constructors import *
 from opencog.utilities import initialize_opencog
 
+from opencog.logger import Logger, log
+
 atomspace = AtomSpace()
 initialize_opencog(atomspace)
 
@@ -138,6 +140,7 @@ def run_message_passing_ure():
 
     scheme_eval(atomspace, execute_code)
 
+    log.set_level('FINE')
     chainer = BackwardChainer(atomspace,
                               ConceptNode("fc-message-sending-rule"),
                               get_message(VariableNode("$V1"), VariableNode("$V2")),
@@ -147,6 +150,7 @@ def run_message_passing_ure():
 
     chainer.do_chain()
     results = chainer.get_results()
+    log.set_level('INFO')
 
 
 # run_message_passing()
