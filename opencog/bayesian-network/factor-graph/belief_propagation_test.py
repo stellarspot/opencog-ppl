@@ -3,7 +3,7 @@ import unittest
 from opencog.type_constructors import *
 from opencog.utilities import initialize_opencog, finalize_opencog
 from opencog.atomspace import PtrValue
-from opencog.bindlink import evaluate_atom, execute_atom
+from opencog.bindlink import execute_atom
 
 from belief_propagation import *
 
@@ -26,15 +26,24 @@ class PtrValueTest(unittest.TestCase):
                 return
         self.fail("result: " + str(set_link) + " does not contain: " + str(atom))
 
+    def check_tensor_value(self, atom, tensor):
+        tensor_value = atom.get_value(PredicateNode("tensor"))
+        self.assertIsNotNone(tensor)
+        self.assertTrue(np.allclose(tensor, tensor_value.value()))
+
+    def check_domain_value(self, atom, domain):
+        domain_value = atom.get_value(PredicateNode("domain"))
+        self.assertIsNotNone(domain_value)
+        self.assertEqual(domain, domain_value.value())
+
     def test_belief_propagation(self):
-        PROBABILITY_KEY = PredicateNode("probability")
 
         rain = ConceptNode('Rain')
         wet_grass = ConceptNode('WetGrass')
         wet_grass_given_rain = ImplicationLink(rain, wet_grass)
 
-        rain.set_value(PROBABILITY_KEY, PtrValue(np.array([0.2, 0.8])))
-        wet_grass_given_rain.set_value(PROBABILITY_KEY, PtrValue(np.array([[0.9, 0.1], [0.25, 0.75]])))
+        rain.set_value(key_probability(), PtrValue(np.array([0.2, 0.8])))
+        wet_grass_given_rain.set_value(key_probability(), PtrValue(np.array([[0.9, 0.1], [0.25, 0.75]])))
 
         belief_propagation(self.atomspace)
 
@@ -53,6 +62,12 @@ class PtrValueTest(unittest.TestCase):
                                    PredicateNode("factor"),
                                    VariableNode("$F"))))
         self.check_set_contains(res, ConceptNode("Factor-Rain"))
+
+        # Check Variable shapes
+        self.check_domain_value(ConceptNode("Variable-Rain"), 2)
+
+        # Check Factor tensors
+        self.check_tensor_value(ConceptNode("Factor-Rain"), np.array([0.2, 0.8]))
 
 
 if __name__ == '__main__':

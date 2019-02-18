@@ -10,10 +10,6 @@ TV_FALSE = TruthValue(0.0, 0.0)
 
 # Keys
 
-def key_probability():
-    return PredicateNode("probability")
-
-
 def key_factor():
     return PredicateNode("factor")
 
@@ -26,18 +22,16 @@ def key_edge():
     return PredicateNode("edge")
 
 
-# Probabilities
+def key_probability():
+    return PredicateNode("probability")
 
-def has_probability(atom):
-    """
-    Checks that the atom contains probability value
 
-    :param atom: the given atom
-    :return: True if the atom contains a value for the probability key
-    """
-    if atom.get_value(key_probability()):
-        return TV_TRUE
-    return TV_FALSE
+def key_domain():
+    return PredicateNode("domain")
+
+
+def key_tensor():
+    return PredicateNode("tensor")
 
 
 # Factor Graph
@@ -103,6 +97,49 @@ def get_edge_predicate(factor, variable):
             variable))
 
 
+# Probabilities
+
+def has_probability(atom):
+    """
+    Checks that the atom contains probability value
+
+    :param atom: the given atom
+    :return: True if the atom contains a value for the probability key
+    """
+    if atom.get_value(key_probability()):
+        return TV_TRUE
+    return TV_FALSE
+
+
+def set_variable_domain(variable, v):
+    """
+    Sets domain to the variable in factor graph.
+
+
+    :param variable: variable in factor graph
+    :param v: initial variable in bayesian network
+    """
+    tensor_value = v.get_value(key_probability())
+    assert tensor_value, "Probability must be set for atom: " + str(v)
+    tensor = tensor_value.value()
+    variable.set_value(key_domain(), PtrValue(tensor.shape[0]))
+
+
+def set_factor_tensor(factor, variables, prob_atom):
+    """
+    Sets tensor for the given factor.
+    Tensor is taken from  prob_atom.
+
+    :param factor: factor in factor graph
+    :param variables: initial variables
+    :param prob_atom: atom which contains joint probability table value
+    """
+
+    tensor_value = prob_atom.get_value(key_probability())
+    assert tensor_value, "Probability must be set for atom: " + str(prob_atom)
+    factor.set_value(key_tensor(), tensor_value)
+
+
 # ; =====================================================================
 # ; ConceptNode to Variable rule
 # ;
@@ -150,10 +187,10 @@ def init_factor_graph_concept_node_formula(v):
     edge = get_edge_predicate(factor, variable)
 
     # set variable shape
-    # set_variable_shape_value(v, variable)
+    set_variable_domain(variable, v)
 
     # set factor tensor
-    # set_factor_tensor(factor, [v], v)
+    set_factor_tensor(factor, [v], v)
 
     return ListLink(
         variable_predicate,
@@ -170,3 +207,4 @@ def belief_propagation(atomspace):
     :return:
     """
     res = execute_atom(atomspace, init_factor_graph_concept_node())
+    print(res)
