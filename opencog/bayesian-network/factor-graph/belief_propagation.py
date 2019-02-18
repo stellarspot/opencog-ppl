@@ -111,18 +111,24 @@ def has_probability(atom):
     return TV_FALSE
 
 
-def set_variable_domain(variable, v):
+def set_variable_domain(variable, prob_atom, index):
     """
     Sets domain to the variable in factor graph.
 
-
     :param variable: variable in factor graph
-    :param v: initial variable in bayesian network
+    :param prob_atom: atom which contains joint probability table value
+    :param index: position of the given variable in the joint probability table
     """
-    tensor_value = v.get_value(key_probability())
-    assert tensor_value, "Probability must be set for atom: " + str(v)
+    tensor_value = prob_atom.get_value(key_probability())
+    assert tensor_value, "Probability must be set for atom: " + str(prob_atom)
     tensor = tensor_value.value()
-    variable.set_value(key_domain(), PtrValue(tensor.shape[0]))
+    domain = tensor.shape[index]
+
+    current_domain_value = variable.get_value(key_domain())
+    if not current_domain_value:
+        variable.set_value(key_domain(), PtrValue(domain))
+    else:
+        assert current_domain_value.value() == domain
 
 
 def set_factor_tensor(factor, variables, prob_atom):
@@ -137,7 +143,20 @@ def set_factor_tensor(factor, variables, prob_atom):
 
     tensor_value = prob_atom.get_value(key_probability())
     assert tensor_value, "Probability must be set for atom: " + str(prob_atom)
+    print('set factor tensor:', factor.name, tensor_value.value())
     factor.set_value(key_tensor(), tensor_value)
+
+
+def belief_propagation(atomspace):
+    """
+    Run Belief Propagation algorithm.
+
+    :param atomspace: AtomSpace
+    :return:
+    """
+    res = execute_atom(atomspace, init_factor_graph_concept_node())
+    res = execute_atom(atomspace, init_factor_graph_implication_link())
+    print(res)
 
 
 # ; =====================================================================
@@ -187,7 +206,7 @@ def init_factor_graph_concept_node_formula(v):
     edge = get_edge_predicate(factor, variable)
 
     # set variable shape
-    set_variable_domain(variable, v)
+    set_variable_domain(variable, v, 0)
 
     # set factor tensor
     set_factor_tensor(factor, [v], v)
@@ -199,12 +218,94 @@ def init_factor_graph_concept_node_formula(v):
     )
 
 
-def belief_propagation(atomspace):
-    """
-    Run Belief Propagation algorithm.
+# ; =====================================================================
+# ; Implication to Variable rule
+# ;
+# ; Implication
+# ;   A
+# ;   B
+# ; |-
+# ; Evaluation
+# ;    Predicate "factor"
+# ;    Concept "Factor-A-B"
+# ;
+# ; Evaluation
+# ;    Predicate "variable"
+# ;    Concept "Variable-A"
+# ;
+# ; Evaluation
+# ;    Predicate "variable"
+# ;    Concept "Variable-B"
+# ;
+# ; Evaluation
+# ;    Predicate "edge"
+# ;    List
+# ;        Concept "Factor-A-B"
+# ;        Concept "Variable-A"
+# ;
+# ; Evaluation
+# ;    Predicate "edge"
+# ;    List
+# ;        Concept "Factor-A-B"
+# ;        Concept "Variable-B"
+# ;----------------------------------------------------------------------
 
-    :param atomspace: AtomSpace
-    :return:
-    """
-    res = execute_atom(atomspace, init_factor_graph_concept_node())
-    print(res)
+def init_factor_graph_implication_link():
+    return BindLink(
+        VariableList(
+            TypedVariableLink(
+                VariableNode('$V1'),
+                TypeNode('ConceptNode')),
+            TypedVariableLink(
+                VariableNode('$V2'),
+                TypeNode('ConceptNode'))),
+        AndLink(
+            # Preconditions
+            EvaluationLink(
+                GroundedPredicateNode('py: has_probability'),
+                ListLink(
+                    ImplicationLink(
+                        VariableNode('$V1'),
+                        VariableNode('$V2')))),
+            # Pattern clauses
+            ImplicationLink(
+                VariableNode('$V1'),
+                VariableNode('$V2'))),
+        ExecutionOutputLink(
+            GroundedSchemaNode('py: init_factor_graph_implication_link_formula'),
+            ListLink(
+                ImplicationLink(
+                    VariableNode('$V1'),
+                    VariableNode('$V2')),
+                VariableNode('$V1'),
+                VariableNode('$V2'))))
+
+
+def init_factor_graph_implication_link_formula(I, v1, v2):
+    print('init_factor_graph_implication_link_formula', v1.name, v2.name)
+
+    variable1 = get_variable_node(v1)
+    variable2 = get_variable_node(v2)
+    factor = get_factor_node([v1, v2])
+
+    # generate factor graph predicates
+    variable_predicate_1 = get_variable_predicate(variable1)
+    variable_predicate_2 = get_variable_predicate(variable2)
+    factor_predicate = get_factor_predicate(factor)
+    edge1 = get_edge_predicate(factor, variable1)
+    edge2 = get_edge_predicate(factor, variable2)
+
+    # set variable shape
+    set_variable_domain(variable1, I, 0)
+    set_variable_domain(variable2, I, 1)
+
+    # # set factor tensor
+    set_factor_tensor(factor, [v1, v2], I)
+
+    return ListLink(
+        variable_predicate_1,
+        variable_predicate_2,
+        factor_predicate,
+        edge1,
+        edge2
+    )

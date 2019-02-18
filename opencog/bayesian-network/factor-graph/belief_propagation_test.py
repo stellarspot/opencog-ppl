@@ -42,8 +42,11 @@ class PtrValueTest(unittest.TestCase):
         wet_grass = ConceptNode('WetGrass')
         wet_grass_given_rain = ImplicationLink(rain, wet_grass)
 
-        rain.set_value(key_probability(), PtrValue(np.array([0.2, 0.8])))
-        wet_grass_given_rain.set_value(key_probability(), PtrValue(np.array([[0.9, 0.1], [0.25, 0.75]])))
+        rain_probability = np.array([0.2, 0.8])
+        rain_wet_grass_joint_probability = np.array([[0.9, 0.1], [0.25, 0.75]])
+
+        rain.set_value(key_probability(), PtrValue(rain_probability))
+        wet_grass_given_rain.set_value(key_probability(), PtrValue(rain_wet_grass_joint_probability))
 
         belief_propagation(self.atomspace)
 
@@ -65,9 +68,11 @@ class PtrValueTest(unittest.TestCase):
 
         # Check Variable shapes
         self.check_domain_value(ConceptNode("Variable-Rain"), 2)
+        self.check_domain_value(ConceptNode("Variable-WetGrass"), 2)
 
         # Check Factor tensors
-        self.check_tensor_value(ConceptNode("Factor-Rain"), np.array([0.2, 0.8]))
+        self.check_tensor_value(ConceptNode("Factor-Rain"), rain_probability)
+        self.check_tensor_value(ConceptNode("Factor-Rain-WetGrass"), rain_wet_grass_joint_probability)
 
 
 if __name__ == '__main__':
