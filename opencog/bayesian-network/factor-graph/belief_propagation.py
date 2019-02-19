@@ -177,11 +177,20 @@ def set_factor_tensor(factor, variables, prob_atom):
     factor.set_value(key_tensor(), tensor_value)
 
 
-def send_message_variable_factor(message, variable, factor, sources):
-    print('send message (v-f):', variable.name, factor.name)
+def send_message_variable_factor(message, variable, factor, factors):
+    domain = variable.get_value(key_domain()).value()
+    message_value = np.ones(domain)
+
+    for f in factors.get_out():
+        if f != factor:
+            msg_predicate = get_message_predicate(f, variable)
+            msg_value = msg_predicate.get_value(key_message()).value()
+            message_value = message_value * msg_value
+
+    message.set_value(key_message(), PtrValue(message_value))
+    print('send message (v-f):', variable.name, factor.name, message.get_value(key_message()).value())
 
 
-# def belief_propagation():
 def belief_propagation(atomspace):
     """
     Run Belief Propagation algorithm.
