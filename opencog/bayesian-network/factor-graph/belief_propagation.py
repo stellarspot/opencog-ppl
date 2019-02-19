@@ -171,9 +171,9 @@ def set_factor_tensor(factor, variables, prob_atom):
     :param prob_atom: atom which contains joint probability table value
     """
 
+    # Tensor indices must be reordered to be consistent with sorted variables names
     tensor_value = prob_atom.get_value(key_probability())
     assert tensor_value, "Probability must be set for atom: " + str(prob_atom)
-    # print('set factor tensor:', factor.name, tensor_value.value())
     factor.set_value(key_tensor(), tensor_value)
 
 
@@ -191,6 +191,24 @@ def send_message_variable_factor(message, variable, factor, factors):
     print('send message (v-f):', variable.name, factor.name, message.get_value(key_message()).value())
 
 
+def send_message_factor_variable(message, factor, variable, variables):
+    # Sort variables to use right order in the message tensor multiplication
+    variables_list = variables.get_out()
+    sorted(variables_list, key=lambda v: v.name)
+
+    tensor = factor.get_value(key_tensor()).value()
+
+    for index, v in enumerate(variables_list):
+        if v != variable:
+            msg_predicate = get_message_predicate(v, factor)
+            msg_value = msg_predicate.get_value(key_message()).value()
+            # print('msg_value:', msg_value)
+            tensor = np.tensordot(t, msg_value, axes=(index, 0))
+
+    message.set_value(key_message(), PtrValue(tensor))
+    print('send message (f-v):', factor.name, variable.name, message.get_value(key_message()).value())
+
+
 def belief_propagation(atomspace):
     """
     Run Belief Propagation algorithm.
@@ -203,8 +221,9 @@ def belief_propagation(atomspace):
     res = execute_atom(atomspace, init_factor_graph_concept_node_rule())
     res = execute_atom(atomspace, init_factor_graph_implication_link_rule())
 
-    # Send messages
+    # Send initial messages
     res = execute_atom(atomspace, send_message_variable_factor_rule())
+    res = execute_atom(atomspace, send_message_factor_variable_rule())
     # print(res)
 
 
@@ -355,7 +374,7 @@ def init_factor_graph_implication_link_formula(I, v1, v2):
 
 
 # ; =====================================================================
-# ; Variable to Factor Message rule
+# ; Send message Variable to Factor rule
 # ;
 # ; Evaluation
 # ;    Predicate "variable"
@@ -417,17 +436,14 @@ def send_message_variable_factor_rule():
                             EqualLink(
                                 VariableNode('$F1'),
                                 VariableNode('$F')))),
-                    VariableNode('$F1'))
-            ),
-
+                    VariableNode('$F1'))),
             # Pattern clauses
             get_variable_predicate(VariableNode('$V')),
             get_factor_predicate(VariableNode('$F')),
             # Factor is always on the first place in edge
             get_edge_predicate(
                 VariableNode('$F'),
-                VariableNode('$V'))
-        ),
+                VariableNode('$V'))),
         ExecutionOutputLink(
             GroundedSchemaNode('py: send_message_variable_factor_formula'),
             ListLink(
@@ -442,6 +458,96 @@ def send_message_variable_factor_formula(message, variable, factor):
     # print('send_message_variable_factor_formula', variable.name, factor.name)
     sources = execute_atom(message.atomspace, get_messages_sources(variable))
     send_message_variable_factor(message, variable, factor, sources)
+    return ListLink(
+        message
+    )
+
+
+# ; =====================================================================
+# ; Send message Factor to Variable rule
+# ;
+# ; Evaluation
+# ;    Predicate "variable"
+# ;    V
+# ; Evaluation
+# ;    Predicate "factor"
+# ;    F
+# ; Evaluation
+# ;    Predicate "edge"
+# ;    List
+# ;        Concept F
+# ;        Concept V
+# ; Absent
+# ;    Evaluation
+# ;        Predicate "message"
+# ;        List
+# ;            Concept F
+# ;            Concept V
+# ; |-
+# ;
+# ; Evaluation
+# ;    Predicate "message"
+# ;    List
+# ;        Concept F
+# ;        Concept V
+# ;----------------------------------------------------------------------
+
+
+def send_message_factor_variable_rule():
+    return BindLink(
+        VariableList(
+            TypedVariableLink(VariableNode('$V'), TypeNode('ConceptNode')),
+            TypedVariableLink(VariableNode('$F'), TypeNode('ConceptNode'))),
+        AndLink(
+            # Preconditions
+            AbsentLink(
+                get_message_predicate(
+                    VariableNode('$F'),
+                    VariableNode('$V'))),
+            EqualLink(
+                BindLink(
+                    TypedVariableLink(
+                        VariableNode('$V1'),
+                        TypeNode('ConceptNode')),
+                    AndLink(
+                        get_edge_predicate(VariableNode('$V1'), VariableNode('$F')),
+                        NotLink(
+                            EqualLink(
+                                VariableNode('$V1'),
+                                VariableNode('$V')))),
+                    VariableNode('$V1')),
+                BindLink(
+                    TypedVariableLink(
+                        VariableNode('$V1'),
+                        TypeNode('ConceptNode')),
+                    AndLink(
+                        get_message_predicate(VariableNode('$V1'), VariableNode('$F')),
+                        NotLink(
+                            EqualLink(
+                                VariableNode('$V1'),
+                                VariableNode('$V')))),
+                    VariableNode('$V1'))),
+            # Pattern clauses
+            get_variable_predicate(VariableNode('$V')),
+            get_factor_predicate(VariableNode('$F')),
+            # Factor is always on the first place in edge
+            get_edge_predicate(
+                VariableNode('$F'),
+                VariableNode('$V'))),
+        ExecutionOutputLink(
+            GroundedSchemaNode('py: send_message_factor_variable_formula'),
+            ListLink(
+                get_message_predicate(
+                    VariableNode('$F'),
+                    VariableNode('$V')),
+                VariableNode('$F'),
+                VariableNode('$V'))))
+
+
+def send_message_factor_variable_formula(message, factor, variable):
+    # print('send_message_factor_variable_formula', factor.name, variable.name)
+    sources = execute_atom(message.atomspace, get_messages_sources(factor))
+    send_message_factor_variable(message, factor, variable, sources)
     return ListLink(
         message
     )
