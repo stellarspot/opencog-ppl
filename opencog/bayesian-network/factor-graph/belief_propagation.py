@@ -115,6 +115,18 @@ def get_message_predicate(a, b):
             b))
 
 
+def get_messages_sources(node):
+    """
+    Finds all nodes SRC so there is a message from SRC to the given node
+
+    :param node: the given node in the factor graph
+    :return: a set of source nodes
+    """
+    return GetLink(
+        TypedVariableLink(VariableNode('$SRC'), TypeNode('ConceptNode')),
+        get_message_predicate(VariableNode('$SRC'), node))
+
+
 # Probabilities
 
 def has_probability(atom):
@@ -161,10 +173,15 @@ def set_factor_tensor(factor, variables, prob_atom):
 
     tensor_value = prob_atom.get_value(key_probability())
     assert tensor_value, "Probability must be set for atom: " + str(prob_atom)
-    print('set factor tensor:', factor.name, tensor_value.value())
+    # print('set factor tensor:', factor.name, tensor_value.value())
     factor.set_value(key_tensor(), tensor_value)
 
 
+def send_message_variable_factor(message, variable, factor, sources):
+    print('send message (v-f):', variable.name, factor.name)
+
+
+# def belief_propagation():
 def belief_propagation(atomspace):
     """
     Run Belief Propagation algorithm.
@@ -174,11 +191,11 @@ def belief_propagation(atomspace):
     """
 
     # Create factor graph
-    res = execute_atom(atomspace, init_factor_graph_concept_node())
-    res = execute_atom(atomspace, init_factor_graph_implication_link())
+    res = execute_atom(atomspace, init_factor_graph_concept_node_rule())
+    res = execute_atom(atomspace, init_factor_graph_implication_link_rule())
 
     # Send messages
-    res = execute_atom(atomspace, send_message_variable_factor())
+    res = execute_atom(atomspace, send_message_variable_factor_rule())
     # print(res)
 
 
@@ -202,7 +219,7 @@ def belief_propagation(atomspace):
 # ;        Concept "Variable-A"
 # ;----------------------------------------------------------------------
 
-def init_factor_graph_concept_node():
+def init_factor_graph_concept_node_rule():
     return BindLink(
         TypedVariableLink(VariableNode('$V'), TypeNode('ConceptNode')),
         EvaluationLink(
@@ -216,7 +233,7 @@ def init_factor_graph_concept_node():
 
 
 def init_factor_graph_concept_node_formula(v):
-    print('init_factor_graph_concept_node_formula', v.name)
+    # print('init_factor_graph_concept_node_formula', v.name)
 
     variable = get_variable_node(v)
     factor = get_factor_node([v])
@@ -271,7 +288,7 @@ def init_factor_graph_concept_node_formula(v):
 # ;        Concept "Variable-B"
 # ;----------------------------------------------------------------------
 
-def init_factor_graph_implication_link():
+def init_factor_graph_implication_link_rule():
     return BindLink(
         VariableList(
             TypedVariableLink(VariableNode('$V1'), TypeNode('ConceptNode')),
@@ -299,7 +316,7 @@ def init_factor_graph_implication_link():
 
 
 def init_factor_graph_implication_link_formula(I, v1, v2):
-    print('init_factor_graph_implication_link_formula', v1.name, v2.name)
+    # print('init_factor_graph_implication_link_formula', v1.name, v2.name)
 
     variable1 = get_variable_node(v1)
     variable2 = get_variable_node(v2)
@@ -358,7 +375,7 @@ def init_factor_graph_implication_link_formula(I, v1, v2):
 # ;----------------------------------------------------------------------
 
 
-def send_message_variable_factor():
+def send_message_variable_factor_rule():
     return BindLink(
         VariableList(
             TypedVariableLink(VariableNode('$V'), TypeNode('ConceptNode')),
@@ -413,7 +430,9 @@ def send_message_variable_factor():
 
 
 def send_message_variable_factor_formula(message, variable, factor):
-    print('send_message_variable_factor_formula', variable.name, factor.name)
-    print("message:", message)
-    # create_message_variable_factor(variable, formula)
-    return ListLink()
+    # print('send_message_variable_factor_formula', variable.name, factor.name)
+    sources = execute_atom(message.atomspace, get_messages_sources(variable))
+    send_message_variable_factor(message, variable, factor, sources)
+    return ListLink(
+        message
+    )
