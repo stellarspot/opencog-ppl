@@ -204,9 +204,7 @@ def belief_propagation(atomspace):
 
 def init_factor_graph_concept_node():
     return BindLink(
-        TypedVariableLink(
-            VariableNode('$V'),
-            TypeNode('ConceptNode')),
+        TypedVariableLink(VariableNode('$V'), TypeNode('ConceptNode')),
         EvaluationLink(
             GroundedPredicateNode('py: has_probability'),
             ListLink(
@@ -276,12 +274,8 @@ def init_factor_graph_concept_node_formula(v):
 def init_factor_graph_implication_link():
     return BindLink(
         VariableList(
-            TypedVariableLink(
-                VariableNode('$V1'),
-                TypeNode('ConceptNode')),
-            TypedVariableLink(
-                VariableNode('$V2'),
-                TypeNode('ConceptNode'))),
+            TypedVariableLink(VariableNode('$V1'), TypeNode('ConceptNode')),
+            TypedVariableLink(VariableNode('$V2'), TypeNode('ConceptNode'))),
         AndLink(
             # Preconditions
             EvaluationLink(
@@ -367,19 +361,39 @@ def init_factor_graph_implication_link_formula(I, v1, v2):
 def send_message_variable_factor():
     return BindLink(
         VariableList(
-            TypedVariableLink(
-                VariableNode('$V'),
-                TypeNode('ConceptNode')),
-            TypedVariableLink(
-                VariableNode('$F'),
-                TypeNode('ConceptNode'))),
-
+            TypedVariableLink(VariableNode('$V'), TypeNode('ConceptNode')),
+            TypedVariableLink(VariableNode('$F'), TypeNode('ConceptNode'))),
         AndLink(
             # Preconditions
             AbsentLink(
                 get_message_predicate(
                     VariableNode('$V'),
                     VariableNode('$F'))),
+            EqualLink(
+                BindLink(
+                    TypedVariableLink(
+                        VariableNode('$F1'),
+                        TypeNode('ConceptNode')),
+                    AndLink(
+                        get_edge_predicate(VariableNode('$F1'), VariableNode('$V')),
+                        NotLink(
+                            EqualLink(
+                                VariableNode('$F1'),
+                                VariableNode('$F')))),
+                    VariableNode('$F1')),
+                BindLink(
+                    TypedVariableLink(
+                        VariableNode('$F1'),
+                        TypeNode('ConceptNode')),
+                    AndLink(
+                        get_message_predicate(VariableNode('$F1'), VariableNode('$V')),
+                        NotLink(
+                            EqualLink(
+                                VariableNode('$F1'),
+                                VariableNode('$F')))),
+                    VariableNode('$F1'))
+            ),
+
             # Pattern clauses
             get_variable_predicate(VariableNode('$V')),
             get_factor_predicate(VariableNode('$F')),
@@ -400,5 +414,6 @@ def send_message_variable_factor():
 
 def send_message_variable_factor_formula(message, variable, factor):
     print('send_message_variable_factor_formula', variable.name, factor.name)
+    print("message:", message)
     # create_message_variable_factor(variable, formula)
     return ListLink()
