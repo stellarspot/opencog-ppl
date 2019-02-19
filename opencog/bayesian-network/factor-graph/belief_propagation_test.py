@@ -26,15 +26,21 @@ class PtrValueTest(unittest.TestCase):
                 return
         self.fail("result: " + str(set_link) + " does not contain: " + str(atom))
 
+    def check_domain_value(self, atom, domain):
+        domain_value = atom.get_value(PredicateNode("domain"))
+        self.assertIsNotNone(domain_value)
+        self.assertEqual(domain, domain_value.value())
+
     def check_tensor_value(self, atom, tensor):
         tensor_value = atom.get_value(PredicateNode("tensor"))
         self.assertIsNotNone(tensor)
         self.assertTrue(np.allclose(tensor, tensor_value.value()))
 
-    def check_domain_value(self, atom, domain):
-        domain_value = atom.get_value(PredicateNode("domain"))
-        self.assertIsNotNone(domain_value)
-        self.assertEqual(domain, domain_value.value())
+    def check_message_value(self, a, b, message_array):
+        message = get_message_predicate(ConceptNode(a), ConceptNode(b))
+        message_value = message.get_value(key_message())
+        assert message_value, "Message value is not set!"
+        self.assertTrue(np.allclose(message_array, message_value.value()))
 
     def test_belief_propagation(self):
 
@@ -73,6 +79,10 @@ class PtrValueTest(unittest.TestCase):
         # Check Factor tensors
         self.check_tensor_value(ConceptNode("Factor-Rain"), rain_probability)
         self.check_tensor_value(ConceptNode("Factor-Rain-WetGrass"), rain_wet_grass_joint_probability)
+
+        # Check initial messages
+        self.check_message_value("Variable-WetGrass", "Factor-Rain-WetGrass", np.array([1, 1]))
+        self.check_message_value("Factor-Rain", "Variable-Rain", rain_probability)
 
 
 if __name__ == '__main__':
