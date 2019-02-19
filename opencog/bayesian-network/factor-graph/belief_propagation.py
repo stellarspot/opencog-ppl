@@ -22,6 +22,10 @@ def key_edge():
     return PredicateNode("edge")
 
 
+def key_message():
+    return PredicateNode("message")
+
+
 def key_probability():
     return PredicateNode("probability")
 
@@ -97,6 +101,20 @@ def get_edge_predicate(factor, variable):
             variable))
 
 
+def get_message_predicate(a, b):
+    """
+    Creates a message between nodes a and b
+    :param a: node in the factor graph
+    :param b: node in the factor graph
+    :return: message predicate between nodes a and b
+    """
+    return EvaluationLink(
+        key_message(),
+        ListLink(
+            a,
+            b))
+
+
 # Probabilities
 
 def has_probability(atom):
@@ -154,9 +172,14 @@ def belief_propagation(atomspace):
     :param atomspace: AtomSpace
     :return:
     """
+
+    # Create factor graph
     res = execute_atom(atomspace, init_factor_graph_concept_node())
     res = execute_atom(atomspace, init_factor_graph_implication_link())
-    print(res)
+
+    # Send messages
+    res = execute_atom(atomspace, send_message_variable_factor())
+    # print(res)
 
 
 # ; =====================================================================
@@ -309,3 +332,73 @@ def init_factor_graph_implication_link_formula(I, v1, v2):
         edge1,
         edge2
     )
+
+
+# ; =====================================================================
+# ; Variable to Factor Message rule
+# ;
+# ; Evaluation
+# ;    Predicate "variable"
+# ;    V
+# ; Evaluation
+# ;    Predicate "factor"
+# ;    F
+# ; Evaluation
+# ;    Predicate "edge"
+# ;    List
+# ;        Concept F
+# ;        Concept V
+# ; Absent
+# ;    Evaluation
+# ;        Predicate "message"
+# ;        List
+# ;            Concept V
+# ;            Concept F
+# ; |-
+# ;
+# ; Evaluation
+# ;    Predicate "message"
+# ;    List
+# ;        Concept V
+# ;        Concept F
+# ;----------------------------------------------------------------------
+
+
+def send_message_variable_factor():
+    return BindLink(
+        VariableList(
+            TypedVariableLink(
+                VariableNode('$V'),
+                TypeNode('ConceptNode')),
+            TypedVariableLink(
+                VariableNode('$F'),
+                TypeNode('ConceptNode'))),
+
+        AndLink(
+            # Preconditions
+            AbsentLink(
+                get_message_predicate(
+                    VariableNode('$V'),
+                    VariableNode('$F'))),
+            # Pattern clauses
+            get_variable_predicate(VariableNode('$V')),
+            get_factor_predicate(VariableNode('$F')),
+            # Factor is always on the first place in edge
+            get_edge_predicate(
+                VariableNode('$F'),
+                VariableNode('$V'))
+        ),
+        ExecutionOutputLink(
+            GroundedSchemaNode('py: send_message_variable_factor_formula'),
+            ListLink(
+                get_message_predicate(
+                    VariableNode('$V'),
+                    VariableNode('$F')),
+                VariableNode('$V'),
+                VariableNode('$F'))))
+
+
+def send_message_variable_factor_formula(message, variable, factor):
+    print('send_message_variable_factor_formula', variable.name, factor.name)
+    # create_message_variable_factor(variable, formula)
+    return ListLink()
