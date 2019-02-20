@@ -216,7 +216,7 @@ def send_message_factor_variable(message, factor, variable):
         v = ConceptNode(arg_name)
         msg_predicate = get_message_predicate(v, factor)
         msg_value = msg_predicate.get_value(key_message())
-        if msg_value:
+        if arg_name != variable.name and msg_value:
             msg = msg_value.value()
             tensor_index = len(tensor.shape) - 1
             tensor = np.tensordot(tensor, msg, axes=(tensor_index, 0))
@@ -248,6 +248,9 @@ def belief_propagation(atomspace):
 
     res = execute_atom(atomspace, send_message_variable_factor_rule())
     res = execute_atom(atomspace, send_message_factor_variable_rule())
+    #
+    # res = execute_atom(atomspace, send_message_variable_factor_rule())
+    # res = execute_atom(atomspace, send_message_factor_variable_rule())
     #
     # res = execute_atom(atomspace, send_message_variable_factor_rule())
     # res = execute_atom(atomspace, send_message_factor_variable_rule())
@@ -440,8 +443,8 @@ def send_message_variable_factor_rule():
             # Preconditions
             AbsentLink(
                 get_message_predicate(
-                    VariableNode('$V'),
-                    VariableNode('$F'))),
+                    VariableNode('$F'),
+                    VariableNode('$V'))),
             EqualLink(
                 BindLink(
                     TypedVariableLink(
@@ -530,8 +533,8 @@ def send_message_factor_variable_rule():
             # Preconditions
             AbsentLink(
                 get_message_predicate(
-                    VariableNode('$F'),
-                    VariableNode('$V'))),
+                    VariableNode('$V'),
+                    VariableNode('$F'))),
             EqualLink(
                 BindLink(
                     TypedVariableLink(
