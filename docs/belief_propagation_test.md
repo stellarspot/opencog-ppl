@@ -50,4 +50,24 @@ The task is to calculate a probability of rain given grass is wet:
 P(R=true|WG=wet) = P(R=true, WG=wet) / P(WG=wet)
 
 
+## Traffic Light and Risk
+
+Traffic Light: Green, Yellow, Red  
+Risk: high, low
+
+P(TL)
+
+|Green|Yellow|Red |
+|-----|------|----|
+|  0.4|  0.25|0.35|
+
+P(R|TL)
+
+|      |  high|       low|
+|------|------|----------|
+|Green |0.1   |      0.9 |
+|Yellow|0.55  |      0.45|
+|Red   |0.95  |      0.05|
+
+P(R, TL) = P(R|TL) P(TL)
 
