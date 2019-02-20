@@ -213,21 +213,36 @@ def send_message_factor_variable(message, factor, variable):
     tensor = factor.get_value(key_tensor()).value()
 
     for index, arg_name in reversed(list(enumerate(arguments))):
-        v = ConceptNode(arg_name)
-        msg_predicate = get_message_predicate(v, factor)
-        msg_value = msg_predicate.get_value(key_message())
-        if arg_name != variable.name and msg_value:
+        if arg_name == variable.name:
+            # This is the target variable. It's message is not used for tensor message multiplication.
+            if index != 0:
+                # Transpose tensor so the target variable axis becomes first
+                axes = [index] + list(range(index))
+                tensor = np.transpose(tensor, axes)
+        else:
+            v = ConceptNode(arg_name)
+            # Note:
+            # Do not create message predicate for the target variable.
+            # It breaks send message variable factor rule.
+            msg_predicate = get_message_predicate(v, factor)
+            msg_value = msg_predicate.get_value(key_message())
+            assert msg_value, "Value must be present for message: " + factor.name + "->" + arg_name
             msg = msg_value.value()
             tensor_index = len(tensor.shape) - 1
             tensor = np.tensordot(tensor, msg, axes=(tensor_index, 0))
-        elif index != 0:
-            # Message is absent for the target variable
-            # Transpose tensor so the current axis becomes first
-            axes = [index] + list(range(index))
-            tensor = np.transpose(tensor, axes)
 
     message.set_value(key_message(), PtrValue(tensor))
     print('send message (f-v):', factor.name, variable.name, message.get_value(key_message()).value())
+
+
+# Utility methods
+
+def dump_atomspace(atomspace):
+    print("=== Dump AtomSpace Begin ===")
+    for atom in atomspace:
+        if not atom.incoming:
+            print(str(atom))
+    print("=== Dump AtomSpace End   ===")
 
 
 def belief_propagation(atomspace):
@@ -245,12 +260,15 @@ def belief_propagation(atomspace):
     # Send initial messages
     res = execute_atom(atomspace, send_message_variable_factor_rule())
     res = execute_atom(atomspace, send_message_factor_variable_rule())
+    #
+
+    # dump_atomspace(atomspace)
 
     res = execute_atom(atomspace, send_message_variable_factor_rule())
     res = execute_atom(atomspace, send_message_factor_variable_rule())
     #
-    # res = execute_atom(atomspace, send_message_variable_factor_rule())
-    # res = execute_atom(atomspace, send_message_factor_variable_rule())
+    res = execute_atom(atomspace, send_message_variable_factor_rule())
+    res = execute_atom(atomspace, send_message_factor_variable_rule())
     #
     # res = execute_atom(atomspace, send_message_variable_factor_rule())
     # res = execute_atom(atomspace, send_message_factor_variable_rule())
@@ -440,11 +458,18 @@ def send_message_variable_factor_rule():
             TypedVariableLink(VariableNode('$V'), TypeNode('ConceptNode')),
             TypedVariableLink(VariableNode('$F'), TypeNode('ConceptNode'))),
         AndLink(
+            # Pattern clauses
+            get_variable_predicate(VariableNode('$V')),
+            get_factor_predicate(VariableNode('$F')),
+            # Factor is always on the first place in edge
+            get_edge_predicate(
+                VariableNode('$F'),
+                VariableNode('$V')),
             # Preconditions
             AbsentLink(
                 get_message_predicate(
-                    VariableNode('$F'),
-                    VariableNode('$V'))),
+                    VariableNode('$V'),
+                    VariableNode('$F'))),
             EqualLink(
                 BindLink(
                     TypedVariableLink(
@@ -467,14 +492,7 @@ def send_message_variable_factor_rule():
                             EqualLink(
                                 VariableNode('$F1'),
                                 VariableNode('$F')))),
-                    VariableNode('$F1'))),
-            # Pattern clauses
-            get_variable_predicate(VariableNode('$V')),
-            get_factor_predicate(VariableNode('$F')),
-            # Factor is always on the first place in edge
-            get_edge_predicate(
-                VariableNode('$F'),
-                VariableNode('$V'))),
+                    VariableNode('$F1')))),
         ExecutionOutputLink(
             GroundedSchemaNode('py: send_message_variable_factor_formula'),
             ListLink(
@@ -530,11 +548,18 @@ def send_message_factor_variable_rule():
             TypedVariableLink(VariableNode('$V'), TypeNode('ConceptNode')),
             TypedVariableLink(VariableNode('$F'), TypeNode('ConceptNode'))),
         AndLink(
+            # Pattern clauses
+            get_variable_predicate(VariableNode('$V')),
+            get_factor_predicate(VariableNode('$F')),
+            # Factor is always on the first place in edge
+            get_edge_predicate(
+                VariableNode('$F'),
+                VariableNode('$V')),
             # Preconditions
             AbsentLink(
                 get_message_predicate(
-                    VariableNode('$V'),
-                    VariableNode('$F'))),
+                    VariableNode('$F'),
+                    VariableNode('$V'))),
             EqualLink(
                 BindLink(
                     TypedVariableLink(
@@ -557,14 +582,7 @@ def send_message_factor_variable_rule():
                             EqualLink(
                                 VariableNode('$V1'),
                                 VariableNode('$V')))),
-                    VariableNode('$V1'))),
-            # Pattern clauses
-            get_variable_predicate(VariableNode('$V')),
-            get_factor_predicate(VariableNode('$F')),
-            # Factor is always on the first place in edge
-            get_edge_predicate(
-                VariableNode('$F'),
-                VariableNode('$V'))),
+                    VariableNode('$V1')))),
         ExecutionOutputLink(
             GroundedSchemaNode('py: send_message_factor_variable_formula'),
             ListLink(

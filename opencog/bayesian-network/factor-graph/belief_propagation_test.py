@@ -107,7 +107,7 @@ class PtrValueTest(unittest.TestCase):
 
         # Step 1
         self.check_message_value("Factor-Risk-TrafficLight", "Variable-TrafficLight", np.array([1, 1, 1]))
-        # self.check_message_value("Variable-TrafficLight", "Factor-Risk-TrafficLight", traffic_light_probability)
+        self.check_message_value("Variable-TrafficLight", "Factor-Risk-TrafficLight", traffic_light_probability)
 
 
 if __name__ == '__main__':
