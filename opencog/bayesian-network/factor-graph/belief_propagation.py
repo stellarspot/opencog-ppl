@@ -34,11 +34,24 @@ def key_domain():
     return PredicateNode("domain")
 
 
+def key_arguments():
+    return PredicateNode("arguments")
+
+
 def key_tensor():
     return PredicateNode("tensor")
 
 
 # Factor Graph
+
+def get_variable_node_name(v):
+    """
+    Adds 'Variable-' prefix + to the variable
+    :param v: variable node
+    :return: variable name with 'Variable-' prefix
+    """
+    return 'Variable-' + v.name
+
 
 def get_variable_node(v):
     """
@@ -48,8 +61,7 @@ def get_variable_node(v):
     :param v: original variable defined in Bayesian network
     :return: variable node in factor graph
     """
-    name = 'Variable-' + v.name
-    return ConceptNode(name)
+    return ConceptNode(get_variable_node_name(v))
 
 
 def get_factor_node(variables):
@@ -171,6 +183,10 @@ def set_factor_tensor(factor, variables, prob_atom):
     :param prob_atom: atom which contains joint probability table value
     """
 
+    arguments = [get_variable_node_name(v) for v in variables]
+    # print("Set tensor arguments:", arguments)
+    factor.set_value(key_arguments(), PtrValue(arguments))
+
     # Tensor indices must be reordered to be consistent with sorted variables names
     tensor_value = prob_atom.get_value(key_probability())
     assert tensor_value, "Probability must be set for atom: " + str(prob_atom)
@@ -191,19 +207,24 @@ def send_message_variable_factor(message, variable, factor, factors):
     print('send message (v-f):', variable.name, factor.name, message.get_value(key_message()).value())
 
 
-def send_message_factor_variable(message, factor, variable, variables):
-    # Sort variables to use right order in the message tensor multiplication
-    variables_list = variables.get_out()
-    sorted(variables_list, key=lambda v: v.name)
-
+def send_message_factor_variable(message, factor, variable):
+    # print('send message (f-v):', factor.name, variable.name)
+    arguments = factor.get_value(key_arguments()).value()
     tensor = factor.get_value(key_tensor()).value()
 
-    for index, v in enumerate(variables_list):
-        if v != variable:
-            msg_predicate = get_message_predicate(v, factor)
-            msg_value = msg_predicate.get_value(key_message()).value()
-            # print('msg_value:', msg_value)
-            tensor = np.tensordot(t, msg_value, axes=(index, 0))
+    for index, arg_name in reversed(list(enumerate(arguments))):
+        v = ConceptNode(arg_name)
+        msg_predicate = get_message_predicate(v, factor)
+        msg_value = msg_predicate.get_value(key_message())
+        if msg_value:
+            msg = msg_value.value()
+            tensor_index = len(tensor.shape) - 1
+            tensor = np.tensordot(tensor, msg, axes=(tensor_index, 0))
+        elif index != 0:
+            # Message is absent for the target variable
+            # Transpose tensor so the current axis becomes first
+            axes = [index] + list(range(index))
+            tensor = np.transpose(tensor, axes)
 
     message.set_value(key_message(), PtrValue(tensor))
     print('send message (f-v):', factor.name, variable.name, message.get_value(key_message()).value())
@@ -224,6 +245,13 @@ def belief_propagation(atomspace):
     # Send initial messages
     res = execute_atom(atomspace, send_message_variable_factor_rule())
     res = execute_atom(atomspace, send_message_factor_variable_rule())
+
+    res = execute_atom(atomspace, send_message_variable_factor_rule())
+    res = execute_atom(atomspace, send_message_factor_variable_rule())
+    #
+    # res = execute_atom(atomspace, send_message_variable_factor_rule())
+    # res = execute_atom(atomspace, send_message_factor_variable_rule())
+
     # print(res)
 
 
@@ -510,7 +538,7 @@ def send_message_factor_variable_rule():
                         VariableNode('$V1'),
                         TypeNode('ConceptNode')),
                     AndLink(
-                        get_edge_predicate(VariableNode('$V1'), VariableNode('$F')),
+                        get_edge_predicate(VariableNode('$F'), VariableNode('$V1')),
                         NotLink(
                             EqualLink(
                                 VariableNode('$V1'),
@@ -546,8 +574,7 @@ def send_message_factor_variable_rule():
 
 def send_message_factor_variable_formula(message, factor, variable):
     # print('send_message_factor_variable_formula', factor.name, variable.name)
-    sources = execute_atom(message.atomspace, get_messages_sources(factor))
-    send_message_factor_variable(message, factor, variable, sources)
+    send_message_factor_variable(message, factor, variable)
     return ListLink(
         message
     )

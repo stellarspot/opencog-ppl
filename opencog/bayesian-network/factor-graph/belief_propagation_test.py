@@ -42,8 +42,9 @@ class PtrValueTest(unittest.TestCase):
         assert message_value, "Message value is not set!"
         self.assertTrue(np.allclose(message_array, message_value.value()))
 
-    def test_belief_propagation(self):
+    def test_rain_wet_grass(self):
 
+        print('Test: Rain and Wet Grass')
         rain = ConceptNode('Rain')
         wet_grass = ConceptNode('WetGrass')
         wet_grass_given_rain = ImplicationLink(rain, wet_grass)
@@ -83,6 +84,22 @@ class PtrValueTest(unittest.TestCase):
         # Check initial messages
         self.check_message_value("Variable-WetGrass", "Factor-Rain-WetGrass", np.array([1, 1]))
         self.check_message_value("Factor-Rain", "Variable-Rain", rain_probability)
+
+    def test_traffic_light(self):
+
+        print('Test: Traffic Light and Risk')
+        traffic_light = ConceptNode('TrafficLight')
+        risk = ConceptNode('Risk')
+        risk_given_traffic_light = ImplicationLink(traffic_light, risk)
+
+        # [Green, Yellow, Red]
+        traffic_light_probability = np.array([0.4, 0.25, 0.35])
+        traffic_light_risk_joint_probability = np.array([[0.1, 0.9], [0.55, 0.45], [0.95, 0.05]])
+
+        traffic_light.set_value(key_probability(), PtrValue(traffic_light_probability))
+        risk_given_traffic_light.set_value(key_probability(), PtrValue(traffic_light_risk_joint_probability))
+
+        belief_propagation(self.atomspace)
 
 
 if __name__ == '__main__':
