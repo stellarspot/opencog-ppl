@@ -109,6 +109,11 @@ class PtrValueTest(unittest.TestCase):
         self.check_message_value("Factor-Risk-TrafficLight", "Variable-TrafficLight", np.array([1, 1, 1]))
         self.check_message_value("Variable-TrafficLight", "Factor-Risk-TrafficLight", traffic_light_probability)
 
+        # Step 2
+        self.check_message_value("Variable-TrafficLight", "Factor-TrafficLight", np.array([1, 1, 1]))
+        msg = np.tensordot(traffic_light_risk_joint_probability, traffic_light_probability, axes=(0, 0))
+        self.check_message_value("Factor-Risk-TrafficLight", "Variable-Risk", msg)
+
 
 if __name__ == '__main__':
     unittest.main()
