@@ -471,28 +471,30 @@ def send_message_variable_factor_rule():
                     VariableNode('$V'),
                     VariableNode('$F'))),
             EqualLink(
-                BindLink(
-                    TypedVariableLink(
-                        VariableNode('$F1'),
-                        TypeNode('ConceptNode')),
-                    AndLink(
-                        get_edge_predicate(VariableNode('$F1'), VariableNode('$V')),
-                        NotLink(
-                            EqualLink(
-                                VariableNode('$F1'),
-                                VariableNode('$F')))),
-                    VariableNode('$F1')),
-                BindLink(
-                    TypedVariableLink(
-                        VariableNode('$F1'),
-                        TypeNode('ConceptNode')),
-                    AndLink(
-                        get_message_predicate(VariableNode('$F1'), VariableNode('$V')),
-                        NotLink(
-                            EqualLink(
-                                VariableNode('$F1'),
-                                VariableNode('$F')))),
-                    VariableNode('$F1')))),
+                ArityLink(
+                    BindLink(
+                        TypedVariableLink(
+                            VariableNode('$F1'),
+                            TypeNode('ConceptNode')),
+                        AndLink(
+                            get_edge_predicate(VariableNode('$F1'), VariableNode('$V')),
+                            NotLink(
+                                EqualLink(
+                                    VariableNode('$F1'),
+                                    VariableNode('$F')))),
+                        VariableNode('$F1'))),
+                ArityLink(
+                    BindLink(
+                        TypedVariableLink(
+                            VariableNode('$F1'),
+                            TypeNode('ConceptNode')),
+                        AndLink(
+                            get_message_predicate(VariableNode('$F1'), VariableNode('$V')),
+                            NotLink(
+                                EqualLink(
+                                    VariableNode('$F1'),
+                                    VariableNode('$F')))),
+                        VariableNode('$F1'))))),
         ExecutionOutputLink(
             GroundedSchemaNode('py: send_message_variable_factor_formula'),
             ListLink(
@@ -561,28 +563,30 @@ def send_message_factor_variable_rule():
                     VariableNode('$F'),
                     VariableNode('$V'))),
             EqualLink(
-                BindLink(
-                    TypedVariableLink(
-                        VariableNode('$V1'),
-                        TypeNode('ConceptNode')),
-                    AndLink(
-                        get_edge_predicate(VariableNode('$F'), VariableNode('$V1')),
-                        NotLink(
-                            EqualLink(
-                                VariableNode('$V1'),
-                                VariableNode('$V')))),
-                    VariableNode('$V1')),
-                BindLink(
-                    TypedVariableLink(
-                        VariableNode('$V1'),
-                        TypeNode('ConceptNode')),
-                    AndLink(
-                        get_message_predicate(VariableNode('$V1'), VariableNode('$F')),
-                        NotLink(
-                            EqualLink(
-                                VariableNode('$V1'),
-                                VariableNode('$V')))),
-                    VariableNode('$V1')))),
+                ArityLink(
+                    BindLink(
+                        TypedVariableLink(
+                            VariableNode('$V1'),
+                            TypeNode('ConceptNode')),
+                        AndLink(
+                            get_edge_predicate(VariableNode('$F'), VariableNode('$V1')),
+                            NotLink(
+                                EqualLink(
+                                    VariableNode('$V1'),
+                                    VariableNode('$V')))),
+                        VariableNode('$V1'))),
+                ArityLink(
+                    BindLink(
+                        TypedVariableLink(
+                            VariableNode('$V1'),
+                            TypeNode('ConceptNode')),
+                        AndLink(
+                            get_message_predicate(VariableNode('$V1'), VariableNode('$F')),
+                            NotLink(
+                                EqualLink(
+                                    VariableNode('$V1'),
+                                    VariableNode('$V')))),
+                        VariableNode('$V1'))))),
         ExecutionOutputLink(
             GroundedSchemaNode('py: send_message_factor_variable_formula'),
             ListLink(
