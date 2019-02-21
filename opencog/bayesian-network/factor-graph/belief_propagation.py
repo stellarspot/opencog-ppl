@@ -1,6 +1,7 @@
 from opencog.type_constructors import *
 from opencog.atomspace import PtrValue
 from opencog.bindlink import execute_atom
+from opencog.ure import ForwardChainer
 
 import numpy as np
 
@@ -245,6 +246,60 @@ def dump_atomspace(atomspace):
     print("=== Dump AtomSpace End   ===")
 
 
+# URE
+
+def run_forward_chainer(atomspace):
+    send_messages_rbs = ConceptNode("send-messages-rule-base")
+
+    send_message_variable_factor = DefinedSchemaNode("send-message-variable-factor-rule")
+    send_message_factor_variable = DefinedSchemaNode("send-message-factor-variable-rule")
+
+    DefineLink(
+        send_message_variable_factor,
+        send_message_variable_factor_rule())
+
+    DefineLink(
+        send_message_factor_variable,
+        send_message_factor_variable_rule())
+
+    MemberLink(
+        send_message_variable_factor,
+        send_messages_rbs
+    )
+
+    MemberLink(
+        send_message_factor_variable,
+        send_messages_rbs
+    )
+
+    # Set URE maximum-iterations
+    from opencog.scheme_wrapper import scheme_eval
+
+    execute_code = \
+        '''
+        (use-modules (opencog rule-engine))
+        (ure-set-num-parameter (ConceptNode "{}") "URE:maximum-iterations" 50)
+        '''.format(send_messages_rbs.name)
+
+    scheme_eval(atomspace, execute_code)
+
+    EvaluationLink(
+        PredicateNode("URE:FC:retry-exhausted-sources"),
+        send_messages_rbs
+    ).tv = TruthValue(1, 1)
+
+    chainer = ForwardChainer(atomspace,
+                             send_messages_rbs,
+                             get_edge_predicate(VariableNode("$F"), VariableNode("$V")),
+                             VariableList(
+                                 TypedVariableLink(VariableNode("$F"), TypeNode("ConceptNode")),
+                                 TypedVariableLink(VariableNode("$V"), TypeNode("ConceptNode"))))
+
+    chainer.do_chain()
+    # results = chainer.get_results()
+    # print(results)
+
+
 def belief_propagation(atomspace):
     """
     Run Belief Propagation algorithm.
@@ -258,22 +313,14 @@ def belief_propagation(atomspace):
     res = execute_atom(atomspace, init_factor_graph_implication_link_rule())
 
     # Send initial messages
-    res = execute_atom(atomspace, send_message_variable_factor_rule())
-    res = execute_atom(atomspace, send_message_factor_variable_rule())
-    #
-
-    # dump_atomspace(atomspace)
-
-    res = execute_atom(atomspace, send_message_variable_factor_rule())
-    res = execute_atom(atomspace, send_message_factor_variable_rule())
-    #
-    res = execute_atom(atomspace, send_message_variable_factor_rule())
-    res = execute_atom(atomspace, send_message_factor_variable_rule())
-    #
     # res = execute_atom(atomspace, send_message_variable_factor_rule())
     # res = execute_atom(atomspace, send_message_factor_variable_rule())
 
+    # res = execute_atom(atomspace, send_message_variable_factor_rule())
+    # res = execute_atom(atomspace, send_message_factor_variable_rule())
     # print(res)
+    #
+    run_forward_chainer(atomspace)
 
 
 # ; =====================================================================
