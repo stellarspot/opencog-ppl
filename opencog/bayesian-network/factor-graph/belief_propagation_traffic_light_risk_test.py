@@ -59,9 +59,11 @@ class BeliefPropagationTrafficLightRiskTest(BeliefPropagationTest):
         # TL=Yellow, index=1
         # R=High, index=0
         traffic_light.set_value(key_evidence(), PtrValue(1))
-        risk_given_traffic_light.set_value(key_evidence(), PtrValue(0))
+        risk.set_value(key_evidence(), PtrValue(0))
 
-        belief_propagation(self.atomspace)
+        marginalization_devident = belief_propagation(self.atomspace)
+        print("divedent:", marginalization_devident)
+        self.assertAlmostEqual(0.1375, marginalization_devident)
 
 
 if __name__ == '__main__':

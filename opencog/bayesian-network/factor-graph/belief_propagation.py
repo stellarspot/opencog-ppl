@@ -180,6 +180,8 @@ def set_variable_domain(variable, v, joint_table_atom, index):
     else:
         domain = tensor.shape[index]
 
+    # print("variable:", variable.name, "domain:", domain)
+
     current_domain_value = variable.get_value(key_domain())
     if not current_domain_value:
         variable.set_value(key_domain(), PtrValue(domain))
@@ -213,6 +215,7 @@ def set_factor_tensor(factor, variables, joint_table_atom):
             evidence_index = evidence_index_value.value()
             tensor = np.take(tensor, [evidence_index], index)
 
+    # print("factor:", factor.name, "tensor:", tensor)
     factor.set_value(key_tensor(), PtrValue(tensor))
 
 
@@ -256,6 +259,43 @@ def send_message_factor_variable(message, factor, variable):
 
     message.set_value(key_message(), PtrValue(tensor))
     print('send message (f-v):', factor.name, variable.name, message.get_value(key_message()).value())
+
+
+def calculate_marginals(atomspace):
+    factors_link = GetLink(
+        TypedVariableLink(VariableNode('$F'), TypeNode('ConceptNode')),
+        get_factor_predicate(VariableNode('$F'))
+    )
+
+    factors = execute_atom(atomspace, factors_link)
+
+    for factor in factors.get_out():
+        print("factor:", factor.name)
+
+        variables_link = GetLink(
+            TypedVariableLink(VariableNode('$V'), TypeNode('ConceptNode')),
+            get_edge_predicate(factor, VariableNode('$V'))
+        )
+        variables = execute_atom(atomspace, variables_link)
+
+        for variable in variables.get_out():
+            # print("variable:", variable.name)
+
+            # Multiply one in and one out message for each
+            message_variable_factor = get_message_predicate(variable, factor)
+            message_factor_variable = get_message_predicate(factor, variable)
+
+            message_in = message_variable_factor.get_value(key_message()).value()
+            message_out = message_factor_variable.get_value(key_message()).value()
+
+            # print("  message1:", message_in)
+            # print("  message2:", message_out)
+            marginalization = np.dot(message_in, message_out)
+            # print("marginalization:", marginalization)
+            return marginalization
+
+            break
+        break
 
 
 # Utility methods
@@ -324,10 +364,11 @@ def run_forward_chainer(atomspace):
 
 def belief_propagation(atomspace):
     """
-    Run Belief Propagation algorithm.
+    Run Belief Propagation algorithm to calculate joint distribution marginalization over variables which are not
+    listed as evidences.
 
     :param atomspace: AtomSpace
-    :return:
+    :return: marginalization over free variables
     """
 
     # Create factor graph
@@ -343,6 +384,8 @@ def belief_propagation(atomspace):
     # print(res)
     #
     run_forward_chainer(atomspace)
+
+    return calculate_marginals(atomspace)
 
 
 # ; =====================================================================
