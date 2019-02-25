@@ -261,13 +261,13 @@ def send_message_factor_variable(message, factor, variable):
     print('send message (f-v):', factor.name, variable.name, message.get_value(key_message()).value())
 
 
-def calculate_marginals(atomspace):
+def calculate_marginals(internal_atomspace):
     factors_link = GetLink(
         TypedVariableLink(VariableNode('$F'), TypeNode('ConceptNode')),
         get_factor_predicate(VariableNode('$F'))
     )
 
-    factors = execute_atom(atomspace, factors_link)
+    factors = execute_atom(internal_atomspace, factors_link)
 
     for factor in factors.get_out():
         print("factor:", factor.name)
@@ -276,7 +276,7 @@ def calculate_marginals(atomspace):
             TypedVariableLink(VariableNode('$V'), TypeNode('ConceptNode')),
             get_edge_predicate(factor, VariableNode('$V'))
         )
-        variables = execute_atom(atomspace, variables_link)
+        variables = execute_atom(internal_atomspace, variables_link)
 
         for variable in variables.get_out():
             # print("variable:", variable.name)
@@ -300,9 +300,9 @@ def calculate_marginals(atomspace):
 
 # Utility methods
 
-def dump_atomspace(atomspace):
+def dump_atomspace(check_atomspace):
     print("=== Dump AtomSpace Begin ===")
-    for atom in atomspace:
+    for atom in check_atomspace:
         if not atom.incoming:
             print(str(atom))
     print("=== Dump AtomSpace End   ===")
@@ -310,7 +310,7 @@ def dump_atomspace(atomspace):
 
 # URE
 
-def run_forward_chainer(atomspace):
+def run_forward_chainer(internal_atomspace):
     send_messages_rbs = ConceptNode("send-messages-rule-base")
 
     send_message_variable_factor = DefinedSchemaNode("send-message-variable-factor-rule")
@@ -343,14 +343,14 @@ def run_forward_chainer(atomspace):
         (ure-set-num-parameter (ConceptNode "{}") "URE:maximum-iterations" 50)
         '''.format(send_messages_rbs.name)
 
-    scheme_eval(atomspace, execute_code)
+    scheme_eval(internal_atomspace, execute_code)
 
     EvaluationLink(
         PredicateNode("URE:FC:retry-exhausted-sources"),
         send_messages_rbs
     ).tv = TruthValue(1, 1)
 
-    chainer = ForwardChainer(atomspace,
+    chainer = ForwardChainer(internal_atomspace,
                              send_messages_rbs,
                              get_edge_predicate(VariableNode("$F"), VariableNode("$V")),
                              VariableList(
@@ -362,30 +362,24 @@ def run_forward_chainer(atomspace):
     # print(results)
 
 
-def belief_propagation(atomspace):
+def belief_propagation(internal_atomspace):
     """
     Run Belief Propagation algorithm to calculate joint distribution marginalization over variables which are not
     listed as evidences.
 
-    :param atomspace: AtomSpace
+    :param internal_atomspace: atomspace where factor graph is created
     :return: marginalization over free variables
     """
 
     # Create factor graph
-    res = execute_atom(atomspace, init_factor_graph_concept_node_rule())
-    res = execute_atom(atomspace, init_factor_graph_implication_link_rule())
+    res = execute_atom(internal_atomspace, init_factor_graph_concept_node_rule())
+    res = execute_atom(internal_atomspace, init_factor_graph_implication_link_rule())
 
-    # Send initial messages
-    # res = execute_atom(atomspace, send_message_variable_factor_rule())
-    # res = execute_atom(atomspace, send_message_factor_variable_rule())
+    # Run Forward Chainer
+    run_forward_chainer(internal_atomspace)
 
-    # res = execute_atom(atomspace, send_message_variable_factor_rule())
-    # res = execute_atom(atomspace, send_message_factor_variable_rule())
-    # print(res)
-    #
-    run_forward_chainer(atomspace)
-
-    return calculate_marginals(atomspace)
+    # Return marginalization over free variables
+    return calculate_marginals(internal_atomspace)
 
 
 # ; =====================================================================

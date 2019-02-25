@@ -2,6 +2,7 @@ import unittest
 
 from opencog.type_constructors import *
 from opencog.utilities import initialize_opencog, finalize_opencog
+from opencog.atomspace import create_child_atomspace
 
 from belief_propagation import *
 
@@ -17,6 +18,16 @@ class BeliefPropagationTest(unittest.TestCase):
     def tearDown(self):
         finalize_opencog()
         del self.atomspace
+
+    def create_child_atomspace(self):
+        self.child_atomspace = create_child_atomspace(self.atomspace)
+        initialize_opencog(self.child_atomspace)
+        return self.child_atomspace
+
+    def delete_child_atomspace(self):
+        self.child_atomspace.clear()
+        finalize_opencog()
+        initialize_opencog(self.atomspace)
 
     def check_set_contains(self, set_link, atom):
         for a in set_link.get_out():

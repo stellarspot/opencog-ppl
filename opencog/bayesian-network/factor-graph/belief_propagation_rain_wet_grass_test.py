@@ -1,7 +1,6 @@
 import unittest
 
 from opencog.type_constructors import *
-from opencog.utilities import initialize_opencog, finalize_opencog
 from opencog.atomspace import PtrValue
 from opencog.bindlink import execute_atom
 
