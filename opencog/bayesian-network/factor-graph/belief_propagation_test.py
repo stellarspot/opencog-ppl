@@ -114,6 +114,29 @@ class PtrValueTest(unittest.TestCase):
         msg = np.tensordot(traffic_light_risk_joint_probability, traffic_light_probability, axes=(0, 0))
         self.check_message_value("Factor-Risk-TrafficLight", "Variable-Risk", msg)
 
+    def test_traffic_light_given_risk(self):
+
+        print('Test: Traffic Light and Risk given Risk')
+        traffic_light = ConceptNode('TrafficLight')
+        risk = ConceptNode('Risk')
+        risk_given_traffic_light = ImplicationLink(traffic_light, risk)
+
+        # [Green, Yellow, Red]
+        traffic_light_probability = np.array([0.4, 0.25, 0.35])
+        traffic_light_risk_joint_probability = np.array([[0.1, 0.9], [0.55, 0.45], [0.95, 0.05]])
+
+        traffic_light.set_value(key_probability(), PtrValue(traffic_light_probability))
+        risk_given_traffic_light.set_value(key_probability(), PtrValue(traffic_light_risk_joint_probability))
+
+        # P(TL=Yellow|R=High)
+        # 1) P(TL=Yellow, R=High)
+        # TL=Yellow, index=1
+        # R=High, index=0
+        traffic_light.set_value(key_evidence(), PtrValue(1))
+        risk_given_traffic_light.set_value(key_evidence(), PtrValue(0))
+
+        belief_propagation(self.atomspace)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -31,6 +31,10 @@ def key_probability():
     return PredicateNode("probability")
 
 
+def key_evidence():
+    return PredicateNode("evidence")
+
+
 def key_domain():
     return PredicateNode("domain")
 
@@ -154,44 +158,62 @@ def has_probability(atom):
     return TV_FALSE
 
 
-def set_variable_domain(variable, prob_atom, index):
+def set_variable_domain(variable, v, joint_table_atom, index):
     """
     Sets domain to the variable in factor graph.
+    The domain of the variable is 1 if the evidence is set to the given v.
+    Otherwise the domain of the variable is just dimension in the joint probability table
+    where the variable has the given index.
 
     :param variable: variable in factor graph
-    :param prob_atom: atom which contains joint probability table value
+    :param v: original variable in the bayesian network
+    :param joint_table_atom: atom which contains joint probability table value
     :param index: position of the given variable in the joint probability table
     """
-    tensor_value = prob_atom.get_value(key_probability())
-    assert tensor_value, "Probability must be set for atom: " + str(prob_atom)
+    tensor_value = joint_table_atom.get_value(key_probability())
+    assert tensor_value, "Probability must be set for atom: " + str(joint_table_atom)
     tensor = tensor_value.value()
-    domain = tensor.shape[index]
+
+    evidence_index_value = v.get_value(key_evidence())
+    if evidence_index_value:
+        domain = 1
+    else:
+        domain = tensor.shape[index]
 
     current_domain_value = variable.get_value(key_domain())
     if not current_domain_value:
         variable.set_value(key_domain(), PtrValue(domain))
     else:
-        assert current_domain_value.value() == domain
+        assert current_domain_value.value() == domain, "Teh variable domain should be consistent " \
+                                                       "with already present domain"
 
 
-def set_factor_tensor(factor, variables, prob_atom):
+def set_factor_tensor(factor, variables, joint_table_atom):
     """
     Sets tensor for the given factor.
-    Tensor is taken from  prob_atom.
+    Tensor is taken from  joint probability table.
+    If a given variable has an evidence index, only evidence part of the joint table is taken.
 
     :param factor: factor in factor graph
-    :param variables: initial variables
-    :param prob_atom: atom which contains joint probability table value
+    :param variables: original variables from the bayesian network
+    :param joint_table_atom: atom which contains joint probability table value
     """
 
     arguments = [get_variable_node_name(v) for v in variables]
-    # print("Set tensor arguments:", arguments)
     factor.set_value(key_arguments(), PtrValue(arguments))
 
-    # Tensor indices must be reordered to be consistent with sorted variables names
-    tensor_value = prob_atom.get_value(key_probability())
-    assert tensor_value, "Probability must be set for atom: " + str(prob_atom)
-    factor.set_value(key_tensor(), tensor_value)
+    tensor_value = joint_table_atom.get_value(key_probability())
+    assert tensor_value, "Probability must be set for atom: " + str(joint_table_atom)
+
+    tensor = tensor_value.value()
+
+    for index, v in enumerate(variables):
+        evidence_index_value = v.get_value(key_evidence())
+        if evidence_index_value:
+            evidence_index = evidence_index_value.value()
+            tensor = np.take(tensor, [evidence_index], index)
+
+    factor.set_value(key_tensor(), PtrValue(tensor))
 
 
 def send_message_variable_factor(message, variable, factor, factors):
@@ -368,7 +390,7 @@ def init_factor_graph_concept_node_formula(v):
     edge = get_edge_predicate(factor, variable)
 
     # set variable shape
-    set_variable_domain(variable, v, 0)
+    set_variable_domain(variable, v, v, 0)
 
     # set factor tensor
     set_factor_tensor(factor, [v], v)
@@ -454,8 +476,8 @@ def init_factor_graph_implication_link_formula(I, v1, v2):
     edge2 = get_edge_predicate(factor, variable2)
 
     # set variable shape
-    set_variable_domain(variable1, I, 0)
-    set_variable_domain(variable2, I, 1)
+    set_variable_domain(variable1, v1, I, 0)
+    set_variable_domain(variable2, v2, I, 1)
 
     # # set factor tensor
     set_factor_tensor(factor, [v1, v2], I)
