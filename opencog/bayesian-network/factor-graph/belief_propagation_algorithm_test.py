@@ -32,25 +32,72 @@ class BeliefPropagationAlgorithmTest(BeliefPropagationTest):
 
         self.delete_child_atomspace()
 
-    def test_init_factor_graph_implication_link_product_rule2(self):
+    def init_factor_graph_implication_link_product_rule2(self):
         a = ConceptNode("A")
         b = ConceptNode("B")
         c = ConceptNode("C")
 
         implication = ImplicationLink(ListLink(a, b), c)
-        implication_probability = np.array([[[0.9, 0.1], [0.8, 0.2]], [[0.7, 0.3], [0.6, 0.4]]])
-        implication.set_value(key_probability(), PtrValue(implication_probability))
+
+        self.implication_probability = np.array([[
+            [0.1, 0.2, 0.7],
+            [0.2, 0.3, 0.5]
+        ]])
+
+        implication.set_value(key_probability(), PtrValue(self.implication_probability))
+
+    def test_init_factor_graph_implication_link_product_rule2(self):
+        self.init_factor_graph_implication_link_product_rule2()
 
         child_atomspace = self.create_child_atomspace()
         execute_atom(child_atomspace, init_factor_graph_implication_link_product_rule())
 
         # check domain
-        self.check_domain_value(ConceptNode("Variable-A"), 2)
+        self.check_domain_value(ConceptNode("Variable-A"), 1)
         self.check_domain_value(ConceptNode("Variable-B"), 2)
-        self.check_domain_value(ConceptNode("Variable-C"), 2)
+        self.check_domain_value(ConceptNode("Variable-C"), 3)
 
         # check probability tensors
-        self.check_tensor_value(ConceptNode("Factor-A-B-C"), implication_probability)
+        self.check_tensor_value(ConceptNode("Factor-A-B-C"), self.implication_probability)
+
+        self.delete_child_atomspace()
+
+    def test_init_factor_graph_implication_link_product_rule2_given_b(self):
+        self.init_factor_graph_implication_link_product_rule2()
+
+        child_atomspace = self.create_child_atomspace()
+
+        ConceptNode("B").set_value(key_evidence(), PtrValue(1))
+
+        execute_atom(child_atomspace, init_factor_graph_implication_link_product_rule())
+
+        # check domain
+        self.check_domain_value(ConceptNode("Variable-A"), 1)
+        self.check_domain_value(ConceptNode("Variable-B"), 1)
+        self.check_domain_value(ConceptNode("Variable-C"), 3)
+
+        # check probability tensors
+        self.check_tensor_value(ConceptNode("Factor-A-B-C"), np.array([0.2, 0.3, 0.5]))
+
+        self.delete_child_atomspace()
+
+    def test_init_factor_graph_implication_link_product_rule2_given_b_c(self):
+        self.init_factor_graph_implication_link_product_rule2()
+
+        child_atomspace = self.create_child_atomspace()
+
+        ConceptNode("B").set_value(key_evidence(), PtrValue(0))
+        ConceptNode("C").set_value(key_evidence(), PtrValue(2))
+
+        execute_atom(child_atomspace, init_factor_graph_implication_link_product_rule())
+
+        # check domain
+        self.check_domain_value(ConceptNode("Variable-A"), 1)
+        self.check_domain_value(ConceptNode("Variable-B"), 1)
+        self.check_domain_value(ConceptNode("Variable-C"), 1)
+
+        # check probability tensors
+        self.check_tensor_value(ConceptNode("Factor-A-B-C"), np.array([0.7]))
 
         self.delete_child_atomspace()
 

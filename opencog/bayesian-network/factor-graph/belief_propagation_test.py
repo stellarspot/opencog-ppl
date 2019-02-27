@@ -43,7 +43,14 @@ class BeliefPropagationTest(unittest.TestCase):
     def check_tensor_value(self, atom, tensor):
         tensor_value = atom.get_value(PredicateNode("tensor"))
         self.assertIsNotNone(tensor_value)
-        self.assertTrue(np.allclose(tensor, tensor_value.value()))
+        close = np.allclose(tensor, tensor_value.value())
+        if not close:
+            print('expected tensor:')
+            print(tensor)
+            print('result   tensor:')
+            print(tensor_value.value())
+
+        self.assertTrue(close)
 
     def check_message_value(self, a, b, message_array):
         message = get_message_predicate(ConceptNode(a), ConceptNode(b))
