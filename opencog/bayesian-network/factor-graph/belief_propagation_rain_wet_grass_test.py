@@ -12,47 +12,54 @@ import numpy as np
 
 class BeliefPropagationRainWetGrassTest(BeliefPropagationTest):
 
-    def test_rain_wet_grass(self):
-        print('Test: Rain and Wet Grass')
+    def init_rain_wet_grass_bayesian_network(self):
+        print('Test: Sherlock Holmes and  Wet Grass')
         rain = ConceptNode('Rain')
-        wet_grass = ConceptNode('WetGrass')
-        wet_grass_given_rain = ImplicationLink(rain, wet_grass)
+        sprinkler = ConceptNode('Sprinkler')
+        holmes_grass = ConceptNode('HolmesGrass')
+        watson_grass = ConceptNode('WatsonGrass')
+        watson_grass_given_rain = ImplicationLink(rain, watson_grass)
+        holmes_grass_given_rain_sprinkler = ImplicationLink(ListLink(rain, sprinkler), watson_grass)
 
-        rain_probability = np.array([0.2, 0.8])
-        rain_wet_grass_joint_probability = np.array([[0.9, 0.1], [0.25, 0.75]])
+        self.rain_probability = np.array([0.2, 0.8])
+        rain.set_value(key_probability(), PtrValue(self.rain_probability))
 
-        rain.set_value(key_probability(), PtrValue(rain_probability))
-        wet_grass_given_rain.set_value(key_probability(), PtrValue(rain_wet_grass_joint_probability))
+        self.sprinkler_probability = np.array([0.1, 0.9])
+        sprinkler.set_value(key_probability(), PtrValue(self.sprinkler_probability))
 
-        belief_propagation(self.atomspace)
+        self.watson_grass_given_rain_probability = np.array([[1.0, 0.0], [0.2, 0.8]])
+        watson_grass_given_rain.set_value(key_probability(), PtrValue(self.watson_grass_given_rain_probability))
 
-        # Check Variables
-        res = execute_atom(self.atomspace,
-                           GetLink(
-                               EvaluationLink(
-                                   PredicateNode("variable"),
-                                   VariableNode("$V"))))
-        self.check_set_contains(res, ConceptNode("Variable-Rain"))
+        self.holmes_grass_given_rain_sprinkler_probability = np.array([[1.0, 0.0], [0.2, 0.8]])
+        holmes_grass_given_rain_sprinkler.set_value(key_probability(),
+                                                    PtrValue(self.holmes_grass_given_rain_sprinkler_probability))
 
-        # Check Factors
-        res = execute_atom(self.atomspace,
-                           GetLink(
-                               EvaluationLink(
-                                   PredicateNode("factor"),
-                                   VariableNode("$F"))))
-        self.check_set_contains(res, ConceptNode("Factor-Rain"))
+    def test_rain_wet_grass(self):
+        self.init_rain_wet_grass_bayesian_network()
 
-        # Check Variable shapes
+        child_atomspace = self.create_child_atomspace()
+        marginalization = belief_propagation(child_atomspace)
+
+        # check domain
         self.check_domain_value(ConceptNode("Variable-Rain"), 2)
-        self.check_domain_value(ConceptNode("Variable-WetGrass"), 2)
+        self.check_domain_value(ConceptNode("Variable-Sprinkler"), 2)
+        self.check_domain_value(ConceptNode("Variable-WatsonGrass"), 2)
 
-        # Check Factor tensors
-        self.check_tensor_value(ConceptNode("Factor-Rain"), rain_probability)
-        self.check_tensor_value(ConceptNode("Factor-Rain-WetGrass"), rain_wet_grass_joint_probability)
+        # check probability tensors
 
-        # Check initial messages
-        self.check_message_value("Variable-WetGrass", "Factor-Rain-WetGrass", np.array([1, 1]))
-        self.check_message_value("Factor-Rain", "Variable-Rain", rain_probability)
+        self.check_tensor_value(ConceptNode("Factor-Rain"), self.rain_probability)
+        self.check_tensor_value(ConceptNode("Factor-Sprinkler"), self.sprinkler_probability)
+
+        # check messages
+
+        self.initial_message = np.array([1, 1])
+
+        self.check_message_value("Variable-WatsonGrass", "Factor-Rain-WatsonGrass", self.initial_message)
+        self.check_message_value("Factor-Rain", "Variable-Rain", self.rain_probability)
+
+        self.delete_child_atomspace()
+
+        print('marginalization', marginalization)
 
 
 if __name__ == '__main__':

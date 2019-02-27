@@ -3,9 +3,9 @@
 
 ## Reference Implementation
 
-[Belief Propagation in Python](../opencog/bayesian-network/belief-propagation/belief_propagation.py)
+[Belief Propagation in Python](../opencog/bayesian-network/factor-graph/belief_propagation.py)
 
-[Algorithm and tests folder](../opencog/bayesian-network/belief-propagation)
+[Algorithm and tests folder](../opencog/bayesian-network/factor-graph)
 
 ## Bayesian network
 

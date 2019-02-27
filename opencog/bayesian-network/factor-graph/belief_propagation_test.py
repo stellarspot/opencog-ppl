@@ -49,4 +49,8 @@ class BeliefPropagationTest(unittest.TestCase):
         message = get_message_predicate(ConceptNode(a), ConceptNode(b))
         message_value = message.get_value(key_message())
         assert message_value, "Message value is not set!"
-        self.assertTrue(np.allclose(message_array, message_value.value()))
+        close = np.allclose(message_array, message_value.value())
+        if not close:
+            print("expected message:", message)
+            print("result   message:", message_value.value())
+        self.assertTrue(close)
