@@ -118,10 +118,10 @@ Bayesian Network: TL <-- Risk
 Factor Graph:
 P(R, TL) = P(R|TL) P(TL) = P1(R, TL) P2(TL)
 
-P1    P2
-^     ^
-|  \  |
-R     TL
+P1    P2  
+^     ^  
+|  \  |  
+R     TL  
 
 
 R - P1 - TL - P2
