@@ -270,7 +270,7 @@ def calculate_marginals(internal_atomspace):
     factors = execute_atom(internal_atomspace, factors_link)
 
     for factor in factors.get_out():
-        print("factor:", factor.name)
+        # print("factor:", factor.name)
 
         variables_link = GetLink(
             TypedVariableLink(VariableNode('$V'), TypeNode('ConceptNode')),
@@ -435,8 +435,7 @@ def init_factor_graph_concept_node_formula(v):
     return ListLink(
         variable_predicate,
         factor_predicate,
-        edge
-    )
+        edge)
 
 
 # ; =====================================================================
@@ -524,8 +523,121 @@ def init_factor_graph_implication_link_formula(I, v1, v2):
         variable_predicate_2,
         factor_predicate,
         edge1,
-        edge2
-    )
+        edge2)
+
+
+# ; =====================================================================
+# ; Implication Product to Variable rule
+# ;
+# ; Implication
+# ;   List
+# ;        A
+# ;        B
+# ;   C
+# ; |-
+# ; Evaluation
+# ;    Predicate "factor"
+# ;    Concept "Factor-A-B-C"
+# ;
+# ; Evaluation
+# ;    Predicate "variable"
+# ;    Concept "Variable-A"
+# ;
+# ; Evaluation
+# ;    Predicate "variable"
+# ;    Concept "Variable-B"
+# ;
+# ; Evaluation
+# ;    Predicate "variable"
+# ;    Concept "Variable-C"
+# ;
+# ; Evaluation
+# ;    Predicate "edge"
+# ;    List
+# ;        Concept "Factor-A-B-C"
+# ;        Concept "Variable-A"
+# ;
+# ; Evaluation
+# ;    Predicate "edge"
+# ;    List
+# ;        Concept "Factor-A-B-C"
+# ;        Concept "Variable-B"
+# ;
+# ; Evaluation
+# ;    Predicate "edge"
+# ;    List
+# ;        Concept "Factor-A-B-C"
+# ;        Concept "Variable-C"
+# ;----------------------------------------------------------------------
+
+def init_factor_graph_implication_link_product_rule():
+    return BindLink(
+        VariableList(
+            TypedVariableLink(VariableNode('$V1'), TypeNode('ConceptNode')),
+            TypedVariableLink(VariableNode('$V2'), TypeNode('ConceptNode')),
+            TypedVariableLink(VariableNode('$V3'), TypeNode('ConceptNode'))),
+        AndLink(
+            # Preconditions
+            EvaluationLink(
+                GroundedPredicateNode('py: has_probability'),
+                ListLink(
+                    ImplicationLink(
+                        ListLink(
+                            VariableNode('$V1'),
+                            VariableNode('$V2')),
+                        VariableNode('$V3')))),
+            # Pattern clauses
+            ImplicationLink(
+                ListLink(
+                    VariableNode('$V1'),
+                    VariableNode('$V2')),
+                VariableNode('$V3'))),
+        ExecutionOutputLink(
+            GroundedSchemaNode('py: init_factor_graph_implication_link_product_formula'),
+            ListLink(
+                ImplicationLink(
+                    ListLink(
+                        VariableNode('$V1'),
+                        VariableNode('$V2')),
+                    VariableNode('$V3')),
+                VariableNode('$V1'),
+                VariableNode('$V2'),
+                VariableNode('$V3'))))
+
+
+def init_factor_graph_implication_link_product_formula(I, v1, v2, v3):
+    print('init_factor_graph_implication_link_product_rule', v1.name, v2.name)
+
+    variable1 = get_variable_node(v1)
+    variable2 = get_variable_node(v2)
+    variable3 = get_variable_node(v3)
+    factor = get_factor_node([v1, v2, v3])
+
+    # generate factor graph predicates
+    variable_predicate_1 = get_variable_predicate(variable1)
+    variable_predicate_2 = get_variable_predicate(variable2)
+    variable_predicate_3 = get_variable_predicate(variable3)
+    factor_predicate = get_factor_predicate(factor)
+    edge1 = get_edge_predicate(factor, variable1)
+    edge2 = get_edge_predicate(factor, variable2)
+    edge3 = get_edge_predicate(factor, variable3)
+
+    # set variable shape
+    set_variable_domain(variable1, v1, I, 0)
+    set_variable_domain(variable2, v2, I, 1)
+    set_variable_domain(variable3, v3, I, 2)
+
+    # # set factor tensor
+    set_factor_tensor(factor, [v1, v2, v3], I)
+
+    return ListLink(
+        variable_predicate_1,
+        variable_predicate_2,
+        variable_predicate_3,
+        factor_predicate,
+        edge1,
+        edge2,
+        edge3)
 
 
 # ; =====================================================================

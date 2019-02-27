@@ -44,6 +44,7 @@ class BeliefPropagationRainWetGrassTest(BeliefPropagationTest):
         self.check_domain_value(ConceptNode("Variable-Rain"), 2)
         self.check_domain_value(ConceptNode("Variable-Sprinkler"), 2)
         self.check_domain_value(ConceptNode("Variable-WatsonGrass"), 2)
+        # self.check_domain_value(ConceptNode("Variable-HolmesGrassGrass"), 2)
 
         # check probability tensors
 
