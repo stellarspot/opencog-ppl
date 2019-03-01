@@ -37,7 +37,7 @@ class BeliefPropagationRainWetGrassTest(BeliefPropagationTest):
              [[1.0, 0.0],
               [0.0, 1.0]]])
         self.holmes_grass_given_rain_sprinkler.set_value(key_probability(),
-                                                    PtrValue(self.holmes_grass_given_rain_sprinkler_probability))
+                                                         PtrValue(self.holmes_grass_given_rain_sprinkler_probability))
 
     def test_rain_wet_grass(self):
         self.init_rain_wet_grass_bayesian_network()
@@ -70,7 +70,6 @@ class BeliefPropagationRainWetGrassTest(BeliefPropagationTest):
     def test_rain_wet_grass(self):
         self.init_rain_wet_grass_bayesian_network()
 
-
         # P(HG=wet)
         # P(HG=wet, WG, S, R)
         # HG=wet, index=0
@@ -100,6 +99,13 @@ class BeliefPropagationRainWetGrassTest(BeliefPropagationTest):
         marginalization_divident = belief_propagation(child_atomspace)
 
         print('marginalization divident:', marginalization_divident)
+
+        # check probability tensors
+        self.check_tensor_value(ConceptNode("Factor-Rain"), np.array([0.2]))
+        self.check_tensor_value(ConceptNode("Factor-Sprinkler"), self.sprinkler_probability)
+        self.check_tensor_value(ConceptNode("Factor-Rain-WatsonGrass"), np.array([1.0, 0.0]))
+        # self.check_tensor_value(ConceptNode("Factor-HolmesGrass-Rain-Sprinkler"), np.array([[1.0, 0.0], [1.0, 0.0]]))
+
         self.delete_child_atomspace()
 
         probability_rain_given_holmes_grass = marginalization_divident / marginalization_divisor
