@@ -2,7 +2,6 @@ import unittest
 
 from opencog.type_constructors import *
 from opencog.atomspace import PtrValue
-from opencog.bindlink import execute_atom
 
 from belief_propagation import *
 from belief_propagation_test import BeliefPropagationTest
@@ -14,24 +13,30 @@ class BeliefPropagationRainWetGrassTest(BeliefPropagationTest):
 
     def init_rain_wet_grass_bayesian_network(self):
         print('Test: Sherlock Holmes and  Wet Grass')
-        rain = ConceptNode('Rain')
-        sprinkler = ConceptNode('Sprinkler')
-        holmes_grass = ConceptNode('HolmesGrass')
-        watson_grass = ConceptNode('WatsonGrass')
-        watson_grass_given_rain = ImplicationLink(rain, watson_grass)
-        holmes_grass_given_rain_sprinkler = ImplicationLink(ListLink(rain, sprinkler), watson_grass)
+        self.rain = ConceptNode('Rain')
+        self.sprinkler = ConceptNode('Sprinkler')
+        self.holmes_grass = ConceptNode('HolmesGrass')
+        self.watson_grass = ConceptNode('WatsonGrass')
+        self.watson_grass_given_rain = ImplicationLink(self.rain, self.watson_grass)
+        self.holmes_grass_given_rain_sprinkler = ImplicationLink(ListLink(self.rain, self.sprinkler), self.holmes_grass)
 
         self.rain_probability = np.array([0.2, 0.8])
-        rain.set_value(key_probability(), PtrValue(self.rain_probability))
+        self.rain.set_value(key_probability(), PtrValue(self.rain_probability))
 
         self.sprinkler_probability = np.array([0.1, 0.9])
-        sprinkler.set_value(key_probability(), PtrValue(self.sprinkler_probability))
+        self.sprinkler.set_value(key_probability(), PtrValue(self.sprinkler_probability))
 
-        self.watson_grass_given_rain_probability = np.array([[1.0, 0.0], [0.2, 0.8]])
-        watson_grass_given_rain.set_value(key_probability(), PtrValue(self.watson_grass_given_rain_probability))
+        self.watson_grass_given_rain_probability = np.array(
+            [[1.0, 0.0],
+             [0.2, 0.8]])
+        self.watson_grass_given_rain.set_value(key_probability(), PtrValue(self.watson_grass_given_rain_probability))
 
-        self.holmes_grass_given_rain_sprinkler_probability = np.array([[1.0, 0.0], [0.2, 0.8]])
-        holmes_grass_given_rain_sprinkler.set_value(key_probability(),
+        self.holmes_grass_given_rain_sprinkler_probability = np.array(
+            [[[1.0, 0.0],
+              [0.1, 0.9]],
+             [[1.0, 0.0],
+              [0.0, 1.0]]])
+        self.holmes_grass_given_rain_sprinkler.set_value(key_probability(),
                                                     PtrValue(self.holmes_grass_given_rain_sprinkler_probability))
 
     def test_rain_wet_grass(self):
@@ -44,7 +49,7 @@ class BeliefPropagationRainWetGrassTest(BeliefPropagationTest):
         self.check_domain_value(ConceptNode("Variable-Rain"), 2)
         self.check_domain_value(ConceptNode("Variable-Sprinkler"), 2)
         self.check_domain_value(ConceptNode("Variable-WatsonGrass"), 2)
-        # self.check_domain_value(ConceptNode("Variable-HolmesGrassGrass"), 2)
+        self.check_domain_value(ConceptNode("Variable-HolmesGrassGrass"), 2)
 
         # check probability tensors
 
@@ -61,6 +66,26 @@ class BeliefPropagationRainWetGrassTest(BeliefPropagationTest):
         self.delete_child_atomspace()
 
         print('marginalization', marginalization)
+
+    def test_rain_wet_grass(self):
+        self.init_rain_wet_grass_bayesian_network()
+
+        child_atomspace = self.create_child_atomspace()
+
+        # P(HG=wet)
+        # P(HG=wet, WG, S, R)
+        # HG=wet, index=0
+
+        self.holmes_grass.set_value(key_evidence(), PtrValue(0))
+        marginalization = belief_propagation(child_atomspace)
+
+        # check domain
+        self.check_domain_value(ConceptNode("Variable-Rain"), 2)
+        self.check_domain_value(ConceptNode("Variable-Sprinkler"), 2)
+        self.check_domain_value(ConceptNode("Variable-WatsonGrass"), 2)
+        self.check_domain_value(ConceptNode("Variable-HolmesGrass"), 1)
+
+        self.delete_child_atomspace()
 
 
 if __name__ == '__main__':

@@ -372,8 +372,9 @@ def belief_propagation(internal_atomspace):
     """
 
     # Create factor graph
-    res = execute_atom(internal_atomspace, init_factor_graph_concept_node_rule())
-    res = execute_atom(internal_atomspace, init_factor_graph_implication_link_rule())
+    execute_atom(internal_atomspace, init_factor_graph_concept_node_rule())
+    execute_atom(internal_atomspace, init_factor_graph_implication_link_rule())
+    execute_atom(internal_atomspace, init_factor_graph_implication_link_product_rule())
 
     # Run Forward Chainer
     run_forward_chainer(internal_atomspace)
