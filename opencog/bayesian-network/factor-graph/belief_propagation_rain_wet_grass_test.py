@@ -70,14 +70,16 @@ class BeliefPropagationRainWetGrassTest(BeliefPropagationTest):
     def test_rain_wet_grass(self):
         self.init_rain_wet_grass_bayesian_network()
 
-        child_atomspace = self.create_child_atomspace()
 
         # P(HG=wet)
         # P(HG=wet, WG, S, R)
         # HG=wet, index=0
 
+        child_atomspace = self.create_child_atomspace()
         self.holmes_grass.set_value(key_evidence(), PtrValue(0))
-        marginalization = belief_propagation(child_atomspace)
+        marginalization_divisor = belief_propagation(child_atomspace)
+
+        print('marginalization divisor:', marginalization_divisor)
 
         # check domain
         self.check_domain_value(ConceptNode("Variable-Rain"), 2)
@@ -86,6 +88,23 @@ class BeliefPropagationRainWetGrassTest(BeliefPropagationTest):
         self.check_domain_value(ConceptNode("Variable-HolmesGrass"), 1)
 
         self.delete_child_atomspace()
+
+        # P(HG=wet, R=true)
+        # P(HG=wet, WG, S, R=true)
+        # HG=wet, index=0
+        # R=true, index=0
+
+        child_atomspace = self.create_child_atomspace()
+        self.holmes_grass.set_value(key_evidence(), PtrValue(0))
+        self.rain.set_value(key_evidence(), PtrValue(0))
+        marginalization_divident = belief_propagation(child_atomspace)
+
+        print('marginalization divident:', marginalization_divident)
+        self.delete_child_atomspace()
+
+        probability_rain_given_holmes_grass = marginalization_divident / marginalization_divisor
+
+        print('probability rain given Holmes wet grass:', probability_rain_given_holmes_grass)
 
 
 if __name__ == '__main__':
