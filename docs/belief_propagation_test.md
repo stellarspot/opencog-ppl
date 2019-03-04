@@ -54,6 +54,13 @@ P(R=true|HG=wet) = P(R=true, HG=wet) / P(HG=wet)
   = Sum[S, WG] P(HG=wet, WG, S, R=true) / Sum[WG, S, R] P(HG=wet, WG, S, R)
 
 
+P(R=true, HG=wet)   
+= Sum[S, WG] P(R=true, HG=wet, S, WG)  
+= Sum[S, WG] (P(HG=wet|S,R=True) P(WG|R=True) P(S) P(R=True))  
+= P(R=True) (Sum[WG]  P(WG|R=True) (Sum[S] P(HG=wet|S,R=True) P(S)  
+=  0.2 * ( 1 ) * (1 + 1) = 0.4
+
+
 Was there a rain if Holmes's and Watson's grass is wet?
 
 P(R=true|HG=wet, WG=wet) = P(R=true, HG=wet, WG=wet) / P(HG=wet, WG=wet)
