@@ -172,6 +172,27 @@ The algorithm will be used for trees:
 
 ![Bayesian Network Factor Tree](images/belief_propagation/holmes_grass_factor_tree.png)
 
+
+Factor Tree representation in OpenCog:
+```scheme
+  ; Rain Variable in Factor Graph
+  (EvaluationLink
+      (PredicateNode "variable")
+      (ConceptNode "Variable-Rain"))
+
+  ; Rain Factor in Factor Graph
+    (EvaluationLink
+      (PredicateNode "factor")
+      (ConceptNode "Factor-Rain"))
+
+  ; Factor Rain Edge in Factor Graph
+    (EvaluationLink
+      (PredicateNode "edge")
+      (ListLink
+        (ConceptNode "Factor-Rain")
+        (ConceptNode "Variable-Rain")))
+```
+
 ## Messages sending on Factor tree
 
 Message from variable i to factor f:  
@@ -190,6 +211,24 @@ M(i->f) = [f(V1), f(V2), ... , f(Vn)]
 
 ![Bayesian Network Factor Tree](images/belief_propagation/factor_tree_message_f_var.png)
 
+Example, messages in Opencog:
+```scheme
+
+; Variable to Factor message
+(EvaluationLink
+    (PredicateNode "message")
+    (ListLink
+        (ConceptNode "Variable-HolmesGrass")
+        (ConceptNode "Factor-Sprinkler-Rain-HolmesGrass")))
+
+
+; Factor to Variable message
+(EvaluationLink
+    (PredicateNode "message")
+    (ListLink
+        (ConceptNode "Factor-Sprinkler-Rain-HolmesGrass")
+        (ConceptNode "Variable-Sprinkler")))
+```
 
 ## Run Belief Propagation algorithm
 
