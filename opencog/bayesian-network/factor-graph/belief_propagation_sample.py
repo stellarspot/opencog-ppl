@@ -1,7 +1,8 @@
 from opencog.type_constructors import *
-from opencog.utilities import initialize_opencog
+from opencog.utilities import initialize_opencog, finalize_opencog
 from opencog.atomspace import PtrValue
-from opencog.bindlink import execute_atom
+from opencog.atomspace import create_child_atomspace as create_temp_atomspace
+from belief_propagation import *
 
 import numpy as np
 
@@ -9,31 +10,75 @@ import numpy as np
 atomspace = AtomSpace()
 initialize_opencog(atomspace)
 
-from belief_propagation import *
 
+def create_child_atomspace():
+    global child_atomspace
+    child_atomspace = create_temp_atomspace(atomspace)
+    initialize_opencog(child_atomspace)
+    return child_atomspace
+
+
+def delete_child_atomspace():
+    global child_atomspace
+    child_atomspace.clear()
+    finalize_opencog()
+    initialize_opencog(atomspace)
+
+
+# Define Atoms and Links
 rain = ConceptNode('Rain')
-wet_grass = ConceptNode('WetGrass')
-wet_grass_given_rain = ImplicationLink(rain, wet_grass)
+sprinkler = ConceptNode('Sprinkler')
+holmes_grass = ConceptNode('HolmesGrass')
+watson_grass = ConceptNode('WatsonGrass')
+watson_grass_given_rain = ImplicationLink(rain, watson_grass)
+holmes_grass_given_sprinkler_rain = ImplicationLink(ListLink(sprinkler, rain), holmes_grass)
 
+# Define probabilities values
+# Rain a priory probability
 rain_probability = np.array([0.2, 0.8])
-rain_wet_grass_joint_probability = np.array([[0.9, 0.1], [0.25, 0.75]])
-
 rain.set_value(key_probability(), PtrValue(rain_probability))
-wet_grass_given_rain.set_value(key_probability(), PtrValue(rain_wet_grass_joint_probability))
 
-print('Rain = T', rain_wet_grass_joint_probability[0])
-print('Rain = F', rain_wet_grass_joint_probability[1])
+# Sprinkler a priory probability
+sprinkler_probability = np.array([0.1, 0.9])
+sprinkler.set_value(key_probability(), PtrValue(sprinkler_probability))
+
+# Watson Grass given Rain conditional probability table
+watson_grass_given_rain_probability = np.array(
+    [[1.0, 0.0],
+     [0.2, 0.8]])
+watson_grass_given_rain.set_value(key_probability(), PtrValue(watson_grass_given_rain_probability))
+
+# Holmes Grass given Sprinkler and Rain conditional probability table
+holmes_grass_given_sprinkler_rain_probability = np.array(
+    [[[1.0, 0.0],
+      [0.9, 0.1]],
+     [[1.0, 0.0],
+      [0.0, 1.0]]])
+holmes_grass_given_sprinkler_rain.set_value(key_probability(),
+                                            PtrValue(holmes_grass_given_sprinkler_rain_probability))
+
+# P(HG=wet)
+# P(HG=wet, WG, S, R)
+# HG=wet, index=0
+child_atomspace = create_child_atomspace()
+holmes_grass.set_value(key_evidence(), PtrValue(0))
+marginalization_divisor = belief_propagation(child_atomspace)
+
+delete_child_atomspace()
+
+# P(HG=wet, R=true)
+# P(HG=wet, WG, S, R=true)
+# HG=wet, index=0
+# R=true, index=0
+
+child_atomspace = create_child_atomspace()
+holmes_grass.set_value(key_evidence(), PtrValue(0))
+rain.set_value(key_evidence(), PtrValue(0))
+marginalization_dividend = belief_propagation(child_atomspace)
+
+delete_child_atomspace()
+
+probability_rain_given_holmes_grass = marginalization_dividend / marginalization_divisor
 
 print()
-tensor = np.array([[1, 2, 3], [4, 5, 6]])
-print(tensor)
-res = np.tensordot(tensor, np.array([1, 1]), axes=(0, 0))
-print(res)
-res = np.tensordot(tensor, np.array([1, 1, 1]), axes=(1, 0))
-print(res)
-print()
-
-# print(rain.get_value(key_probability()).value())
-# print(wet_grass_given_rain.get_value(key_probability()).value())
-
-belief_propagation(atomspace)
+print('probability rain given Holmes wet grass:', probability_rain_given_holmes_grass)
