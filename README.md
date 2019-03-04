@@ -8,4 +8,4 @@ Facts which involve probabilities should be written in a declarative way.
 
 Current docs:
 * [Generalized Distributional TV](docs/gdtv.md)
-* [Belief Propagation using DV](docs/belief_propagation_dv.md)
+* [Belief Propagation Algorithm](docs/belief_propagation.md)
