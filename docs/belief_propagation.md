@@ -20,6 +20,125 @@ R - there was a rain
 
 P(HG, WG, S, R) = P(HG|S,R) P(WG|R) P(S) P(R)
 
+
+### Conditional Probability Tables
+
+Domain:  
+Rain: true, false  
+Sprinkler: switch-on, switch-off  
+Grass: wet, dry
+
+P(R)
+
+|true |false |
+|-----|------|
+|  0.2|   0.8|
+
+P(S)
+
+|true |false |
+|-----|------|
+|  0.1|   0.9|
+
+P(WG|R)
+
+|    R|   wet|       dry|
+|-----|------|----------|
+|true |1     |         0|
+|false|0.2   |       0.8|
+
+P(HG|S, R)
+
+|         S|    R|   wet|       dry|
+|----------|-----|------|----------|
+|switch-on |true |1     |         0|
+|switch-on |false|0.9   |       0.1|
+|switch-off|true |1     |         0|
+|switch-off|false|0     |         1|
+
+### Bayesian Network representation in OpenCog
+
+Variables in Bayesian Network are represented as ConceptNode in OpenCog:
+```python
+rain = ConceptNode('Rain')
+holmes_grass = ConceptNode('HolmesGrass')
+```
+
+Conditional dependencies are represented as ImplicationLink:
+```python
+# Watson Grass given Rain
+ImplicationLink(rain, watson_grass)
+
+# Holmes Grass given Sprinkler and Rain
+ImplicationLink(ListLink(sprinkler, rain), holmes_grass)
+```
+
+Conditional probability tables are represented as NumPy tensors:
+```python
+# Rain a priory probability
+rain.set_value(key_probability(), PtrValue(np.array([0.2, 0.8])))
+
+# Watson Grass given Rain conditional probability table
+watson_grass_given_rain_probability = np.array(
+    [[1.0, 0.0],
+     [0.2, 0.8]])
+
+ImplicationLink(rain, watson_grass).set_value(key_probability(), PtrValue(watson_grass_given_rain_probability))
+```
+
+Wet Grass sample:
+```python
+# Define Variables
+rain = ConceptNode('Rain')
+sprinkler = ConceptNode('Sprinkler')
+holmes_grass = ConceptNode('HolmesGrass')
+watson_grass = ConceptNode('WatsonGrass')
+
+# Define Conditional Dependencies
+watson_grass_given_rain = ImplicationLink(rain, watson_grass)
+holmes_grass_given_sprinkler_rain = ImplicationLink(ListLink(sprinkler, rain), holmes_grass)
+
+# Define probabilities values
+# Rain a priory probability
+rain_probability = np.array([0.2, 0.8])
+rain.set_value(key_probability(), PtrValue(rain_probability))
+
+# Sprinkler a priory probability
+sprinkler_probability = np.array([0.1, 0.9])
+sprinkler.set_value(key_probability(), PtrValue(sprinkler_probability))
+
+# Watson Grass given Rain conditional probability table
+watson_grass_given_rain_probability = np.array(
+    [[1.0, 0.0],
+     [0.2, 0.8]])
+watson_grass_given_rain.set_value(key_probability(), PtrValue(watson_grass_given_rain_probability))
+
+# Holmes Grass given Sprinkler and Rain conditional probability table
+holmes_grass_given_sprinkler_rain_probability = np.array(
+    [[[1.0, 0.0],
+      [0.9, 0.1]],
+     [[1.0, 0.0],
+      [0.0, 1.0]]])
+holmes_grass_given_sprinkler_rain.set_value(key_probability(),
+                                            PtrValue(holmes_grass_given_sprinkler_rain_probability))
+```
+
+### Posterior probabilities
+
+Sample:
+
+P(R=true|HG=wet, WG=wet) = P(R=true, HG=wet, WG=wet) / P(HG=wet, WG=wet) 
+  = Sum[S] P(HG=wet, WG=wet, S, R=true) / Sum[S, R] P(HG=wet, WG=wet, S, R)
+
+### Marginal probabilities
+
+Two marginal probabilities should be calculated:
+* Sum[S] P(HG=wet, WG=wet, S, R=true)  
+  HG=wet, WG=wet, and R=true are evidences
+* Sum[S, R] P(HG=wet, WG=wet, S, R)  
+  HG=wet and WG=wet are evidences
+
+# Conditional Probability
 Was there a rain if Holmes's grass is wet?
 
 P(R=true|HG=wet) = P(R=true, HG=wet) / P(HG=wet)
@@ -76,95 +195,6 @@ Task solution steps:
 1. Define marginal distributions to calculate
 1. Create a factor tree
 1. Run Belief Propagation algorithm
-
-### Probability Values
-
-Rain: true, false  
-Sprinkler: switch-on, switch-off  
-Grass: wet, dry
-
-P(R)
-
-|true |false |
-|-----|------|
-|  0.2|   0.8|
-
-P(S)
-
-|true |false |
-|-----|------|
-|  0.1|   0.9|
-
-
-P(WG|R)
-
-|    R|   wet|       dry|
-|-----|------|----------|
-|true |1     |         0|
-|false|0.2   |       0.8|
-
-
-P(HG|S, R)
-
-|         S|    R|   wet|       dry|
-|----------|-----|------|----------|
-|switch-on |true |1     |         0|
-|switch-on |false|0.9   |       0.1|
-|switch-off|true |1     |         0|
-|switch-off|false|0     |         1|
-
-### OpenCog representation
-
-```scheme
-; Gras is wet or dry
-(InheritanceLink (Concept "wet") (Concept "Grass"))
-(InheritanceLink (Concept "dry") (Concept "Grass"))
-
-(InheritanceLink (Concept "HolmesGrass") (Concept "Grass"))
-
-; Probabilities
-(EvaluationLink (stv 0.2 1)
- (PredicateNode "probability")
- (AssociativeLink (Concept "Rain") (Concept "true")))
-
-(EvaluationLink (stv 1.0 1)
- (PredicateNode "probability")
- (ImplicationLink
-  (AssociativeLink (Concept "Rain") (Concept "true" ))
-  (AssociativeLink (Concept "WatsonGrass") (Concept "wet"))))
-
-(EvaluationLink (stv 1.0 1)
- (PredicateNode "probability")
- (ImplicationLink
-  (AndLink
-   (AssociativeLink (Concept "Sprinkler") (Concept "switch-on" ))
-   (AssociativeLink (Concept "Rain") (Concept "true" )))
-  (AssociativeLink (Concept "WatsonGrass") (Concept "wet"))))
-
-; Evidences
-(EvaluationLink (stv 1.0 1)
- (PredicateNode "evidence")
- (AssociativeLink (Concept "WatsonGrass") (Concept "wet")))
-
-(EvaluationLink (stv 1.0 1)
- (PredicateNode "evidence")
- (AssociativeLink (Concept "HolmesGrass") (Concept "wet")))
-```
-
-### Posterior probabilities
-
-Sample:
-
-P(R=true|HG=wet, WG=wet) = P(R=true, HG=wet, WG=wet) / P(HG=wet, WG=wet) 
-  = Sum[S] P(HG=wet, WG=wet, S, R=true) / Sum[S, R] P(HG=wet, WG=wet, S, R)
-
-### Marginal probabilities
-
-Two marginal probabilities should be calculated:
-* Sum[S] P(HG=wet, WG=wet, S, R=true)  
-  HG=wet, WG=wet, and R=true are evidences
-* Sum[S, R] P(HG=wet, WG=wet, S, R)  
-  HG=wet and WG=wet are evidences
 
 ### Belief Propagation algorithm
 
