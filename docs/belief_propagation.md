@@ -49,7 +49,9 @@ P(HG=wet, WG=wet)
 
 Create a bipartite graph where one set of vertices are functions and another set are variables:
 
-P(HG, WG, S, R) = P(HG|S,R) P(WG|R) P(S) * P(R) = P1(HG,S,R) P2(WG,R) P3(S) * P3(R)
+P(HG, WG, S, R)  
+= P(HG|S,R) P(WG|R) P(S) P(R)  
+= P1(HG,S,R) P2(WG,R) P3(S) P3(R)
 
 ![Bayesian Network Factorization](images/belief_propagation/holmes_grass_factorization.png)
 
