@@ -268,7 +268,6 @@ def calculate_marginals(internal_atomspace):
     factors = execute_atom(internal_atomspace, factors_link)
 
     for factor in factors.get_out():
-        # print("factor:", factor.name)
 
         variables_link = GetLink(
             TypedVariableLink(VariableNode('$V'), TypeNode('ConceptNode')),
@@ -277,7 +276,6 @@ def calculate_marginals(internal_atomspace):
         variables = execute_atom(internal_atomspace, variables_link)
 
         for variable in variables.get_out():
-            # print("variable:", variable.name)
 
             # Multiply one in and one out message for each
             message_variable_factor = get_message_predicate(variable, factor)
@@ -286,10 +284,7 @@ def calculate_marginals(internal_atomspace):
             message_in = message_variable_factor.get_value(key_message()).value()
             message_out = message_factor_variable.get_value(key_message()).value()
 
-            # print("  message1:", message_in)
-            # print("  message2:", message_out)
             marginalization = np.dot(message_in, message_out)
-            # print("marginalization:", marginalization)
             return marginalization
 
             break

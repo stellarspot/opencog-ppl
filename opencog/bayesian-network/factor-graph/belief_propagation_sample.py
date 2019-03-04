@@ -64,6 +64,8 @@ child_atomspace = create_child_atomspace()
 holmes_grass.set_value(key_evidence(), PtrValue(0))
 marginalization_divisor = belief_propagation(child_atomspace)
 
+dump_atomspace(child_atomspace)
+
 delete_child_atomspace()
 
 # P(HG=wet, R=true)

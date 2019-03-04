@@ -262,11 +262,10 @@ marginalization_dividend = belief_propagation(child_atomspace)
 delete_child_atomspace()
 ```
 
-## Belief Propagation algorithm
+## Belief Propagation algorithm implementation
 
-### Steps
+### Initialization
 
-Initialization:
 * Create Factor Graph Variable for each ConceptNode('Name') with conditional probability table
   * Set name to 'Variable-Name'
   * If variable has evidence index
@@ -283,35 +282,41 @@ Initialization:
   * Otherwise
     * Set conditional probability table
 
-Message Passing:
+### Message Passing
 
-Message from variable i to factor f:
-```text
-If there is no messages from variable i to f:
-  Get a set of edges from factor g to i where g!=f
-    If the set is empty, send initial message M(i->f) = [1, ..., 1]
-      where the vector size is the size of the variable i domain
-    If the set size is number of incoming factors minus 1
-        (all connected factors except f have messages to i)
-      send componentwise multiplication of the messages
-    Else do nothing (not all messages are received)
-```
+Message from variable V to factor F pattern:
+* There is Variable(V) predicate
+* There is Factor(F) predicate
+* There is Edge(F, V) predicate
+* There is no Message(V, F) predicate
+* For Each F1 is true
+  * F1 does not equal F
+  * There is Factor(F1) predicate
+  * Sets are equal
+    * Edge(F1, V) predicate
+    * Message(F1, V) predicate
 
-Message from factor f to variable i:
-```text
-If there is no messages from variable i to f:
-  Get set of edges from variable j to factor f where j!=i
-    If the set is empty, send initial message M(f->i)=[f(Xi=v1), ..., f(Xi)=vn]
-      where the message size is the size of the variable i domain
-    If the set size is number of incoming variables minus 1
-        (all connected variables except i have messages to f)
-      calculate tensor from F from f
-        F = (f(X1=v11, X2=v21), ..., f(X1=v1n, X2=v2n))
-      multiply the tensor F to all incoming messages except variable i:
-      M(f->i)=Sum[k] F * M[k->f] where k!=i
-    Else do nothing (not all messages are received)
-```
+If the pattern is satisfied, generate Message(V, F)
 
-Factor value calculation:
-* for the given factor name find factor-argument-list
-* for each variable get its domain
+
+Message from factor F to variable V pattern:
+* There is Variable(V) predicate
+* There is Factor(F) predicate
+* There is Edge(F, V) predicate
+* There is no Message(F, V) predicate
+* For Each V1 is true
+  * V1 does not equal V
+  * There is Variable(V1) predicate
+  * Sets are equal
+    * Edge(V1, F) predicate
+    * Message(V1, F) predicate
+
+If the pattern is satisfied, generate Message(F, V)
+
+
+ForwardChainer is used to calculate all messages for each edge.
+
+### Marginalization Calculation
+
+Select a factor and multiply dot product for 2 messages
+one incoming and one outcoming for the same edge.
