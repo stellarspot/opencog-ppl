@@ -203,6 +203,15 @@ M(i->f) = [1, 1, ... , 1]
 
 ![Bayesian Network Factor Tree](images/belief_propagation/factor_tree_message_var_f.png)
 
+Example, Variable to Factor message in OpenCog:
+```scheme
+(EvaluationLink
+    (PredicateNode "message")
+    (ListLink
+        (ConceptNode "Variable-HolmesGrass")
+        (ConceptNode "Factor-Sprinkler-Rain-HolmesGrass")))
+```
+
 Message from factor f to variable i:  
 M(f->i) = Sum[j, j !=i] f(X) Mul(j, j!=i) M [j->f]
 
@@ -211,18 +220,8 @@ M(i->f) = [f(V1), f(V2), ... , f(Vn)]
 
 ![Bayesian Network Factor Tree](images/belief_propagation/factor_tree_message_f_var.png)
 
-Example, messages in Opencog:
+Example, Factor to Variable message in OpenCog:
 ```scheme
-
-; Variable to Factor message
-(EvaluationLink
-    (PredicateNode "message")
-    (ListLink
-        (ConceptNode "Variable-HolmesGrass")
-        (ConceptNode "Factor-Sprinkler-Rain-HolmesGrass")))
-
-
-; Factor to Variable message
 (EvaluationLink
     (PredicateNode "message")
     (ListLink
