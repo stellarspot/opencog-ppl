@@ -25,7 +25,7 @@ Was there a rain if Holmes's grass is wet?
 P(R=true|HG=wet) = P(R=true, HG=wet) / P(HG=wet)
 
 P(R=true, HG=wet)  
-= Sum[S, WG] P(HG=wet, WG, S, R=true) /  
+= Sum[S, WG] P(HG=wet, WG, S, R=true)  
 = Sum[S, WG] (P(HG=wet|S, R=true) P(WG|Rain=true) P(S) P(Rain=true))
 
 P(HG=wet)  
