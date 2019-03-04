@@ -83,7 +83,7 @@ watson_grass_given_rain_probability = np.array(
     [[1.0, 0.0],
      [0.2, 0.8]])
 
-ImplicationLink(rain, watson_grass).set_value(key_probability(), PtrValue(watson_grass_given_rain_probability))
+watson_grass_given_rain.set_value(key_probability(), PtrValue(watson_grass_given_rain_probability))
 ```
 
 Wet Grass sample:
@@ -123,22 +123,8 @@ holmes_grass_given_sprinkler_rain.set_value(key_probability(),
                                             PtrValue(holmes_grass_given_sprinkler_rain_probability))
 ```
 
-### Posterior probabilities
+# Conditional Probability calculation
 
-Sample:
-
-P(R=true|HG=wet, WG=wet) = P(R=true, HG=wet, WG=wet) / P(HG=wet, WG=wet) 
-  = Sum[S] P(HG=wet, WG=wet, S, R=true) / Sum[S, R] P(HG=wet, WG=wet, S, R)
-
-### Marginal probabilities
-
-Two marginal probabilities should be calculated:
-* Sum[S] P(HG=wet, WG=wet, S, R=true)  
-  HG=wet, WG=wet, and R=true are evidences
-* Sum[S, R] P(HG=wet, WG=wet, S, R)  
-  HG=wet and WG=wet are evidences
-
-# Conditional Probability
 Was there a rain if Holmes's grass is wet?
 
 P(R=true|HG=wet) = P(R=true, HG=wet) / P(HG=wet)
@@ -151,6 +137,9 @@ P(HG=wet)
 = Sum[WG, S, R] P(HG=wet, WG, S, R)  
 = Sum[WG, S, R] (P(HG=wet|S, R) P(WG|Rain) P(S) P(Rain))
 
+
+The goal is to calculate marginalization of joint distribution P(R=true, HG=wet) and P(HG=wet).
+This is what the Belief Propagation algorithm aimed for.
 
 ## Factorization
 
@@ -187,163 +176,61 @@ M(i->f) = [f(V1), f(V2), ... , f(Vn)]
 ![Bayesian Network Factor Tree](images/belief_propagation/factor_tree_message_f_var.png)
 
 
-## Algorithm Steps
+## Run Belief Propagation algorithm
 
-Task solution steps:
-1. Define probability values
-1. Define evidences
-1. Define marginal distributions to calculate
-1. Create a factor tree
-1. Run Belief Propagation algorithm
-
-### Belief Propagation algorithm
-
-#### Factor graph data types
-
-Given the probability predicates the following nodes and links are generated:
-
-* Variable nodes
-* Factor nodes
-* Factor-Variable edge links
-
-![](images/belief_propagation/watson_grass_and_rain_nodes_and_links_values.png)
+Belief Propagation algorithm allows to calculate marginal probabilities for the given evidence variables.
 
 
-Probability predicates:
-```scheme
-; Probabilities
-(EvaluationLink (stv 0.2 1)
- (PredicateNode "probability")
- (AssociativeLink (Concept "Rain") (Concept "true")))
+Create child AtomSpace before `belief_propagation(child_atomspace)` call and delete the child AtomSpace after it.
 
-(EvaluationLink (stv 1.0 1)
- (PredicateNode "probability")
- (ImplicationLink
-  (AssociativeLink (Concept "Rain") (Concept "true" ))
-  (AssociativeLink (Concept "WatsonGrass") (Concept "wet"))))
+Set evidences:
+* For each variable which has evidence it is necessary to set an evidence index
 
+For example:
+```python
+# P(HolmesGrass=wet)
+# HolmesGrass=wet, index=0
+# HolmesGrass=dry, index=1
+holmes_grass.set_value(key_evidence(), PtrValue(0))
 ```
 
-Generated Variable nodes:
-```scheme
-(Concept "Variable-Rain")
-(Concept "Variable-WatsonGrass")
+Run the Belief Propagation algorithm to calculate marginalization:
+```python
+# P(HG=wet, R=true)
+# P(HG=wet, WG, S, R=true)
+# HG=wet, index=0
+# R=true, index=0
+
+child_atomspace = create_child_atomspace()
+holmes_grass.set_value(key_evidence(), PtrValue(0))
+rain.set_value(key_evidence(), PtrValue(0))
+marginalization_dividend = belief_propagation(child_atomspace)
+
+delete_child_atomspace()
 ```
 
-Generated Factor nodes:
-```scheme
-(Concept "Factor-Rain")
-(Concept "Factor-Rain-WatsonGrass")
-```
+## Belief Propagation algorithm
 
-Generated edges:
-```scheme
-(EvaluationLink
- (PredicateNode "graph-edge")
- (ListLink (Concept "Factor-Rain") (Concept "Rain" )))
+### Steps
 
-(EvaluationLink
- (PredicateNode "graph-edge")
- (ListLink (Concept "Factor-Rain-WatsonGrass") (Concept "Rain" )))
+Initialization:
+* Create Factor Graph Variable for each ConceptNode('Name') with conditional probability table
+  * Set name to 'Variable-Name'
+  * If variable has evidence index
+    * Set domain size to 1
+    * Set conditional probability table to only one value
+  * Otherwise
+    * Set domain size
+    * Set conditional probability table
+* Create Factor Graph factor for each ImplicationLink(V1,.., Vn) with conditional probability table
+  * Set name to 'Factor-V1-...-Vn'
+  * Set Factor arguments as names of the provided variables
+  * If a variable has evidence index
+    * Reduce probability table to contain only values for the given evidence index
+  * Otherwise
+    * Set conditional probability table
 
-(EvaluationLink
- (PredicateNode "graph-edge")
- (ListLink (Concept "Factor-Rain-WatsonGrass") (Concept "WatsonGrass" )))
-```
-
-Where graph edge is of the form:
-```text
-EvaluationLink
-  PredicateNode "graph-edge"
-  ListLink Factor Variable
-```
-Edge is always generated from a factor to variable
-
-Each node or link has the following values.
-
-Variable node values:
-* domain list
-
-Factor node values:
-* arguments list
-* probabilities map
-* factor tensor
-
-Edge list values:
-* message from factor to variable
-* message from variable to factor
-
-
-##### Values description
-
-Variable domain list:
-* Each variable V has a domain (v1, ..., vn)
-* If there is an evidence for some variable its domain is reduced only to one value.
-
-For example:  
-Variable "Rain", domain ["true", "false"]  
-Variable "WatsonGrass", domain ["wet", "dry"]
-
-Factor arguments list:
-* Each factor contains sorted list of its arguments
-
-For example:  
-Factor: "Factor-Rain", arguments: ["Rain"]  
-Factor: "Factor-Rain-WatsonGrass", arguments: ["Rain", "WatsonGrass"]
-
-Factor probability map:
-* Each factor has a map from list of arguments to probability
-
-For example:  
-Factor: "Factor-Rain" map: {"Rain=true": 0.2, "Rain=false": 0.8}  
-Factor: "Factor-Rain" map: {"Rain=true|WatsonGrass=wet": 0.9, ... ,"Rain=false|WatsonGrass=dry": 0.7 }
-
-Factor tensor:
-* Each factor has a tensor which consists of the factor applied for all permutations of variables values.
-
-For example:  
-Factor: "Factor-Rain", tensor: [P2(Rain=true), P2(Rain=false)]  
-Factor: "Factor-Rain-WatsonGrass", tensor: [P1(Rain=true,WatsonGrass=wet), ..., P1(Rain=false,WatsonGrass=dry)]
-
-If the factor argument list consists of one variable U the tensor is:
-[F(U=u1), ..., F(U=un)]
-
-If the factor argument list consists of two variable U and V the tensor is:  
-[[F(U=u1, V=v1), ..., F(U=u1, V=vm)]  
- [F(U=un, V=v1), ..., F(U=un, V=vm)]]
-
-If the factor argument list consists of two variable U, V, and W the tensor is:  
-[F(U=ui, V=vj, W=wk)]
-
-Edge messages:
-* Message from a variable to a factor
-* Message from a a factor to a variable
-
-For example:  
-Message from variable "WatsonGrass" to factor "Factor-Rain-WatsonGrass":  
-  [1.0, 1.0]  
-Message from factor "Factor-Rain" to variable "Rain":  
-  [0.8, 0.2]
-
-#### Main algorithm steps
-
-Belief propagation algorithm:
-
-* Initialization (factor graph creation)
-  * For each probability predicate
-    * Generate Variable nodes
-      * Set variable domain
-    * Generate Factor nodes
-      * Set arguments list
-      * Set probabilities map
-      * Set factor tensor
-    * Generate factor-variable edges
-* Main loop until all edges have sent messages
-  * For each node
-    * For each neighbour node
-      * Message sending
-
-Messages sending.
+Message Passing:
 
 Message from variable i to factor f:
 ```text
@@ -375,119 +262,3 @@ If there is no messages from variable i to f:
 Factor value calculation:
 * for the given factor name find factor-argument-list
 * for each variable get its domain
-
-
-#### Simple Grass and Rain sample
-
-Lets take a look at the simplified factor graph there are only Rain and WastsonGrass are present:
-
-Rain: true, false  
-WatsonGrass: wet, dry
-
-P(R)
-
-|true |false |
-|-----|------|
-|  0.2|   0.8|
-
-P(WG|R)
-
-|    R|   wet|       dry|
-|-----|------|----------|
-|true |0.9   |      0.1 |
-|false|0.25  |      0.75|
-
-
-P(WG, R) = P(WG|R) P(R)
-
-![Watson Grass and Rain](images/belief_propagation/watson_grass_and_rain_factor_tree.png)
-
-The task is to calculate a probability of rain given grass is wet:
-
-P(R=true|WG=wet) = P(R=true, WG=wet) / P(WG=wet)
-
-"calculate-probability" predicate is used to define the probability in question.
-```scheme
-(EvaluationLink
- (PredicateNode "calculate-probability")
- (ImplicationLink
-  (AssociativeLink (Concept "Grass") (Concept "wet" ))
-  (AssociativeLink (Concept "Rain") (Concept "rain"))))
-```
-
-The task is split on steps:
-* calculate the belief propagation for the numerator
-* calculate the belief propagation for the denominator
-* divide numerator to denominator
-
-Numerator with the corresponding evidences:
-```scheme
-(EvaluationLink
- (PredicateNode "beief-propagation-probability")
- (AndLink
-  (AssociativeLink (Concept "Grass") (Concept "wet" ))
-  (AssociativeLink (Concept "Rain") (Concept "rain"))))
-
-(EvaluationLink
- (PredicateNode "evidence")
-  (AssociativeLink (Concept "Grass") (Concept "wet")))
-
-(EvaluationLink
- (PredicateNode "evidence")
-  (AssociativeLink (Concept "Rain") (Concept "true")))
-```
-
-Denominator with the corresponding evidences:
-```scheme
-(EvaluationLink
- (PredicateNode "beief-propagation-probability")
-  (AssociativeLink (Concept "Grass") (Concept "wet" )))
-
-(EvaluationLink
- (PredicateNode "evidence")
-  (AssociativeLink (Concept "Grass") (Concept "wet")))
-```
-
-##### Messages
-
-Initial message from variable Watson Grass to factor P2
-```scheme
-(EvaluationLink
- (PredicateNode "graph-message")
- (AndLink
-  (Concept "WatsonGraph")
-  (Concept "P2")
-  (AndLink (Number "1") (Number "1"))))
-```
-
-Initial message from factor P4 to variable Rain
-```scheme
-(EvaluationLink
- (PredicateNode "graph-message")
- (AndLink
-  (Concept "P4")
-  (Concept "Rain")
-  (AndLink (Number "P4(Rain=false)") (Number "P4(Rain=true)"))))
-```
-
-Message from variable Rain to factor P2
-```scheme
-(EvaluationLink
- (PredicateNode "graph-message")
- (AndLink
-  (Concept "Rain")
-  (Concept "P2")
-  (AndLink (Number "1") (Number "1"))))
-```
-
-Message from factor P2 to variable Rain
-```scheme
-(EvaluationLink
- (PredicateNode "graph-message")
- (AndLink
-  (Concept "P2")
-  (Concept "Rain")
-  (AndLink
-   (Number "P2(Rain=false, WatsonGrass=dry) * 1 + P2(Rain=false, WatsonGrass=wet) * 1")
-   (Number "P2(Rain=true, WatsonGrass=dry) * 1 + P2(Rain=true, WatsonGrass=wet) * 1"))))
-```
