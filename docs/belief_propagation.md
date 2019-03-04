@@ -33,18 +33,6 @@ P(HG=wet)
 = Sum[WG, S, R] (P(HG=wet|S, R) P(WG|Rain) P(S) P(Rain))
 
 
-Was there a rain if Holmes's and Watson's grass is wet?
-
-P(R=true|HG=wet, WG=wet) = P(R=true, HG=wet, WG=wet) / P(HG=wet, WG=wet)
-
-P(R=true, HG=wet, WG=wet)  
-= Sum[S] P(HG=wet, WG=wet, S, R=true)  
-= Sum[S] (P(HG=wet|S, R=true) P(WG=wet|Rain=true) P(S) P(Rain=true))
-
-P(HG=wet, WG=wet)  
-= Sum[S, R] P(HG=wet, WG=wet, S, R)  
-= Sum[S, R] (P(HG=wet|S, R) P(WG=wet|Rain) P(S) P(Rain))
-
 ## Factorization
 
 Create a bipartite graph where one set of vertices are functions and another set are variables:
