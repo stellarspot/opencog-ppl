@@ -18,7 +18,7 @@ class BeliefPropagationRainWetGrassTest(BeliefPropagationTest):
         self.holmes_grass = ConceptNode('HolmesGrass')
         self.watson_grass = ConceptNode('WatsonGrass')
         self.watson_grass_given_rain = ImplicationLink(self.rain, self.watson_grass)
-        self.holmes_grass_given_rain_sprinkler = ImplicationLink(ListLink(self.rain, self.sprinkler), self.holmes_grass)
+        self.holmes_grass_given_sprinkler_rain = ImplicationLink(ListLink(self.sprinkler, self.rain), self.holmes_grass)
 
         self.rain_probability = np.array([0.2, 0.8])
         self.rain.set_value(key_probability(), PtrValue(self.rain_probability))
@@ -31,13 +31,13 @@ class BeliefPropagationRainWetGrassTest(BeliefPropagationTest):
              [0.2, 0.8]])
         self.watson_grass_given_rain.set_value(key_probability(), PtrValue(self.watson_grass_given_rain_probability))
 
-        self.holmes_grass_given_rain_sprinkler_probability = np.array(
+        self.holmes_grass_given_sprinkler_rain_probability = np.array(
             [[[1.0, 0.0],
-              [0.1, 0.9]],
+              [0.9, 0.1]],
              [[1.0, 0.0],
               [0.0, 1.0]]])
-        self.holmes_grass_given_rain_sprinkler.set_value(key_probability(),
-                                                         PtrValue(self.holmes_grass_given_rain_sprinkler_probability))
+        self.holmes_grass_given_sprinkler_rain.set_value(key_probability(),
+                                                         PtrValue(self.holmes_grass_given_sprinkler_rain_probability))
 
     def test_rain_wet_grass(self):
         self.init_rain_wet_grass_bayesian_network()
@@ -73,7 +73,6 @@ class BeliefPropagationRainWetGrassTest(BeliefPropagationTest):
         # P(HG=wet)
         # P(HG=wet, WG, S, R)
         # HG=wet, index=0
-
         child_atomspace = self.create_child_atomspace()
         self.holmes_grass.set_value(key_evidence(), PtrValue(0))
         marginalization_divisor = belief_propagation(child_atomspace)
@@ -86,6 +85,12 @@ class BeliefPropagationRainWetGrassTest(BeliefPropagationTest):
         self.check_domain_value(ConceptNode("Variable-WatsonGrass"), 2)
         self.check_domain_value(ConceptNode("Variable-HolmesGrass"), 1)
 
+        # check probability tensors
+        self.check_tensor_value(ConceptNode("Factor-Rain"), self.rain_probability)
+        self.check_tensor_value(ConceptNode("Factor-Sprinkler"), self.sprinkler_probability)
+        self.check_tensor_value(ConceptNode("Factor-Rain-WatsonGrass"), self.watson_grass_given_rain_probability)
+        self.check_tensor_value(ConceptNode("Factor-Sprinkler-Rain-HolmesGrass"), np.array([[[1.0], [0.9]], [[1.0], [0.0]]]))
+
         self.delete_child_atomspace()
 
         # P(HG=wet, R=true)
@@ -96,19 +101,19 @@ class BeliefPropagationRainWetGrassTest(BeliefPropagationTest):
         child_atomspace = self.create_child_atomspace()
         self.holmes_grass.set_value(key_evidence(), PtrValue(0))
         self.rain.set_value(key_evidence(), PtrValue(0))
-        marginalization_divident = belief_propagation(child_atomspace)
+        marginalization_dividend = belief_propagation(child_atomspace)
 
-        print('marginalization divident:', marginalization_divident)
+        print('marginalization dividend:', marginalization_dividend)
 
         # check probability tensors
         self.check_tensor_value(ConceptNode("Factor-Rain"), np.array([0.2]))
         self.check_tensor_value(ConceptNode("Factor-Sprinkler"), self.sprinkler_probability)
         self.check_tensor_value(ConceptNode("Factor-Rain-WatsonGrass"), np.array([1.0, 0.0]))
-        # self.check_tensor_value(ConceptNode("Factor-HolmesGrass-Rain-Sprinkler"), np.array([[1.0, 0.0], [1.0, 0.0]]))
+        self.check_tensor_value(ConceptNode("Factor-Sprinkler-Rain-HolmesGrass"), np.array([[[1.0]], [[1.0]]]))
 
         self.delete_child_atomspace()
 
-        probability_rain_given_holmes_grass = marginalization_divident / marginalization_divisor
+        probability_rain_given_holmes_grass = marginalization_dividend / marginalization_divisor
 
         print('probability rain given Holmes wet grass:', probability_rain_given_holmes_grass)
 

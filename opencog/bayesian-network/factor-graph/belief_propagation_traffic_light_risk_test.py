@@ -27,17 +27,17 @@ class BeliefPropagationTrafficLightRiskTest(BeliefPropagationTest):
         belief_propagation(self.atomspace)
 
         # Check initial messages
-        self.check_message_value("Variable-Risk", "Factor-Risk-TrafficLight", np.array([1, 1]))
+        self.check_message_value("Variable-Risk", "Factor-TrafficLight-Risk", np.array([1, 1]))
         self.check_message_value("Factor-TrafficLight", "Variable-TrafficLight", traffic_light_probability)
 
         # Step 1
-        self.check_message_value("Factor-Risk-TrafficLight", "Variable-TrafficLight", np.array([1, 1, 1]))
-        self.check_message_value("Variable-TrafficLight", "Factor-Risk-TrafficLight", traffic_light_probability)
+        self.check_message_value("Factor-TrafficLight-Risk", "Variable-TrafficLight", np.array([1, 1, 1]))
+        self.check_message_value("Variable-TrafficLight", "Factor-TrafficLight-Risk", traffic_light_probability)
 
         # Step 2
         self.check_message_value("Variable-TrafficLight", "Factor-TrafficLight", np.array([1, 1, 1]))
         msg = np.tensordot(traffic_light_risk_joint_probability, traffic_light_probability, axes=(0, 0))
-        self.check_message_value("Factor-Risk-TrafficLight", "Variable-Risk", msg)
+        self.check_message_value("Factor-TrafficLight-Risk", "Variable-Risk", msg)
 
     def test_traffic_light_given_risk(self):
         print('Test: Traffic Light and Risk given Risk')

@@ -72,13 +72,11 @@ def get_variable_node(v):
 def get_factor_node(variables):
     """
     Returns Factor node in factor graph.
-    The name of the factor node consists of the 'Factor-' prefix and sorted list of the given variable names.
 
     :param variables: list of arguments the factor depends on
     :return: factor node in factor graph
     """
     names = [v.name for v in variables]
-    names.sort()
     name = 'Factor-' + '-'.join(names)
     return ConceptNode(name)
 
