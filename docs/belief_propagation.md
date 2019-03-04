@@ -18,18 +18,32 @@ R - there was a rain
 
 ![Bayesian Network](images/belief_propagation/holmes_grass_bayesian_network.png)
 
-P(HG, WG, S, R) = P(HG|S,R) P(WG|R)  P(S) * P(R)
+P(HG, WG, S, R) = P(HG|S,R) P(WG|R) P(S) P(R)
 
 Was there a rain if Holmes's grass is wet?
 
 P(R=true|HG=wet) = P(R=true, HG=wet) / P(HG=wet)
-  = Sum[S, WG] P(HG=wet, WG, S, R=true) / Sum[WG, S, R] P(HG=wet, WG, S, R)
+
+P(R=true, HG=wet)  
+= Sum[S, WG] P(HG=wet, WG, S, R=true) /  
+= Sum[S, WG] (P(HG=wet|S, R=true) P(WG|Rain=true) P(S) P(Rain=true))
+
+P(HG=wet)  
+= Sum[WG, S, R] P(HG=wet, WG, S, R)  
+= Sum[WG, S, R] (P(HG=wet|S, R) P(WG|Rain) P(S) P(Rain))
 
 
 Was there a rain if Holmes's and Watson's grass is wet?
 
 P(R=true|HG=wet, WG=wet) = P(R=true, HG=wet, WG=wet) / P(HG=wet, WG=wet)
-  = Sum[S] P(HG=wet, WG=wet, S, R=true) / Sum[S, R] P(HG=wet, WG=wet, S, R)
+
+P(R=true, HG=wet, WG=wet)  
+= Sum[S] P(HG=wet, WG=wet, S, R=true)  
+= Sum[S] (P(HG=wet|S, R=true) P(WG=wet|Rain=true) P(S) P(Rain=true))
+
+P(HG=wet, WG=wet)  
+= Sum[S, R] P(HG=wet, WG=wet, S, R)  
+= Sum[S, R] (P(HG=wet|S, R) P(WG=wet|Rain) P(S) P(Rain))
 
 ## Factorization
 
