@@ -66,7 +66,7 @@ P(HG=wet)
 = Sum[WG, S, R] (P(HG=wet|S,R) P(WG|R) P(S) P(R))    
 = Sum[R] P(R) (Sum[WG] P(WG|R)) (Sum[S] P(HG=wet|S,R) P(S))  
 = 0.2 (1 + 0) (1 * 0.1 + 1 * 0.9) + 0.8 (0.2 + 0.8) (0.9 * 0.1 + 0 * 0.9)  
-= 0.4 + 0.072 = 0.472
+= 0.2 + 0.072 = 0.272
 
 Was there a rain if Holmes's and Watson's grass is wet?
 

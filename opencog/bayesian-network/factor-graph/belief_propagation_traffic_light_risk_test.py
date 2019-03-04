@@ -72,12 +72,12 @@ class BeliefPropagationTrafficLightRiskTest(BeliefPropagationTest):
         traffic_light.set_value(key_evidence(), PtrValue(1))
         risk.set_value(key_evidence(), PtrValue(0))
         child_atomspace = self.create_child_atomspace()
-        marginalization_divident = belief_propagation(child_atomspace)
+        marginalization_dividend = belief_propagation(child_atomspace)
 
         self.delete_child_atomspace()
-        self.assertAlmostEqual(0.1375, marginalization_divident)
+        self.assertAlmostEqual(0.1375, marginalization_dividend)
 
-        probability_risk_given_traffic_light = marginalization_divident / marginalization_divisor
+        probability_risk_given_traffic_light = marginalization_dividend / marginalization_divisor
         self.assertAlmostEqual(0.27, probability_risk_given_traffic_light, 2)
 
 

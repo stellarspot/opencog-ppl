@@ -91,6 +91,8 @@ class BeliefPropagationRainWetGrassTest(BeliefPropagationTest):
         self.check_tensor_value(ConceptNode("Factor-Rain-WatsonGrass"), self.watson_grass_given_rain_probability)
         self.check_tensor_value(ConceptNode("Factor-Sprinkler-Rain-HolmesGrass"), np.array([[[1.0], [0.9]], [[1.0], [0.0]]]))
 
+        self.assertAlmostEqual(0.272, marginalization_divisor)
+
         self.delete_child_atomspace()
 
         # P(HG=wet, R=true)
@@ -111,11 +113,15 @@ class BeliefPropagationRainWetGrassTest(BeliefPropagationTest):
         self.check_tensor_value(ConceptNode("Factor-Rain-WatsonGrass"), np.array([1.0, 0.0]))
         self.check_tensor_value(ConceptNode("Factor-Sprinkler-Rain-HolmesGrass"), np.array([[[1.0]], [[1.0]]]))
 
+        self.assertAlmostEqual(0.2, marginalization_dividend)
+
         self.delete_child_atomspace()
 
         probability_rain_given_holmes_grass = marginalization_dividend / marginalization_divisor
 
         print('probability rain given Holmes wet grass:', probability_rain_given_holmes_grass)
+
+        self.assertAlmostEqual(0.2 / 0.272, probability_rain_given_holmes_grass)
 
 
 if __name__ == '__main__':
