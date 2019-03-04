@@ -133,9 +133,24 @@ P(R=true, HG=wet)
 = Sum[S, WG] P(HG=wet, WG, S, R=true)  
 = Sum[S, WG] (P(HG=wet|S, R=true) P(WG|Rain=true) P(S) P(Rain=true))
 
+P(R=true, HG=wet)  
+= P(R=True) (Sum[WG]  P(WG|R=True) (Sum[S] P(HG=wet|S,R=True) P(S))  
+=  0.2 * ( 1 ) * (1 + 1) = 0.4
+
+
 P(HG=wet)  
 = Sum[WG, S, R] P(HG=wet, WG, S, R)  
 = Sum[WG, S, R] (P(HG=wet|S, R) P(WG|Rain) P(S) P(Rain))
+
+
+P(HG=wet)  
+= Sum[R] P(R) (Sum[WG] P(WG|R)) (Sum[S] P(HG=wet|S,R) P(S))  
+= 0.2 (1 + 0) (1 * 0.1 + 1 * 0.9) + 0.8 (0.2 + 0.8) (0.9 * 0.1 + 0 * 0.9)  
+= 0.2 + 0.072 = 0.272
+
+P(R=true|HG=wet)  
+= P(R=true, HG=wet) / P(HG=wet)  
+=  0.2 / 0.272 = 0.735
 
 
 The goal is to calculate marginalization of joint distribution P(R=true, HG=wet) and P(HG=wet).
