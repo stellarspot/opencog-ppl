@@ -25,6 +25,31 @@ class BeliefPropagationAlgorithmTest(BeliefPropagationTest):
         probability = VariableProbability(["a", "b", "c"], {"a": 0.7, "c": 0.2})
         self.check_probability(probability, ["a", "b", "c"], [0.7, 0.1, 0.2])
 
+    def test_probability_with_evidence(self):
+        probability = VariableProbability(["a", "b"], {"a": 0.2, "b": 0.8}, evidence="a")
+        self.check_probability(probability, ["a"], [0.2], "a", 0)
+
+        probability = VariableProbability(["a", "b"], {"a": 0.2, "b": 0.8}, evidence="b")
+        self.check_probability(probability, ["b"], [0.8], "b", 1)
+
+        probability = VariableProbability(["a", "b"], {"a": 0.2}, evidence="a")
+        self.check_probability(probability, ["a"], [0.2], "a", 0)
+
+        probability = VariableProbability(["a", "b"], {"b": 0.8}, evidence="a")
+        self.check_probability(probability, ["a"], [0.2], "a", 0)
+
+        probability = VariableProbability(["a", "b"], {"a": 0.2}, evidence="b")
+        self.check_probability(probability, ["b"], [0.8], "b", 1)
+
+        probability = VariableProbability(["a", "b"], {"b": 0.8}, evidence="b")
+        self.check_probability(probability, ["b"], [0.8], "b", 1)
+
+        probability = VariableProbability(["a", "b", "c"], {"a": 0.1, "b": 0.2}, evidence="c")
+        self.check_probability(probability, ["c"], [0.7], "c", 2)
+
+        probability = VariableProbability(["a", "b", "c"], {"b": 0.1, "c": 0.2}, evidence="c")
+        self.check_probability(probability, ["c"], [0.2], "c", 2)
+
     def test_init_factor_graph_implication_link_rule(self):
         a = ConceptNode("A")
         b = ConceptNode("B")

@@ -21,17 +21,27 @@ class VariableProbability:
 
     def __init_probability_tensor(self):
 
+        self.evidence_index = None
         # Evidence is provided
         if self.evidence:
             value = self.probability.get(self.evidence)
             if not value:
                 sum = 0.0
-                for name in self.__domain:
+                for index, name in enumerate(self.__domain):
                     v = self.probability.get(name)
-                    if not v and name != self.evidence:
-                        assert False, "More than one probability value is skipped!"
-                    sum += v
+                    if v is None:
+                        if name != self.evidence:
+                            assert False, "More than one probability value is skipped!"
+                    else:
+                        sum += v
+
+                    if name == self.evidence:
+                        self.evidence_index = index
+
                 value = 1.0 - sum
+
+            if not self.evidence_index:
+                self.evidence_index = self.__domain.index(self.evidence)
 
             self.domain = [self.evidence]
             self.tensor = np.array([value])
