@@ -12,43 +12,57 @@ import numpy as np
 
 class BeliefPropagationAlgorithmTest(BeliefPropagationTest):
 
-    def test_probability(self):
-        probability = VariableProbability(["a", "b"], {"a": 0.2, "b": 0.8})
-        self.check_probability(probability, ["a", "b"], [0.2, 0.8])
+    def test_variable_probability(self):
+        probability = VariableProbability([0.2, 0.8])
+        self.check_variable_probability(probability, 2, [0.2, 0.8])
 
-        probability = VariableProbability(["a", "b"], {"a": 0.2})
-        self.check_probability(probability, ["a", "b"], [0.2, 0.8])
+        probability = VariableProbability([0.2, 0.3, 0.5])
+        self.check_variable_probability(probability, 3, [0.2, 0.3, 0.5])
 
-        probability = VariableProbability(["a", "b"], {"b": 0.7})
-        self.check_probability(probability, ["a", "b"], [0.3, 0.7])
+    def test_declarative_variable_probability(self):
+        probability = DeclarativeVariableProbability(["a", "b"], {"a": 0.2, "b": 0.8})
+        self.check_declarative_variable_probability(probability, ["a", "b"], [0.2, 0.8])
 
-        probability = VariableProbability(["a", "b", "c"], {"a": 0.7, "c": 0.2})
-        self.check_probability(probability, ["a", "b", "c"], [0.7, 0.1, 0.2])
+        probability = DeclarativeVariableProbability(["a", "b"], {"a": 0.2})
+        self.check_declarative_variable_probability(probability, ["a", "b"], [0.2, 0.8])
 
-    def test_probability_with_evidence(self):
-        probability = VariableProbability(["a", "b"], {"a": 0.2, "b": 0.8}, evidence="a")
-        self.check_probability(probability, ["a"], [0.2], "a", 0)
+        probability = DeclarativeVariableProbability(["a", "b"], {"b": 0.7})
+        self.check_declarative_variable_probability(probability, ["a", "b"], [0.3, 0.7])
 
-        probability = VariableProbability(["a", "b"], {"a": 0.2, "b": 0.8}, evidence="b")
-        self.check_probability(probability, ["b"], [0.8], "b", 1)
+        probability = DeclarativeVariableProbability(["a", "b", "c"], {"a": 0.7, "c": 0.2})
+        self.check_declarative_variable_probability(probability, ["a", "b", "c"], [0.7, 0.1, 0.2])
 
-        probability = VariableProbability(["a", "b"], {"a": 0.2}, evidence="a")
-        self.check_probability(probability, ["a"], [0.2], "a", 0)
+    def test_declarative_variable_probability_with_evidence(self):
+        probability = DeclarativeVariableProbability(["a", "b"], {"a": 0.2, "b": 0.8}, evidence="a")
+        self.check_declarative_variable_probability(probability, ["a"], [0.2], "a", 0)
 
-        probability = VariableProbability(["a", "b"], {"b": 0.8}, evidence="a")
-        self.check_probability(probability, ["a"], [0.2], "a", 0)
+        probability = DeclarativeVariableProbability(["a", "b"], {"a": 0.2, "b": 0.8}, evidence="b")
+        self.check_declarative_variable_probability(probability, ["b"], [0.8], "b", 1)
 
-        probability = VariableProbability(["a", "b"], {"a": 0.2}, evidence="b")
-        self.check_probability(probability, ["b"], [0.8], "b", 1)
+        probability = DeclarativeVariableProbability(["a", "b"], {"a": 0.2}, evidence="a")
+        self.check_declarative_variable_probability(probability, ["a"], [0.2], "a", 0)
 
-        probability = VariableProbability(["a", "b"], {"b": 0.8}, evidence="b")
-        self.check_probability(probability, ["b"], [0.8], "b", 1)
+        probability = DeclarativeVariableProbability(["a", "b"], {"b": 0.8}, evidence="a")
+        self.check_declarative_variable_probability(probability, ["a"], [0.2], "a", 0)
 
-        probability = VariableProbability(["a", "b", "c"], {"a": 0.1, "b": 0.2}, evidence="c")
-        self.check_probability(probability, ["c"], [0.7], "c", 2)
+        probability = DeclarativeVariableProbability(["a", "b"], {"a": 0.2}, evidence="b")
+        self.check_declarative_variable_probability(probability, ["b"], [0.8], "b", 1)
 
-        probability = VariableProbability(["a", "b", "c"], {"b": 0.1, "c": 0.2}, evidence="c")
-        self.check_probability(probability, ["c"], [0.2], "c", 2)
+        probability = DeclarativeVariableProbability(["a", "b"], {"b": 0.8}, evidence="b")
+        self.check_declarative_variable_probability(probability, ["b"], [0.8], "b", 1)
+
+        probability = DeclarativeVariableProbability(["a", "b", "c"], {"a": 0.1, "b": 0.2}, evidence="c")
+        self.check_declarative_variable_probability(probability, ["c"], [0.7], "c", 2)
+
+        probability = DeclarativeVariableProbability(["a", "b", "c"], {"b": 0.1, "c": 0.2}, evidence="c")
+        self.check_declarative_variable_probability(probability, ["c"], [0.2], "c", 2)
+
+    def test_conditional_probability_table(self):
+        cpt = ConditionalProbabilityTable(
+            {(("A", "a1"), ("B", "b1")): 0.2, (("A", "a1"), ("B", "b2")): 0.8,
+             (("A", "a2"), ("B", "b1")): 0.3, (("A", "a2"), ("B", "b2")): 0.7})
+
+        # self.check_declarative_variable_probability(probability, ["a"], [0.2], "a", 0)
 
     def test_init_factor_graph_implication_link_rule(self):
         a = ConceptNode("A")

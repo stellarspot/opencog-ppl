@@ -10,6 +10,32 @@ TV_FALSE = TruthValue(0.0, 0.0)
 
 
 class VariableProbability:
+    def __init__(self, probability, evidence_index=None):
+        self.probability = probability
+        self.evidence_index = evidence_index
+        self.domain_size = None
+
+        self.__init_probability_tensor()
+
+    def __init_probability_tensor(self):
+        self.probability_tensor = np.array(self.probability)
+        self.domain_size = self.probability_tensor.shape[0]
+
+    def get_probability(self):
+        return self.probability
+
+    def get_evidence_index(self):
+        return self.evidence_index
+
+    def set_evidence_index(self, evidence_index):
+        self.evidence_index = evidence_index
+        self.__init_probability_tensor()
+
+    def get_probability_tensor(self):
+        return self.probability_tensor
+
+
+class DeclarativeVariableProbability:
     def __init__(self, domain, probability, evidence=None):
         self.domain = None
         self.probability = probability
@@ -71,6 +97,11 @@ class VariableProbability:
 
     def get_probability_tensor(self):
         return self.tensor
+
+
+class ConditionalProbabilityTable:
+    def __init__(self, table):
+        pass
 
 
 # Keys
@@ -248,7 +279,7 @@ def set_variable_domain(variable, v, joint_table_atom, index):
     if not current_domain_value:
         variable.set_value(key_domain(), PtrValue(domain))
     else:
-        assert current_domain_value.value() == domain, "Teh variable domain should be consistent " \
+        assert current_domain_value.value() == domain, "The variable domain should be consistent " \
                                                        "with already present domain"
 
 

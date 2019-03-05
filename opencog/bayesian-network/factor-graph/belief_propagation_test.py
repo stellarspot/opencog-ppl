@@ -72,7 +72,15 @@ class BeliefPropagationTest(unittest.TestCase):
             print("result   message:", message_value.value())
         self.assertTrue(close)
 
-    def check_probability(self, probability, domain, tensor, evidence=None, evidence_index=None):
+    def check_variable_probability(self, probability, domain_size, tensor, evidence_index=None):
+
+        # self.assertEqual(domain, probability.get_domain())
+        # self.assertEqual(evidence, probability.evidence)
+        self.assertEqual(domain_size, probability.domain_size)
+        self.assertEqual(evidence_index, probability.evidence_index)
+        self.check_tensors_equal(np.array(tensor), probability.get_probability_tensor())
+
+    def check_declarative_variable_probability(self, probability, domain, tensor, evidence=None, evidence_index=None):
 
         self.assertEqual(domain, probability.get_domain())
         self.assertEqual(evidence, probability.evidence)
