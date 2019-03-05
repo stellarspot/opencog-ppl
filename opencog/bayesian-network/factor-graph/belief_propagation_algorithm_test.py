@@ -12,6 +12,19 @@ import numpy as np
 
 class BeliefPropagationAlgorithmTest(BeliefPropagationTest):
 
+    def test_probability(self):
+        probability = VariableProbability(["a", "b"], {"a": 0.2, "b": 0.8})
+        self.check_probability(probability, ["a", "b"], [0.2, 0.8])
+
+        probability = VariableProbability(["a", "b"], {"a": 0.2})
+        self.check_probability(probability, ["a", "b"], [0.2, 0.8])
+
+        probability = VariableProbability(["a", "b"], {"b": 0.7})
+        self.check_probability(probability, ["a", "b"], [0.3, 0.7])
+
+        probability = VariableProbability(["a", "b", "c"], {"a": 0.7, "c": 0.2})
+        self.check_probability(probability, ["a", "b", "c"], [0.7, 0.1, 0.2])
+
     def test_init_factor_graph_implication_link_rule(self):
         a = ConceptNode("A")
         b = ConceptNode("B")

@@ -9,6 +9,60 @@ TV_TRUE = TruthValue(1.0, 1.0)
 TV_FALSE = TruthValue(0.0, 0.0)
 
 
+class VariableProbability:
+    def __init__(self, domain, probability, evidence=None):
+        self.domain = None
+        self.probability = probability
+        self.evidence = evidence
+        self.evidence_index = None
+
+        self.__domain = domain
+        self.__init_probability_tensor()
+
+    def __init_probability_tensor(self):
+
+        # Evidence is provided
+        if self.evidence:
+            value = self.probability.get(self.evidence)
+            if not value:
+                sum = 0.0
+                for name in self.__domain:
+                    v = self.probability.get(name)
+                    if not v and name != self.evidence:
+                        assert False, "More than one probability value is skipped!"
+                    sum += v
+                value = 1.0 - sum
+
+            self.domain = [self.evidence]
+            self.tensor = np.array([value])
+            return
+
+        # Evidence is not provided
+
+        self.domain = self.__domain
+        self.tensor = np.empty([len(self.domain)])
+
+        sum = 0.0
+        skipped_index = None
+        for index, name in enumerate(self.domain):
+            value = self.probability.get(name)
+            if value:
+                sum += value
+                self.tensor[index] = value
+            else:
+                assert not skipped_index, "More than one probability value is skipped!"
+                skipped_index = index
+
+        if skipped_index is not None:
+            self.tensor[skipped_index] = 1 - sum
+
+    def get_domain(self):
+        return self.domain
+
+    def get_probability_tensor(self):
+        return self.tensor
+
+
 # Keys
 
 def key_factor():
@@ -276,7 +330,6 @@ def calculate_marginals(internal_atomspace):
         variables = execute_atom(internal_atomspace, variables_link)
 
         for variable in variables.get_out():
-
             # Multiply one in and one out message for each
             message_variable_factor = get_message_predicate(variable, factor)
             message_factor_variable = get_message_predicate(factor, variable)

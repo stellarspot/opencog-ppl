@@ -52,6 +52,16 @@ class BeliefPropagationTest(unittest.TestCase):
 
         self.assertTrue(close)
 
+    def check_tensors_equal(self, tensor1, tensor2):
+        close = np.allclose(tensor1, tensor2)
+        if not close:
+            print('expected tensor:')
+            print(tensor1)
+            print('result   tensor:')
+            print(tensor2)
+
+        self.assertTrue(close)
+
     def check_message_value(self, a, b, message_array):
         message = get_message_predicate(ConceptNode(a), ConceptNode(b))
         message_value = message.get_value(key_message())
@@ -61,3 +71,10 @@ class BeliefPropagationTest(unittest.TestCase):
             print("expected message:", message)
             print("result   message:", message_value.value())
         self.assertTrue(close)
+
+    def check_probability(self, probability, domain, tensor, evidence=None, evidence_index=None):
+
+        self.assertEqual(domain, probability.get_domain())
+        self.assertEqual(evidence, probability.evidence)
+        self.assertEqual(evidence_index, probability.evidence_index)
+        self.check_tensors_equal(np.array(tensor), probability.get_probability_tensor())
