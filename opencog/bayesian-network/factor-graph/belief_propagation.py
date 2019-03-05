@@ -18,8 +18,13 @@ class VariableProbability:
         self.__init_probability_tensor()
 
     def __init_probability_tensor(self):
-        self.probability_tensor = np.array(self.probability)
-        self.domain_size = self.probability_tensor.shape[0]
+
+        if self.evidence_index is not None:
+            self.probability_tensor = np.array(self.probability[self.evidence_index])
+            self.domain_size = 1
+        else:
+            self.probability_tensor = np.array(self.probability)
+            self.domain_size = self.probability_tensor.shape[0]
 
     def get_probability(self):
         return self.probability

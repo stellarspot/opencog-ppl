@@ -19,6 +19,16 @@ class BeliefPropagationAlgorithmTest(BeliefPropagationTest):
         probability = VariableProbability([0.2, 0.3, 0.5])
         self.check_variable_probability(probability, 3, [0.2, 0.3, 0.5])
 
+    def test_variable_probability_with_evidence(self):
+        probability = VariableProbability([0.2, 0.8], 0)
+        self.check_variable_probability(probability, 1, [0.2], 0)
+
+        probability = VariableProbability([0.2, 0.8], 1)
+        self.check_variable_probability(probability, 1, [0.8], 1)
+
+        probability = VariableProbability([0.2, 0.3, 0.5], 1)
+        self.check_variable_probability(probability, 1, [0.3], 1)
+
     def test_declarative_variable_probability(self):
         probability = DeclarativeVariableProbability(["a", "b"], {"a": 0.2, "b": 0.8})
         self.check_declarative_variable_probability(probability, ["a", "b"], [0.2, 0.8])
