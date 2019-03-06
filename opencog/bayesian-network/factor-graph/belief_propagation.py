@@ -17,6 +17,31 @@ class Probability:
         return np.array(self.probability)
 
 
+class VariableProbability:
+    def __init__(self, domain, probability):
+        self.domain = domain
+        self.probability = probability
+
+        self.tensor = np.empty([len(self.domain)])
+
+        sum = 0.0
+        skipped_index = None
+        for index, name in enumerate(self.domain):
+            value = self.probability.get(name)
+            if value:
+                sum += value
+                self.tensor[index] = value
+            else:
+                assert not skipped_index, "More than one probability value is skipped!"
+                skipped_index = index
+
+        if skipped_index is not None:
+            self.tensor[skipped_index] = 1 - sum
+
+    def get_probability_tensor(self):
+        return self.tensor
+
+
 def get_evidence_index(variable):
     evidence_value = variable.get_value(key_evidence())
 

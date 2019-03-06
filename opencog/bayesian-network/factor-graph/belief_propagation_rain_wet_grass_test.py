@@ -21,10 +21,12 @@ class BeliefPropagationRainWetGrassTest(BeliefPropagationTest):
         self.holmes_grass_given_sprinkler_rain = ImplicationLink(ListLink(self.sprinkler, self.rain), self.holmes_grass)
 
         self.rain_probability = [0.2, 0.8]
-        self.rain.set_value(key_probability(), PtrValue(Probability(self.rain_probability)))
+        self.rain.set_value(key_probability(), PtrValue(VariableProbability(["true", "false"],
+                                                                            {"true": 0.2})))
 
         self.sprinkler_probability = np.array([0.1, 0.9])
-        self.sprinkler.set_value(key_probability(), PtrValue(Probability(self.sprinkler_probability)))
+        self.sprinkler.set_value(key_probability(), PtrValue(VariableProbability(["switch-on", "switch-off"],
+                                                                                 {"switch-on": 0.1})))
 
         self.watson_grass_given_rain_probability = [[1.0, 0.0],
                                                     [0.2, 0.8]]
