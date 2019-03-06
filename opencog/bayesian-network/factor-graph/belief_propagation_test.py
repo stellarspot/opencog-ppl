@@ -68,7 +68,7 @@ class BeliefPropagationTest(unittest.TestCase):
         assert message_value, "Message value is not set!"
         close = np.allclose(message_array, message_value.value())
         if not close:
-            print("expected message:", message)
+            print("expected message:", message_array)
             print("result   message:", message_value.value())
         self.assertTrue(close)
 

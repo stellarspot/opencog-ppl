@@ -9,104 +9,22 @@ TV_TRUE = TruthValue(1.0, 1.0)
 TV_FALSE = TruthValue(0.0, 0.0)
 
 
-class VariableProbability:
-    def __init__(self, probability, evidence_index=None):
+class Probability:
+    def __init__(self, probability):
         self.probability = probability
-        self.evidence_index = evidence_index
-        self.domain_size = None
-
-        self.__init_probability_tensor()
-
-    def __init_probability_tensor(self):
-
-        if self.evidence_index is not None:
-            self.probability_tensor = np.array(self.probability[self.evidence_index])
-            self.domain_size = 1
-        else:
-            self.probability_tensor = np.array(self.probability)
-            self.domain_size = self.probability_tensor.shape[0]
-
-    def get_probability(self):
-        return self.probability
-
-    def get_evidence_index(self):
-        return self.evidence_index
-
-    def set_evidence_index(self, evidence_index):
-        self.evidence_index = evidence_index
-        self.__init_probability_tensor()
 
     def get_probability_tensor(self):
-        return self.probability_tensor
+        return np.array(self.probability)
 
 
-class DeclarativeVariableProbability:
-    def __init__(self, domain, probability, evidence=None):
-        self.domain = None
-        self.probability = probability
-        self.evidence = evidence
-        self.evidence_index = None
+def get_evidence_index(variable):
+    evidence_value = variable.get_value(key_evidence())
 
-        self.__domain = domain
-        self.__init_probability_tensor()
+    if evidence_value is None:
+        return None
 
-    def __init_probability_tensor(self):
-
-        self.evidence_index = None
-        # Evidence is provided
-        if self.evidence:
-            value = self.probability.get(self.evidence)
-            if not value:
-                sum = 0.0
-                for index, name in enumerate(self.__domain):
-                    v = self.probability.get(name)
-                    if v is None:
-                        if name != self.evidence:
-                            assert False, "More than one probability value is skipped!"
-                    else:
-                        sum += v
-
-                    if name == self.evidence:
-                        self.evidence_index = index
-
-                value = 1.0 - sum
-
-            if not self.evidence_index:
-                self.evidence_index = self.__domain.index(self.evidence)
-
-            self.domain = [self.evidence]
-            self.tensor = np.array([value])
-            return
-
-        # Evidence is not provided
-
-        self.domain = self.__domain
-        self.tensor = np.empty([len(self.domain)])
-
-        sum = 0.0
-        skipped_index = None
-        for index, name in enumerate(self.domain):
-            value = self.probability.get(name)
-            if value:
-                sum += value
-                self.tensor[index] = value
-            else:
-                assert not skipped_index, "More than one probability value is skipped!"
-                skipped_index = index
-
-        if skipped_index is not None:
-            self.tensor[skipped_index] = 1 - sum
-
-    def get_domain(self):
-        return self.domain
-
-    def get_probability_tensor(self):
-        return self.tensor
-
-
-class ConditionalProbabilityTable:
-    def __init__(self, table):
-        pass
+    evidence = evidence_value.value()
+    return evidence
 
 
 # Keys
@@ -268,15 +186,16 @@ def set_variable_domain(variable, v, joint_table_atom, index):
     :param joint_table_atom: atom which contains joint probability table value
     :param index: position of the given variable in the joint probability table
     """
-    tensor_value = joint_table_atom.get_value(key_probability())
-    assert tensor_value, "Probability must be set for atom: " + str(joint_table_atom)
-    tensor = tensor_value.value()
+    probability_value = joint_table_atom.get_value(key_probability())
+    assert probability_value, "Probability must be set for atom: " + str(joint_table_atom)
+    variable_probability = probability_value.value()
+    tensor = variable_probability.get_probability_tensor()
 
-    evidence_index_value = v.get_value(key_evidence())
-    if evidence_index_value:
-        domain = 1
-    else:
+    evidence_index_value = get_evidence_index(v)
+    if evidence_index_value is None:
         domain = tensor.shape[index]
+    else:
+        domain = 1
 
     # print("variable:", variable.name, "domain:", domain)
 
@@ -305,7 +224,7 @@ def set_factor_tensor(factor, variables, joint_table_atom):
     tensor_value = joint_table_atom.get_value(key_probability())
     assert tensor_value, "Probability must be set for atom: " + str(joint_table_atom)
 
-    tensor = tensor_value.value()
+    tensor = tensor_value.value().get_probability_tensor()
 
     for index, v in enumerate(variables):
         evidence_index_value = v.get_value(key_evidence())

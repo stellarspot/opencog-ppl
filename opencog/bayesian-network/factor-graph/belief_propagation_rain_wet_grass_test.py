@@ -20,24 +20,24 @@ class BeliefPropagationRainWetGrassTest(BeliefPropagationTest):
         self.watson_grass_given_rain = ImplicationLink(self.rain, self.watson_grass)
         self.holmes_grass_given_sprinkler_rain = ImplicationLink(ListLink(self.sprinkler, self.rain), self.holmes_grass)
 
-        self.rain_probability = np.array([0.2, 0.8])
-        self.rain.set_value(key_probability(), PtrValue(self.rain_probability))
+        self.rain_probability = [0.2, 0.8]
+        self.rain.set_value(key_probability(), PtrValue(Probability(self.rain_probability)))
 
         self.sprinkler_probability = np.array([0.1, 0.9])
-        self.sprinkler.set_value(key_probability(), PtrValue(self.sprinkler_probability))
+        self.sprinkler.set_value(key_probability(), PtrValue(Probability(self.sprinkler_probability)))
 
-        self.watson_grass_given_rain_probability = np.array(
-            [[1.0, 0.0],
-             [0.2, 0.8]])
-        self.watson_grass_given_rain.set_value(key_probability(), PtrValue(self.watson_grass_given_rain_probability))
+        self.watson_grass_given_rain_probability = [[1.0, 0.0],
+                                                    [0.2, 0.8]]
+        self.watson_grass_given_rain.set_value(key_probability(),
+                                               PtrValue(Probability(self.watson_grass_given_rain_probability)))
 
-        self.holmes_grass_given_sprinkler_rain_probability = np.array(
-            [[[1.0, 0.0],
-              [0.9, 0.1]],
-             [[1.0, 0.0],
-              [0.0, 1.0]]])
-        self.holmes_grass_given_sprinkler_rain.set_value(key_probability(),
-                                                         PtrValue(self.holmes_grass_given_sprinkler_rain_probability))
+        self.holmes_grass_given_sprinkler_rain_probability = [[[1.0, 0.0],
+                                                               [0.9, 0.1]],
+                                                              [[1.0, 0.0],
+                                                               [0.0, 1.0]]]
+        self.holmes_grass_given_sprinkler_rain.set_value(
+            key_probability(),
+            PtrValue(Probability(self.holmes_grass_given_sprinkler_rain_probability)))
 
     def test_rain_wet_grass(self):
         self.init_rain_wet_grass_bayesian_network()
@@ -89,7 +89,8 @@ class BeliefPropagationRainWetGrassTest(BeliefPropagationTest):
         self.check_tensor_value(ConceptNode("Factor-Rain"), self.rain_probability)
         self.check_tensor_value(ConceptNode("Factor-Sprinkler"), self.sprinkler_probability)
         self.check_tensor_value(ConceptNode("Factor-Rain-WatsonGrass"), self.watson_grass_given_rain_probability)
-        self.check_tensor_value(ConceptNode("Factor-Sprinkler-Rain-HolmesGrass"), np.array([[[1.0], [0.9]], [[1.0], [0.0]]]))
+        self.check_tensor_value(ConceptNode("Factor-Sprinkler-Rain-HolmesGrass"),
+                                np.array([[[1.0], [0.9]], [[1.0], [0.0]]]))
 
         self.assertAlmostEqual(0.272, marginalization_divisor)
 

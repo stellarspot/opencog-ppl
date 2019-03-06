@@ -11,53 +11,49 @@ import numpy as np
 
 class BeliefPropagationTrafficLightRiskTest(BeliefPropagationTest):
 
-    def test_traffic_light(self):
-        print('Test: Traffic Light and Risk')
-        traffic_light = ConceptNode('TrafficLight')
-        risk = ConceptNode('Risk')
-        risk_given_traffic_light = ImplicationLink(traffic_light, risk)
+    def init_traffic_light(self):
+        self.traffic_light = ConceptNode('TrafficLight')
+        self.risk = ConceptNode('Risk')
+        self.risk_given_traffic_light = ImplicationLink(self.traffic_light, self.risk)
 
         # [Green, Yellow, Red]
-        traffic_light_probability = np.array([0.4, 0.25, 0.35])
-        traffic_light_risk_joint_probability = np.array([[0.1, 0.9], [0.55, 0.45], [0.95, 0.05]])
+        self.traffic_light_probability = [0.4, 0.25, 0.35]
+        self.traffic_light_risk_joint_probability = [[0.1, 0.9], [0.55, 0.45], [0.95, 0.05]]
 
-        traffic_light.set_value(key_probability(), PtrValue(traffic_light_probability))
-        risk_given_traffic_light.set_value(key_probability(), PtrValue(traffic_light_risk_joint_probability))
+        self.traffic_light.set_value(key_probability(), PtrValue(Probability(self.traffic_light_probability)))
+        self.risk_given_traffic_light.set_value(key_probability(),
+                                                PtrValue(Probability(self.traffic_light_risk_joint_probability)))
 
-        belief_propagation(self.atomspace)
+    def test_traffic_light(self):
+        print('Test: Traffic Light and Risk')
+
+        self.init_traffic_light()
+
+        child_atomspace = self.create_child_atomspace()
+        belief_propagation(child_atomspace)
 
         # Check initial messages
         self.check_message_value("Variable-Risk", "Factor-TrafficLight-Risk", np.array([1, 1]))
-        self.check_message_value("Factor-TrafficLight", "Variable-TrafficLight", traffic_light_probability)
+        self.check_message_value("Factor-TrafficLight", "Variable-TrafficLight", self.traffic_light_probability)
 
         # Step 1
         self.check_message_value("Factor-TrafficLight-Risk", "Variable-TrafficLight", np.array([1, 1, 1]))
-        self.check_message_value("Variable-TrafficLight", "Factor-TrafficLight-Risk", traffic_light_probability)
+        self.check_message_value("Variable-TrafficLight", "Factor-TrafficLight-Risk", self.traffic_light_probability)
 
         # Step 2
         self.check_message_value("Variable-TrafficLight", "Factor-TrafficLight", np.array([1, 1, 1]))
-        msg = np.tensordot(traffic_light_risk_joint_probability, traffic_light_probability, axes=(0, 0))
+        msg = np.tensordot(self.traffic_light_risk_joint_probability, self.traffic_light_probability, axes=(0, 0))
         self.check_message_value("Factor-TrafficLight-Risk", "Variable-Risk", msg)
+
+        self.delete_child_atomspace()
 
     def test_traffic_light_given_risk(self):
         print('Test: Traffic Light and Risk given Risk')
-        # [Green, Yellow, Red]
-        traffic_light = ConceptNode('TrafficLight')
-        # [Hi, Low]
-        risk = ConceptNode('Risk')
-        risk_given_traffic_light = ImplicationLink(traffic_light, risk)
 
-        traffic_light_probability = np.array([0.4, 0.25, 0.35])
-        traffic_light_risk_joint_probability = np.array([[0.1, 0.9], [0.55, 0.45], [0.95, 0.05]])
+        self.init_traffic_light()
 
-        traffic_light.set_value(key_probability(), PtrValue(traffic_light_probability))
-        risk_given_traffic_light.set_value(key_probability(), PtrValue(traffic_light_risk_joint_probability))
-
-        # P(R=High)
-        # Marginalization divisor
-        # P(R=High, TL)
-        # R=High, index=0
-        risk.set_value(key_evidence(), PtrValue(0))
+        self.risk.set_value(key_evidence(), PtrValue(0))
+        # self.risk.set_value(key_evidence(), Probability(evidence_index=0))
         child_atomspace = self.create_child_atomspace()
         marginalization_divisor = belief_propagation(child_atomspace)
 
@@ -69,8 +65,8 @@ class BeliefPropagationTrafficLightRiskTest(BeliefPropagationTest):
         # TL=Yellow, index=1
         # R=High, index=0
 
-        traffic_light.set_value(key_evidence(), PtrValue(1))
-        risk.set_value(key_evidence(), PtrValue(0))
+        self.traffic_light.set_value(key_evidence(), PtrValue(1))
+        self.risk.set_value(key_evidence(), PtrValue(0))
         child_atomspace = self.create_child_atomspace()
         marginalization_dividend = belief_propagation(child_atomspace)
 

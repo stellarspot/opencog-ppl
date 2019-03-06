@@ -12,75 +12,13 @@ import numpy as np
 
 class BeliefPropagationAlgorithmTest(BeliefPropagationTest):
 
-    def test_variable_probability(self):
-        probability = VariableProbability([0.2, 0.8])
-        self.check_variable_probability(probability, 2, [0.2, 0.8])
-
-        probability = VariableProbability([0.2, 0.3, 0.5])
-        self.check_variable_probability(probability, 3, [0.2, 0.3, 0.5])
-
-    def test_variable_probability_with_evidence(self):
-        probability = VariableProbability([0.2, 0.8], 0)
-        self.check_variable_probability(probability, 1, [0.2], 0)
-
-        probability = VariableProbability([0.2, 0.8], 1)
-        self.check_variable_probability(probability, 1, [0.8], 1)
-
-        probability = VariableProbability([0.2, 0.3, 0.5], 1)
-        self.check_variable_probability(probability, 1, [0.3], 1)
-
-    def test_declarative_variable_probability(self):
-        probability = DeclarativeVariableProbability(["a", "b"], {"a": 0.2, "b": 0.8})
-        self.check_declarative_variable_probability(probability, ["a", "b"], [0.2, 0.8])
-
-        probability = DeclarativeVariableProbability(["a", "b"], {"a": 0.2})
-        self.check_declarative_variable_probability(probability, ["a", "b"], [0.2, 0.8])
-
-        probability = DeclarativeVariableProbability(["a", "b"], {"b": 0.7})
-        self.check_declarative_variable_probability(probability, ["a", "b"], [0.3, 0.7])
-
-        probability = DeclarativeVariableProbability(["a", "b", "c"], {"a": 0.7, "c": 0.2})
-        self.check_declarative_variable_probability(probability, ["a", "b", "c"], [0.7, 0.1, 0.2])
-
-    def test_declarative_variable_probability_with_evidence(self):
-        probability = DeclarativeVariableProbability(["a", "b"], {"a": 0.2, "b": 0.8}, evidence="a")
-        self.check_declarative_variable_probability(probability, ["a"], [0.2], "a", 0)
-
-        probability = DeclarativeVariableProbability(["a", "b"], {"a": 0.2, "b": 0.8}, evidence="b")
-        self.check_declarative_variable_probability(probability, ["b"], [0.8], "b", 1)
-
-        probability = DeclarativeVariableProbability(["a", "b"], {"a": 0.2}, evidence="a")
-        self.check_declarative_variable_probability(probability, ["a"], [0.2], "a", 0)
-
-        probability = DeclarativeVariableProbability(["a", "b"], {"b": 0.8}, evidence="a")
-        self.check_declarative_variable_probability(probability, ["a"], [0.2], "a", 0)
-
-        probability = DeclarativeVariableProbability(["a", "b"], {"a": 0.2}, evidence="b")
-        self.check_declarative_variable_probability(probability, ["b"], [0.8], "b", 1)
-
-        probability = DeclarativeVariableProbability(["a", "b"], {"b": 0.8}, evidence="b")
-        self.check_declarative_variable_probability(probability, ["b"], [0.8], "b", 1)
-
-        probability = DeclarativeVariableProbability(["a", "b", "c"], {"a": 0.1, "b": 0.2}, evidence="c")
-        self.check_declarative_variable_probability(probability, ["c"], [0.7], "c", 2)
-
-        probability = DeclarativeVariableProbability(["a", "b", "c"], {"b": 0.1, "c": 0.2}, evidence="c")
-        self.check_declarative_variable_probability(probability, ["c"], [0.2], "c", 2)
-
-    def test_conditional_probability_table(self):
-        cpt = ConditionalProbabilityTable(
-            {(("A", "a1"), ("B", "b1")): 0.2, (("A", "a1"), ("B", "b2")): 0.8,
-             (("A", "a2"), ("B", "b1")): 0.3, (("A", "a2"), ("B", "b2")): 0.7})
-
-        # self.check_declarative_variable_probability(probability, ["a"], [0.2], "a", 0)
-
     def test_init_factor_graph_implication_link_rule(self):
         a = ConceptNode("A")
         b = ConceptNode("B")
 
         implication = ImplicationLink(a, b)
-        implication_probability = np.array([[0.9, 0.1], [0.8, 0.2]])
-        implication.set_value(key_probability(), PtrValue(implication_probability))
+        implication_probability = [[0.9, 0.1], [0.8, 0.2]]
+        implication.set_value(key_probability(), PtrValue(Probability(implication_probability)))
 
         child_atomspace = self.create_child_atomspace()
         execute_atom(child_atomspace, init_factor_graph_implication_link_rule())
@@ -101,12 +39,12 @@ class BeliefPropagationAlgorithmTest(BeliefPropagationTest):
 
         implication = ImplicationLink(ListLink(a, b), c)
 
-        self.implication_probability = np.array([[
+        self.implication_probability = [[
             [0.1, 0.2, 0.7],
             [0.2, 0.3, 0.5]
-        ]])
+        ]]
 
-        implication.set_value(key_probability(), PtrValue(self.implication_probability))
+        implication.set_value(key_probability(), PtrValue(Probability(self.implication_probability)))
 
     def test_init_factor_graph_implication_link_product_rule2(self):
         self.init_factor_graph_implication_link_product_rule2()
@@ -171,13 +109,12 @@ class BeliefPropagationAlgorithmTest(BeliefPropagationTest):
         d = ConceptNode("D")
 
         implication = ImplicationLink(ListLink(a, b, c), d)
-        implication_probability = np.array(
-            [[[[0.9, 0.1], [0.8, 0.2]],
-              [[0.7, 0.3], [0.6, 0.4]]],
-             [[[0.9, 0.1], [0.8, 0.2]],
-              [[0.7, 0.3], [0.6, 0.4]]]])
+        implication_probability = [[[[0.9, 0.1], [0.8, 0.2]],
+                                    [[0.7, 0.3], [0.6, 0.4]]],
+                                   [[[0.9, 0.1], [0.8, 0.2]],
+                                    [[0.7, 0.3], [0.6, 0.4]]]]
 
-        implication.set_value(key_probability(), PtrValue(implication_probability))
+        implication.set_value(key_probability(), PtrValue(Probability(implication_probability)))
 
         child_atomspace = self.create_child_atomspace()
         execute_atom(child_atomspace, init_factor_graph_implication_link_product_rule())
