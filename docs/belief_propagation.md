@@ -81,9 +81,8 @@ rain.set_value(key_domain(), PtrValue(["true", "false"]))
 rain.set_value(key_probability(), PtrValue({"true": 0.2}))
 
 # Watson Grass given Rain conditional probability table
-watson_grass_given_rain_probability = np.array(
-    [[1.0, 0.0],
-     [0.2, 0.8]])
+watson_grass_given_rain_probability = [[1.0, 0.0],
+                                       [0.2, 0.8]]
 
 watson_grass_given_rain.set_value(key_probability(), PtrValue(watson_grass_given_rain_probability))
 ```
