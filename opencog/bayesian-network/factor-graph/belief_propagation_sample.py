@@ -4,8 +4,6 @@ from opencog.atomspace import PtrValue
 from opencog.atomspace import create_child_atomspace as create_temp_atomspace
 from belief_propagation import *
 
-import numpy as np
-
 # Initialize AtomSpace
 atomspace = AtomSpace()
 initialize_opencog(atomspace)
@@ -35,25 +33,23 @@ holmes_grass_given_sprinkler_rain = ImplicationLink(ListLink(sprinkler, rain), h
 
 # Define probabilities values
 # Rain a priory probability
-rain_probability = np.array([0.2, 0.8])
-rain.set_value(key_probability(), PtrValue(rain_probability))
+rain.set_value(key_domain(), PtrValue(["true", "false"]))
+rain.set_value(key_probability(), PtrValue({"true": 0.2}))
 
 # Sprinkler a priory probability
-sprinkler_probability = np.array([0.1, 0.9])
-sprinkler.set_value(key_probability(), PtrValue(sprinkler_probability))
+sprinkler.set_value(key_domain(), PtrValue(["switch-on", "switch-off"]))
+sprinkler.set_value(key_probability(), PtrValue({"switch-on": 0.1}))
 
 # Watson Grass given Rain conditional probability table
-watson_grass_given_rain_probability = np.array(
-    [[1.0, 0.0],
-     [0.2, 0.8]])
+watson_grass_given_rain_probability = [[1.0, 0.0],
+                                       [0.2, 0.8]]
 watson_grass_given_rain.set_value(key_probability(), PtrValue(watson_grass_given_rain_probability))
 
 # Holmes Grass given Sprinkler and Rain conditional probability table
-holmes_grass_given_sprinkler_rain_probability = np.array(
-    [[[1.0, 0.0],
-      [0.9, 0.1]],
-     [[1.0, 0.0],
-      [0.0, 1.0]]])
+holmes_grass_given_sprinkler_rain_probability = [[[1.0, 0.0],
+                                                  [0.9, 0.1]],
+                                                 [[1.0, 0.0],
+                                                  [0.0, 1.0]]]
 holmes_grass_given_sprinkler_rain.set_value(key_probability(),
                                             PtrValue(holmes_grass_given_sprinkler_rain_probability))
 
