@@ -9,68 +9,6 @@ TV_TRUE = TruthValue(1.0, 1.0)
 TV_FALSE = TruthValue(0.0, 0.0)
 
 
-def get_evidence_index(variable):
-    evidence_value = variable.get_value(key_evidence())
-
-    if evidence_value is None:
-        return None
-
-    evidence = evidence_value.value()
-
-    if type(evidence) == str:
-        domain_value = variable.get_value(key_domain())
-        if domain_value is not None:
-            domain = domain_value.value()
-            return domain.index(evidence)
-        else:
-            raise Exception("Domain is not set for atom:" + str(variable))
-
-    elif type(evidence) == int:
-        return evidence
-
-    raise Exception("Evidence is not int or string:", evidence)
-
-
-def get_probability_tensor(variable):
-    probability_value = variable.get_value(key_probability())
-
-    if probability_value is None:
-        raise Exception("Probability is not set for atom: " + str(variable))
-
-    probability = probability_value.value()
-
-    if isinstance(probability, list):
-        return np.array(probability)
-
-    if isinstance(probability, dict):
-        domain_value = variable.get_value(key_domain())
-        if domain_value is None:
-            raise Exception("Setting probability by dict requires that domain is set for atom:" + str(variable))
-        domain = domain_value.value()
-        tensor = np.empty([len(domain)])
-
-        sum = 0.0
-        skipped_index = None
-        for index, name in enumerate(domain):
-            value = probability.get(name)
-            if value:
-                sum += value
-                tensor[index] = value
-            else:
-                assert not skipped_index, "More than one probability value is skipped!"
-                skipped_index = index
-
-        if skipped_index is not None:
-            assert sum <= 1
-            tensor[skipped_index] = 1 - sum
-        else:
-            assert sum == 1, "Sum of all probabilities must be 1"
-
-        return tensor
-
-    raise Exception("Unknown probability type: " + str(probability) + ", in atom: " + str(variable))
-
-
 # Keys
 
 def key_factor():
@@ -271,6 +209,89 @@ def set_factor_tensor(factor, variables, joint_table_atom):
 
     # print("factor:", factor.name, "tensor:", tensor)
     factor.set_value(key_tensor(), PtrValue(tensor))
+
+
+def get_evidence_index(variable):
+    """
+    Returns evidence index from the given variable using key evidence.
+    Evidence can be set as int value and has meaning of evidence index
+    or as string value. In later case the domain must be set for the given variable
+    to properly define evidence index.
+
+    :param variable: variable which has evidence set
+    :return: evidence index
+    """
+    evidence_value = variable.get_value(key_evidence())
+
+    if evidence_value is None:
+        return None
+
+    evidence = evidence_value.value()
+
+    if type(evidence) == str:
+        domain_value = variable.get_value(key_domain())
+        if domain_value is not None:
+            domain = domain_value.value()
+            return domain.index(evidence)
+        else:
+            raise Exception("Domain is not set for atom:" + str(variable))
+
+    elif type(evidence) == int:
+        return evidence
+
+    raise Exception("Evidence is not int or string:", evidence)
+
+
+def get_probability_tensor(atom):
+    """
+
+    Returns probability tensor from the given atom using key probability.
+    Evidence can be set as list and has meaning of a priory probability
+    or a conditional probability table, or a map value.
+    In later case probability is set as map of keys and values there key
+    is from the variable domain and value is the probability.
+    In this case one definition of probability value can be omitted.
+
+    :param atom: atom which has probability set
+    :return:
+    """
+    probability_value = atom.get_value(key_probability())
+
+    if probability_value is None:
+        raise Exception("Probability is not set for atom: " + str(atom))
+
+    probability = probability_value.value()
+
+    if isinstance(probability, list):
+        return np.array(probability)
+
+    if isinstance(probability, dict):
+        domain_value = atom.get_value(key_domain())
+        if domain_value is None:
+            raise Exception("Setting probability by dict requires that domain is set for atom:" + str(atom))
+        domain = domain_value.value()
+        tensor = np.empty([len(domain)])
+
+        sum = 0.0
+        skipped_index = None
+        for index, name in enumerate(domain):
+            value = probability.get(name)
+            if value:
+                sum += value
+                tensor[index] = value
+            else:
+                assert not skipped_index, "More than one probability value is skipped!"
+                skipped_index = index
+
+        if skipped_index is not None:
+            assert sum <= 1
+            tensor[skipped_index] = 1 - sum
+        else:
+            assert sum == 1, "Sum of all probabilities must be 1"
+
+        return tensor
+
+    raise Exception("Unknown probability type: " + str(probability) + ", in atom: " + str(atom))
 
 
 def send_message_variable_factor(message, variable, factor, factors):
