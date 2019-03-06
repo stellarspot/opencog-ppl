@@ -22,6 +22,8 @@ def get_evidence_index(variable):
         if domain_value is not None:
             domain = domain_value.value()
             return domain.index(evidence)
+        else:
+            raise Exception("Domain is not set for atom:" + str(variable))
 
     elif type(evidence) == int:
         return evidence

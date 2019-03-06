@@ -55,13 +55,12 @@ holmes_grass_given_sprinkler_rain.set_value(key_probability(),
 
 # P(HG=wet)
 # P(HG=wet, WG, S, R)
-# HG=wet, index=0
+
 child_atomspace = create_child_atomspace()
-holmes_grass.set_value(key_evidence(), PtrValue(0))
+holmes_grass.set_value(key_domain(), PtrValue(["wet", "dry"]))
+holmes_grass.set_value(key_evidence(), PtrValue("wet"))
+
 marginalization_divisor = belief_propagation(child_atomspace)
-
-dump_atomspace(child_atomspace)
-
 delete_child_atomspace()
 
 # P(HG=wet, R=true)
@@ -70,10 +69,10 @@ delete_child_atomspace()
 # R=true, index=0
 
 child_atomspace = create_child_atomspace()
-holmes_grass.set_value(key_evidence(), PtrValue(0))
-rain.set_value(key_evidence(), PtrValue(0))
-marginalization_dividend = belief_propagation(child_atomspace)
+holmes_grass.set_value(key_evidence(), PtrValue("wet"))
+rain.set_value(key_evidence(), PtrValue("true"))
 
+marginalization_dividend = belief_propagation(child_atomspace)
 delete_child_atomspace()
 
 probability_rain_given_holmes_grass = marginalization_dividend / marginalization_divisor
