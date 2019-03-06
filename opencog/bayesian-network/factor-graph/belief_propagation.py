@@ -9,39 +9,6 @@ TV_TRUE = TruthValue(1.0, 1.0)
 TV_FALSE = TruthValue(0.0, 0.0)
 
 
-class Probability:
-    def __init__(self, probability):
-        self.probability = probability
-
-    def get_probability_tensor(self):
-        return np.array(self.probability)
-
-
-class VariableProbability:
-    def __init__(self, domain, probability):
-        self.domain = domain
-        self.probability = probability
-
-        self.tensor = np.empty([len(self.domain)])
-
-        sum = 0.0
-        skipped_index = None
-        for index, name in enumerate(self.domain):
-            value = self.probability.get(name)
-            if value:
-                sum += value
-                self.tensor[index] = value
-            else:
-                assert not skipped_index, "More than one probability value is skipped!"
-                skipped_index = index
-
-        if skipped_index is not None:
-            self.tensor[skipped_index] = 1 - sum
-
-    def get_probability_tensor(self):
-        return self.tensor
-
-
 def get_evidence_index(variable):
     evidence_value = variable.get_value(key_evidence())
 
@@ -49,7 +16,57 @@ def get_evidence_index(variable):
         return None
 
     evidence = evidence_value.value()
-    return evidence
+
+    if type(evidence) == str:
+        domain_value = variable.get_value(key_domain())
+        if domain_value is not None:
+            domain = domain_value.value()
+            return domain.index(evidence)
+
+    elif type(evidence) == int:
+        return evidence
+
+    raise Exception("Evidence is not int or string:", evidence)
+
+
+def get_probability_tensor(variable):
+    probability_value = variable.get_value(key_probability())
+
+    if probability_value is None:
+        raise Exception("Probability is not set for atom: " + str(variable))
+
+    probability = probability_value.value()
+
+    if isinstance(probability, list):
+        return np.array(probability)
+
+    if isinstance(probability, dict):
+        domain_value = variable.get_value(key_domain())
+        if domain_value is None:
+            raise Exception("Setting probability by dict requires that domain is set for atom:" + str(variable))
+        domain = domain_value.value()
+        tensor = np.empty([len(domain)])
+
+        sum = 0.0
+        skipped_index = None
+        for index, name in enumerate(domain):
+            value = probability.get(name)
+            if value:
+                sum += value
+                tensor[index] = value
+            else:
+                assert not skipped_index, "More than one probability value is skipped!"
+                skipped_index = index
+
+        if skipped_index is not None:
+            assert sum <= 1
+            tensor[skipped_index] = 1 - sum
+        else:
+            assert sum == 1, "Sum of all probabilities must be 1"
+
+        return tensor
+
+    raise Exception("Unknown probability type: " + str(probability) + ", in atom: " + str(variable))
 
 
 # Keys
@@ -211,10 +228,7 @@ def set_variable_domain(variable, v, joint_table_atom, index):
     :param joint_table_atom: atom which contains joint probability table value
     :param index: position of the given variable in the joint probability table
     """
-    probability_value = joint_table_atom.get_value(key_probability())
-    assert probability_value, "Probability must be set for atom: " + str(joint_table_atom)
-    variable_probability = probability_value.value()
-    tensor = variable_probability.get_probability_tensor()
+    tensor = get_probability_tensor(joint_table_atom)
 
     evidence_index_value = get_evidence_index(v)
     if evidence_index_value is None:
@@ -246,15 +260,11 @@ def set_factor_tensor(factor, variables, joint_table_atom):
     arguments = [get_variable_node_name(v) for v in variables]
     factor.set_value(key_arguments(), PtrValue(arguments))
 
-    tensor_value = joint_table_atom.get_value(key_probability())
-    assert tensor_value, "Probability must be set for atom: " + str(joint_table_atom)
-
-    tensor = tensor_value.value().get_probability_tensor()
+    tensor = get_probability_tensor(joint_table_atom)
 
     for index, v in enumerate(variables):
-        evidence_index_value = v.get_value(key_evidence())
-        if evidence_index_value:
-            evidence_index = evidence_index_value.value()
+        evidence_index = get_evidence_index(v)
+        if evidence_index is not None:
             tensor = np.take(tensor, [evidence_index], index)
 
     # print("factor:", factor.name, "tensor:", tensor)

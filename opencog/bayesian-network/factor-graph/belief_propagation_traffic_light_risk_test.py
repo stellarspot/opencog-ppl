@@ -20,11 +20,9 @@ class BeliefPropagationTrafficLightRiskTest(BeliefPropagationTest):
         self.traffic_light_probability = [0.4, 0.25, 0.35]
         self.traffic_light_risk_joint_probability = [[0.1, 0.9], [0.55, 0.45], [0.95, 0.05]]
 
-        self.traffic_light.set_value(key_probability(),
-                                     PtrValue(VariableProbability(["green", "yellow", "blue"],
-                                                                  {"green": 0.4, "yellow": 0.25})))
-        self.risk_given_traffic_light.set_value(key_probability(),
-                                                PtrValue(Probability(self.traffic_light_risk_joint_probability)))
+        self.traffic_light.set_value(key_domain(), PtrValue(["green", "yellow", "blue"]))
+        self.traffic_light.set_value(key_probability(), PtrValue({"green": 0.4, "yellow": 0.25}))
+        self.risk_given_traffic_light.set_value(key_probability(), PtrValue(self.traffic_light_risk_joint_probability))
 
     def test_traffic_light(self):
         print('Test: Traffic Light and Risk')
@@ -67,7 +65,7 @@ class BeliefPropagationTrafficLightRiskTest(BeliefPropagationTest):
         # TL=Yellow, index=1
         # R=High, index=0
 
-        self.traffic_light.set_value(key_evidence(), PtrValue(1))
+        self.traffic_light.set_value(key_evidence(), PtrValue("yellow"))
         self.risk.set_value(key_evidence(), PtrValue(0))
         child_atomspace = self.create_child_atomspace()
         marginalization_dividend = belief_propagation(child_atomspace)

@@ -13,17 +13,47 @@ import numpy as np
 class BeliefPropagationAlgorithmTest(BeliefPropagationTest):
 
     def test_variable_probability(self):
-        probability = VariableProbability(["a", "b"], {"a": 0.2, "b": 0.8})
-        self.check_declarative_variable_probability(probability, ["a", "b"], [0.2, 0.8])
+        variable = ConceptNode("A")
 
-        probability = VariableProbability(["a", "b"], {"a": 0.2})
-        self.check_declarative_variable_probability(probability, ["a", "b"], [0.2, 0.8])
+        variable.set_value(key_probability(), PtrValue([0.2, 0.8]))
+        self.check_tensors_equal([0.2, 0.8], get_probability_tensor(variable))
 
-        probability = VariableProbability(["a", "b"], {"b": 0.7})
-        self.check_declarative_variable_probability(probability, ["a", "b"], [0.3, 0.7])
+        variable.set_value(key_domain(), PtrValue(["a", "b"]))
 
-        probability = VariableProbability(["a", "b", "c"], {"a": 0.7, "c": 0.2})
-        self.check_declarative_variable_probability(probability, ["a", "b", "c"], [0.7, 0.1, 0.2])
+        variable.set_value(key_probability(), PtrValue({"a": 0.2, "b": 0.8}))
+        self.check_tensors_equal([0.2, 0.8], get_probability_tensor(variable))
+
+        variable.set_value(key_probability(), PtrValue({"a": 0.2}))
+        self.check_tensors_equal([0.2, 0.8], get_probability_tensor(variable))
+
+        variable.set_value(key_probability(), PtrValue({"b": 0.8}))
+        self.check_tensors_equal([0.2, 0.8], get_probability_tensor(variable))
+
+        variable.set_value(key_domain(), PtrValue(["a", "b", "c"]))
+        variable.set_value(key_probability(), PtrValue({"a": 0.1, "c": 0.3}))
+        self.check_tensors_equal([0.1, 0.6, 0.3], get_probability_tensor(variable))
+
+    def test_variable_evidence(self):
+        variableA = ConceptNode("A")
+        variableA.set_value(key_domain(), PtrValue(["a1", "a2"]))
+        variableA.set_value(key_probability(), PtrValue({"a1": 0.7}))
+
+        variableA.set_value(key_evidence(), PtrValue(0))
+        self.assertEqual(0, get_evidence_index(variableA))
+
+        variableA.set_value(key_evidence(), PtrValue(1))
+        self.assertEqual(1, get_evidence_index(variableA))
+
+        variableA.set_value(key_evidence(), PtrValue("a1"))
+        self.assertEqual(0, get_evidence_index(variableA))
+
+        variableA.set_value(key_evidence(), PtrValue("a2"))
+        self.assertEqual(1, get_evidence_index(variableA))
+
+        variableB = ConceptNode("B")
+        variableB.set_value(key_domain(), PtrValue(["b1", "b2"]))
+        variableB.set_value(key_evidence(), PtrValue("b1"))
+        self.assertEqual(0, get_evidence_index(variableB))
 
     def test_init_factor_graph_implication_link_rule(self):
         a = ConceptNode("A")
@@ -31,7 +61,7 @@ class BeliefPropagationAlgorithmTest(BeliefPropagationTest):
 
         implication = ImplicationLink(a, b)
         implication_probability = [[0.9, 0.1], [0.8, 0.2]]
-        implication.set_value(key_probability(), PtrValue(Probability(implication_probability)))
+        implication.set_value(key_probability(), PtrValue(implication_probability))
 
         child_atomspace = self.create_child_atomspace()
         execute_atom(child_atomspace, init_factor_graph_implication_link_rule())
@@ -57,7 +87,8 @@ class BeliefPropagationAlgorithmTest(BeliefPropagationTest):
             [0.2, 0.3, 0.5]
         ]]
 
-        implication.set_value(key_probability(), PtrValue(Probability(self.implication_probability)))
+        # implication.set_value(key_probability(), PtrValue(Probability(self.implication_probability)))
+        implication.set_value(key_probability(), PtrValue(self.implication_probability))
 
     def test_init_factor_graph_implication_link_product_rule2(self):
         self.init_factor_graph_implication_link_product_rule2()
@@ -127,7 +158,8 @@ class BeliefPropagationAlgorithmTest(BeliefPropagationTest):
                                    [[[0.9, 0.1], [0.8, 0.2]],
                                     [[0.7, 0.3], [0.6, 0.4]]]]
 
-        implication.set_value(key_probability(), PtrValue(Probability(implication_probability)))
+        # implication.set_value(key_probability(), PtrValue(Probability(implication_probability)))
+        implication.set_value(key_probability(), PtrValue(implication_probability))
 
         child_atomspace = self.create_child_atomspace()
         execute_atom(child_atomspace, init_factor_graph_implication_link_product_rule())
