@@ -75,8 +75,10 @@ ImplicationLink(ListLink(sprinkler, rain), holmes_grass)
 
 Conditional probability tables are represented as NumPy tensors:
 ```python
+# Rain domain
+rain.set_value(key_domain(), PtrValue(["true", "false"]))
 # Rain a priory probability
-rain.set_value(key_probability(), PtrValue(np.array([0.2, 0.8])))
+rain.set_value(key_probability(), PtrValue({"true": 0.2}))
 
 # Watson Grass given Rain conditional probability table
 watson_grass_given_rain_probability = np.array(
